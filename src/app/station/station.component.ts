@@ -34,6 +34,12 @@ export class StationComponent implements OnInit, AfterViewInit {
           lon: pos.coords.longitude
         };
         this.sub.next(msg);
+      }, (err: PositionError) => {
+        console.error(err);
+      }, {
+        enableHighAccuracy: true,
+        timeout: 1000,
+        maximumAge: 0
       });
     }
   }
