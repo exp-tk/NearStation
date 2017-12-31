@@ -5,7 +5,7 @@
   "scripts": {
     "start": "ng serve",
     "build": "ng build --prod --aot",
-    "deploy": "ng build --prod --aot --base-href /Countdown/ && angular-cli-ghpages",
+    "deploy": "ng build --prod --aot --base-href /NearStation/ && angular-cli-ghpages",
     "test": "ng test --watch=false --code-coverage",
     "e2e": "ng e2e --prod",
     "lint": "ng lint",
