@@ -1,0 +1,27 @@
+.wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 35vh;
+    overflow: hidden;
+    margin-top: 32px;
+    .panel {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column; 
+        position: absolute;
+        top: 32px;
+        width: 85vw;
+        height: 35vh;
+        background: white;
+        box-shadow: 0 0 8px rgba(0, 0, 0, .5);
+        .stationName {
+            line-height: 4rem;
+            font-size: 2rem;
+        }
+        .gap {
+            line-height: 2rem;
+        }
+    }
+}
