@@ -12,7 +12,7 @@ export class StationService {
   constructor(private ws: WebSocketService) { }
 
   private url(): string {
-    return 'ws://localhost:3000/ws';
+    return 'wss://sapi.tinykitten.me/ws';
   }
 
   connect(): Subject<any> {

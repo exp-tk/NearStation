@@ -1,4 +1,4 @@
-<div class="wrapper" *ngIf="initialized">
+<div class="wrapper" *ngIf="initialized; else loading">
   <ul class="lines">
     <app-line [color]="line.line_color_c" *ngFor="let line of lines"></app-line>
   </ul>
@@ -8,3 +8,15 @@
     <span class="gap">{{station.gap}}m</span>
   </div>
 </div>
+
+<ng-template #loading>
+    <div class="wrapper">
+        <ul class="lines">
+        </ul>
+        <div class="panel">
+          <h1 class="stationName">読み込み中</h1>
+          <h2 class="stationAddr"></h2>
+          <span class="gap"></span>
+        </div>
+      </div>      
+</ng-template>
