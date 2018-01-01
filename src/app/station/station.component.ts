@@ -48,8 +48,14 @@ export class StationComponent implements OnInit, AfterViewInit {
     this.sub = this.stationSvc.connect();
 
     this.sub.subscribe((resp: StationModel) => {
-      this.station = resp;
-      this.lines = resp.lines;
+      if (!this.initialized) {
+        this.lines = resp.lines;
+        this.station = resp;
+      }
+      if (this.station.station_name !== resp.station_name) {
+        this.lines = resp.lines;
+        this.station = resp;
+      }
       this.initialized = true;
     });
    }
