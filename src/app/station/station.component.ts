@@ -56,6 +56,7 @@ export class StationComponent implements OnInit, AfterViewInit {
         this.lines = resp.lines;
         this.station = resp;
       }
+      this.station.gap = resp.gap;
       this.initialized = true;
     });
    }
