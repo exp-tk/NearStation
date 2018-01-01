@@ -15,8 +15,11 @@
         width: 85vw;
         height: 35vh;
         background: white;
-        box-shadow: 0 0 8px rgba(0, 0, 0, .5);
+        box-shadow: 0 0 8px rgba(0, 0, 0, .25);
         text-align: center;
+        .label {
+            width: 80%;
+        }
         .stationName {
             line-height: 4rem;
             font-size: 2rem;
@@ -25,4 +28,8 @@
             line-height: 2rem;
         }
     }
+}
+
+.loading-lines {
+    animation-duration: 3s;
 }

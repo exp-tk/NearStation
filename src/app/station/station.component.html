@@ -12,14 +12,19 @@
 <ng-template #loading>
     <div class="wrapper">
         <ul class="lines">
+            <app-line color="f39700"></app-line>
+            <app-line color="e60012"></app-line>
+            <app-line color="9caeb7"></app-line>
+            <app-line color="00a7db"></app-line>
+            <app-line color="009944"></app-line>
         </ul>
         <div class="panel">
-          <h1 class="stationName">読み込み中</h1>
-          <h2 class="stationAddr">
+          <h1 class="stationName label">読み込み中</h1>
+          <h2 class="stationAddr label">
             ブラウザの位置情報追跡を許可してください。<br>
             また、SSL接続で閲覧をお願いしています。
           </h2>
-          <span class="gap"></span>
+          <span class="gap label"></span>
         </div>
       </div>      
 </ng-template>
