@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/map';
 import { Wsmodel } from '../../models/wsmodel';
-import { WebSocketService } from '../WebSocket/web-socket.service';
+import { WebSocketService } from '../websocket/web-socket.service';
 
 @Injectable()
 export class StationService {
