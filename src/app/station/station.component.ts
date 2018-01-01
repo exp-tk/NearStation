@@ -35,7 +35,7 @@ export class StationComponent implements OnInit, AfterViewInit {
         };
         this.sub.next(msg);
       }, (err: PositionError) => {
-        console.error(err);
+        // nothing to do
       }, {
         enableHighAccuracy: true,
         timeout: 1000,
