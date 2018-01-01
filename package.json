@@ -3,7 +3,7 @@
   "version": "0.0.3",
   "license": "MIT",
   "scripts": {
-    "start": "ng serve",
+    "start": "node server.js",
     "build": "ng build --prod --aot",
     "deploy": "ng build --prod --aot --base-href /NearStation/ && angular-cli-ghpages",
     "test": "ng test --watch=false --code-coverage",
