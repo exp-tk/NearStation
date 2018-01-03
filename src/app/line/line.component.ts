@@ -8,6 +8,7 @@ import { Component, OnInit, Input } from '@angular/core';
 export class LineComponent implements OnInit {
 
   @Input() color: string;
+  @Input() classes: string;
 
   constructor() { }
 

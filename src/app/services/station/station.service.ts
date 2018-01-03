@@ -3,6 +3,7 @@ import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/map';
 import { Wsmodel } from '../../models/wsmodel';
 import { WebSocketService } from '../websocket/web-socket.service';
+import { environment } from '../../../environments/environment';
 
 @Injectable()
 export class StationService {
@@ -12,7 +13,7 @@ export class StationService {
   constructor(private ws: WebSocketService) { }
 
   private url(): string {
-    return 'wss://sapi.tinykitten.me/ws';
+    return environment.wsURL;
   }
 
   connect(): Subject<any> {

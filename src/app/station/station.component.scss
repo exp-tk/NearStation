@@ -37,3 +37,25 @@
 .loading-notice {
     line-height: 1.5rem;
 }
+
+
+.share {
+    margin-top: 40%;
+    width: 100vw;
+    
+    .share-twitter {
+        display: block;
+        line-height: 60px;
+        font-size: 60px;
+        width: 120px;
+        height: 120px;
+        font-weight: bold;
+        border: 21px solid #00aced;
+        background: #fff;
+        color: #333;
+        margin: 0 auto;
+        padding: 8px 12px;
+        box-shadow: 0 0 8px rgba(0, 0, 0, .25);
+        border-radius: 100%;
+    }
+}

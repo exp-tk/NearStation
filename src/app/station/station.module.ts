@@ -4,10 +4,13 @@ import { StationComponent } from './station.component';
 import { LineComponent } from '../line/line.component';
 import { StationService } from '../services/station/station.service';
 import { WebSocketService } from '../services/websocket/web-socket.service';
+import { UploadService } from '../services/upload/upload.service';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   imports: [
-    CommonModule
+    CommonModule,
+    HttpClientModule
   ],
   declarations: [
     StationComponent,
@@ -18,7 +21,8 @@ import { WebSocketService } from '../services/websocket/web-socket.service';
   ],
   providers: [
     WebSocketService,
-    StationService
+    StationService,
+    UploadService
   ]
 })
 export class StationModule { }

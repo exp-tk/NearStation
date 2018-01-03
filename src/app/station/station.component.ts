@@ -6,6 +6,9 @@ import { Wsmodel } from '../models/wsmodel';
 import { AfterViewInit } from '@angular/core/src/metadata/lifecycle_hooks';
 import { StationModel } from '../models/station-model';
 
+import * as html2canvas from 'html2canvas';
+import { UploadService } from '../services/upload/upload.service';
+
 @Component({
   selector: 'app-station',
   templateUrl: './station.component.html',
@@ -20,7 +23,13 @@ export class StationComponent implements OnInit, AfterViewInit {
 
   private sub: Subject<any>;
 
-  constructor(private stationSvc: StationService) { }
+  panelClasses = 'panel animated slideInRight';
+  lineClasses = 'line animated slideInRight';
+
+  constructor(
+    private stationSvc: StationService,
+    private uploadSvc: UploadService
+  ) { }
 
   ngOnInit() {
     this.connectWS();
@@ -61,4 +70,31 @@ export class StationComponent implements OnInit, AfterViewInit {
     });
    }
 
+
+   capture() {
+     if (this.station === null) {
+       return;
+     }
+    // Animate.cssを使うとキャプチャが取れないため、一旦外す
+     this.panelClasses = 'panel';
+     this.lineClasses = 'line';
+     setTimeout(() => {
+      // キャプチャし画像化
+      html2canvas(document.querySelector('.wrapper')).then(canvas => {
+        canvas.toBlob((blob) => {
+          this.uploadSvc.uploadImageToImgur(blob)
+            .subscribe((url: string) => {
+              const msg = `私は今、${this.station.station_name}駅付近にいます。 ${url} https://near.tinykitten.me/ %23KittenNearStation&via=tinykitten8`;
+              const popupUrl = `http://twitter.com/intent/tweet?text=${msg}`;
+              window.open(popupUrl, '_blank', 'width=550,height=480,left=100,top=50,scrollbars=1,resizable=1', 0);
+            });
+        });
+      });
+    }, 100);
+    // 戻す
+    setTimeout(() => {
+      this.panelClasses = 'panel animated slideInRight';
+      this.lineClasses = 'line animated slideInRight';
+    }, 100);
+  }
 }
