@@ -5,6 +5,5 @@
 
 export const environment = {
   production: false,
-  wsURL: 'ws://localhost:3000/ws',
-  imgurID: 'afb54a84cb29575'
+  wsURL: 'ws://localhost:3000/ws'
 };

@@ -8,6 +8,8 @@ import { StationModel } from '../models/station-model';
 
 import * as html2canvas from 'html2canvas';
 import { UploadService } from '../services/upload/upload.service';
+import { DomSanitizer } from '@angular/platform-browser';
+import { SafeUrl } from '@angular/platform-browser/src/security/dom_sanitization_service';
 
 @Component({
   selector: 'app-station',
@@ -17,7 +19,7 @@ import { UploadService } from '../services/upload/upload.service';
 export class StationComponent implements OnInit, AfterViewInit {
 
   lines: LineModel[];
-  station: StationModel;
+  station: StationModel = null;
 
   initialized =  false;
 
@@ -28,7 +30,8 @@ export class StationComponent implements OnInit, AfterViewInit {
 
   constructor(
     private stationSvc: StationService,
-    private uploadSvc: UploadService
+    private uploadSvc: UploadService,
+    private sanitizer: DomSanitizer
   ) { }
 
   ngOnInit() {
@@ -71,22 +74,25 @@ export class StationComponent implements OnInit, AfterViewInit {
    }
 
 
-   capture() {
+   capture(event) {
      if (this.station === null) {
-       return;
-     }
+      event.preventDefault();
+      return;
+    }
+     const win = window.open('', '_blank');
+     win.document.body.innerHTML = 'loading...';
     // Animate.cssを使うとキャプチャが取れないため、一旦外す
      this.panelClasses = 'panel';
      this.lineClasses = 'line';
      setTimeout(() => {
       // キャプチャし画像化
-      html2canvas(document.querySelector('.wrapper')).then(canvas => {
+      html2canvas(document.querySelector('.wrapper') as HTMLCanvasElement).then(canvas => {
         canvas.toBlob((blob) => {
           this.uploadSvc.uploadImageToImgur(blob)
             .subscribe((url: string) => {
               const msg = `私は今、${this.station.station_name}駅付近にいます。 ${url} https://near.tinykitten.me/ %23KittenNearStation&via=tinykitten8`;
               const popupUrl = `http://twitter.com/intent/tweet?text=${msg}`;
-              window.open(popupUrl, '_blank', 'width=550,height=480,left=100,top=50,scrollbars=1,resizable=1', 0);
+              win.location.href = popupUrl;
             });
         });
       });

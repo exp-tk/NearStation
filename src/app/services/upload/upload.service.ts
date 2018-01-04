@@ -13,7 +13,7 @@ export class UploadService {
   uploadImageToImgur(blob: Blob): Observable<string> {
    const fd = new FormData();
     fd.append('image', blob);
-    const cid = environment.imgurID;
+    const cid = 'afb54a84cb29575';
     const headers = new HttpHeaders()
       .set('authorization', 'Client-ID ' + cid);
       return new Observable((obs: Observer<string>) => {
