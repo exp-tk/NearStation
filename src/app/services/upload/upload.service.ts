@@ -4,6 +4,7 @@ import { environment } from '../../../environments/environment';
 import { HttpErrorResponse } from '@angular/common/http/src/response';
 import { Observable } from 'rxjs/Observable';
 import { Observer } from 'rxjs/Observer';
+import { secret } from '../../../secret.config';
 
 @Injectable()
 export class UploadService {
@@ -13,7 +14,7 @@ export class UploadService {
   uploadImageToImgur(blob: Blob): Observable<string> {
    const fd = new FormData();
     fd.append('image', blob);
-    const cid = 'afb54a84cb29575';
+    const cid = secret.imgurCID;
     const headers = new HttpHeaders()
       .set('authorization', 'Client-ID ' + cid);
       return new Observable((obs: Observer<string>) => {
