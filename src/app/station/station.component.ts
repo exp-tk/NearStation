@@ -10,6 +10,7 @@ import * as html2canvas from 'html2canvas';
 import { UploadService } from '../services/upload/upload.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { SafeUrl } from '@angular/platform-browser/src/security/dom_sanitization_service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-station',
@@ -93,6 +94,9 @@ export class StationComponent implements OnInit, AfterViewInit {
               const msg = `私は今、${this.station.station_name}駅付近にいます。 ${url} https://near.tinykitten.me/ %23KittenNearStation&via=tinykitten8`;
               const popupUrl = `http://twitter.com/intent/tweet?text=${msg}`;
               win.location.href = popupUrl;
+            }, (err: HttpErrorResponse) => {
+              win.close();
+              alert('シェアに失敗しました。');
             });
         });
       });
