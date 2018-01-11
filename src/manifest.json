@@ -1,5 +1,6 @@
 {
     "name": "NearStation",
+    "short_name": "NearStation",
     "start_url": ".",
     "icons": [
         {
