@@ -3,7 +3,7 @@
     <panel-station :station="station"></panel-station>
     <button-share :station="station"></button-share>
     <footer>
-        <a href="https://github.com/TinyKitten/NearStation" target="_blank" class="fork">
+        <a href="https://github.com/TinyKitten/NearStation" target="_blank" class="fork" rel="noopener">
             Fork me on Github
         </a>
     </footer>
@@ -105,7 +105,7 @@ table {
     width: 100vw;
     text-align: center;
     a {
-        color: #aaa;
+        color: #555;
     }
 }
 

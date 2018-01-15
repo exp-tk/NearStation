@@ -1,6 +1,6 @@
 <template>
   <div class="share">
-    <img src="/static/icon/twitter.svg" @click="share()" class="share-twitter">
+    <img src="/static/icon/twitter.svg" alt="twitter" @click="share()" class="share-twitter">
   </div>
 </template>
 
