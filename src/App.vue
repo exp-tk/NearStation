@@ -40,7 +40,6 @@ export default {
           const prevStation = this.station;
           this.station.gap = station.gap;
           if (prevStation.station_name !== station.station_name) {
-            console.log('toggle');
             this.state.animationDisabled = true;
             setTimeout(() => {
               this.state.animationDisabled = false;
