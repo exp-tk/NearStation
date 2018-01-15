@@ -1,10 +1,30 @@
-# NearStation
+# nearstation
 
-[https://near.tinykitten.me/](https://near.tinykitten.me/)
+> 近くの駅を表示する
 
-GeolocationとWebSocketを使って一番近い駅を教えてくれます。
+## Build Setup
 
-## 使用API
-[https://github.com/TinyKitten/StationAPI](https://github.com/TinyKitten/StationAPI)
+``` bash
+# install dependencies
+npm install
 
-自作のクソAPIに繋いでます。
+# serve with hot reload at localhost:8080
+npm run dev
+
+# build for production with minification
+npm run build
+
+# build for production and view the bundle analyzer report
+npm run build --report
+
+# run unit tests
+npm run unit
+
+# run e2e tests
+npm run e2e
+
+# run all tests
+npm test
+```
+
+For detailed explanation on how things work, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
