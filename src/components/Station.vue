@@ -1,17 +1,15 @@
 <template>
   <div class="panel-wrapper">
-    <div :class="animationClass" v-if="station.station_name">
-      <div class="wrapper">
+      <div class="wrapper" v-if="station.station_name">
         <ul class="lines">
           <line-panel v-for="line in station.lines" :color="line.line_color_c" :key="line[0]"></line-panel>
         </ul>
-        <div class="panel">
+        <div :class="animationClass">
           <h1 class="stationName">{{station.station_name}}</h1>
           <h2 class="stationAddr">{{station.add}}</h2>
           <span class="gap">{{station.gap}}m</span>
         </div>
       </div>
-    </div>
     <div class="wrapper" v-if="!station.station_name">
         <ul class="lines">
             <line-panel color="f39700"></line-panel>
@@ -52,7 +50,7 @@ export default {
       if (this.state.animationDisabled) {
         return 'panel';
       }
-      return 'panel animated slideInRight';
+      return 'panel slide';
     },
   },
   mounted() {
@@ -62,13 +60,34 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
+@keyframes slide {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.panel-wrapper {
+  height: 100%;
+}
+
 .wrapper {
     display: flex;
+    position: relative;
     justify-content: center;
-    align-items: center;
-    height: 35vh;
+    align-items: flex-start;
+    width: 100vw;
+    height: 50vh;
     overflow: hidden;
     margin-top: 32px;
+    .lines {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      height: 35vh;
+    }
     .panel {
         display: flex;
         justify-content: center;
@@ -91,6 +110,10 @@ export default {
         .gap {
             line-height: 2rem;
         }
+    }
+
+    .slide {
+      animation: slide 1s ease forwards;
     }
 }
 

@@ -61,11 +61,8 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-.share {
-    margin-top: 40%;
-    width: 100vw;
-    
-    .share-twitter {
+  .share-twitter {
+        padding: 32px;
         display: block;
         color: #fff;
         width: 84px;
@@ -81,5 +78,4 @@ export default {
             filter: drop-shadow(0 0 12px rgba(0, 0, 0, .5));
         }
     }
-}
 </style>
