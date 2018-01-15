@@ -15,6 +15,7 @@ import StationAPIService from './services/StationAPIService';
 import LocationService from './services/LocationService';
 import PanelStation from './components/Station';
 import ButtonShare from './components/Share';
+import state from './state';
 
 export default {
   name: 'app',
@@ -26,6 +27,7 @@ export default {
     return {
       pos: {},
       station: {},
+      state: state.state,
     };
   },
   mounted() {
@@ -34,7 +36,17 @@ export default {
     apiService.connect()
       .subscribe((res) => {
         if (res.data !== undefined) {
-          this.station = JSON.parse(res.data);
+          const station = JSON.parse(res.data);
+          const prevStation = this.station;
+          this.station.gap = station.gap;
+          if (prevStation.station_name !== station.station_name) {
+            console.log('toggle');
+            this.state.animationDisabled = true;
+            setTimeout(() => {
+              this.state.animationDisabled = false;
+              this.station = station;
+            }, 1);
+          }
         }
       }, () => {
         // console.error(error);
