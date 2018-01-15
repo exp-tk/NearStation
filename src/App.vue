@@ -107,7 +107,10 @@ table {
     font-family:-apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI","Noto Sans Japanese","ヒラギノ角ゴ ProN W3", Meiryo, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    background: #f5f5f5;  
+    background: #f5f5f5;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
   }
 
   footer {
