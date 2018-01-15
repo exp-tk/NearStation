@@ -14,3 +14,8 @@ selenium-debug.log
 *.ntvs*
 *.njsproj
 *.sln
+
+src/tokens.js
+
+# Mac
+.DS_Store
