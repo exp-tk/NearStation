@@ -73,9 +73,6 @@ export default {
         border: none;
         cursor: pointer;
         outline: none;
-        transition: .5s;
-        &:hover {
-            filter: drop-shadow(0 0 12px rgba(0, 0, 0, .5));
-        }
+        margin-top: 20vh;
     }
 </style>

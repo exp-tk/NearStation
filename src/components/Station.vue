@@ -79,7 +79,7 @@ export default {
     justify-content: center;
     align-items: flex-start;
     width: 100vw;
-    height: 50vh;
+    height: calc(35vh + 8px);
     overflow: hidden;
     margin-top: 32px;
     .lines {
