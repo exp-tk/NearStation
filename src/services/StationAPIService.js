@@ -1,17 +1,20 @@
 import { Observable } from 'rx';
 import config from '../config';
+import store from '../store';
 
 class StationAPIService {
   constructor() {
     this.endpoint = config.WSEndpoint;
-    this.socket = new WebSocket(this.endpoint);
+    const socket = new WebSocket(this.endpoint);
+    store.commit('setSocket', socket);
   }
 
   connect() {
     /* eslint new-cap: ["error", { "newIsCap": false }] */
     return new Observable.create((observer) => {
+      this.socket = store.getters.socket();
       this.socket.addEventListener('open', (event) => {
-        this.opened = true;
+        store.commit('setConnected', true);
         observer.onNext(event);
         this.socket.send({});
       });
@@ -28,7 +31,9 @@ class StationAPIService {
   }
 
   send(message) {
-    if (this.opened) {
+    this.connected = store.getters.connected();
+    if (this.connected) {
+      this.socket = store.getters.socket();
       this.socket.send(JSON.stringify(message));
     }
   }

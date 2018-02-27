@@ -14,13 +14,16 @@
     "lint": "eslint --ext .js,.vue src test/unit/specs test/e2e/specs"
   },
   "dependencies": {
+    "add": "^2.0.6",
     "axios": "^0.17.1",
     "html2canvas": "^1.0.0-alpha.9",
     "node-sass": "^4.7.2",
     "rx": "^4.1.0",
     "sass-loader": "^6.0.6",
     "vue": "^2.5.2",
-    "vue-router": "^3.0.1"
+    "vue-router": "^3.0.1",
+    "vuex": "^3.0.1",
+    "yarn": "^1.5.0"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.5",

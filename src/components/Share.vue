@@ -7,18 +7,9 @@
 <script>
 import html2canvas from 'html2canvas';
 import UploadService from '../services/UploadService';
-import state from '../state';
 
 export default {
   name: 'button-share',
-  props: ['station'],
-  components: {
-  },
-  data() {
-    return {
-      state: state.state,
-    };
-  },
   methods: {
     share() {
       if (this.station.station_name === undefined) {
@@ -50,10 +41,15 @@ export default {
     },
     // アニメーション切らないとスクショ撮るの失敗するっぽい
     enablePanelAnimation() {
-      this.state.animationDisabled = false;
+      this.$store.commit('setAnimationDisabled', false);
     },
     disablePanelAnimation() {
-      this.state.animationDisabled = true;
+      this.$store.commit('setAnimationDisabled', true);
+    },
+  },
+  computed: {
+    station() {
+      return this.$store.getters.station();
     },
   },
 };

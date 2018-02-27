@@ -1,7 +1,7 @@
 <template>
   <div class="app">
-    <panel-station :station="station"></panel-station>
-    <button-share :station="station"></button-share>
+    <panel-station></panel-station>
+    <button-share></button-share>
     <footer>
         <a href="https://github.com/TinyKitten/NearStation" target="_blank" class="fork" rel="noopener">
             Fork me on Github
@@ -15,7 +15,6 @@ import StationAPIService from './services/StationAPIService';
 import LocationService from './services/LocationService';
 import PanelStation from './components/Station';
 import ButtonShare from './components/Share';
-import state from './state';
 
 export default {
   name: 'app',
@@ -23,12 +22,10 @@ export default {
     PanelStation,
     ButtonShare,
   },
-  data() {
-    return {
-      pos: {},
-      station: {},
-      state: state.state,
-    };
+  computed: {
+    station() {
+      return this.$store.getters.station();
+    },
   },
   mounted() {
     const apiService = new StationAPIService();
@@ -37,13 +34,16 @@ export default {
       .subscribe((res) => {
         if (res.data !== undefined) {
           const station = JSON.parse(res.data);
-          const prevStation = this.station;
-          this.station.gap = station.gap;
+          this.$store.commit('setPrevStation', station);
+          this.$store.commit('setStationGap', station.gap);
+
+          const prevStation = this.$store.getters.prevStation;
+
           if (prevStation.station_name !== station.station_name) {
-            this.state.animationDisabled = true;
+            this.$store.commit('setAnimationDisabled', true);
             setTimeout(() => {
-              this.state.animationDisabled = false;
-              this.station = station;
+              this.$store.commit('setAnimationDisabled', false);
+              this.$store.commit('setStation', station);
             }, 1);
           }
         }
@@ -52,7 +52,7 @@ export default {
       });
 
     locationService.subscribeLocation().subscribe((pos) => {
-      this.position = pos;
+      this.$store.commit('setPosition', pos);
       apiService.send(pos);
     }, () => {
       // console.error(error);
