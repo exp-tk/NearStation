@@ -168,9 +168,6 @@ export default new Vuex.Store({
           commit('setPosition', position);
           if (navigator.onLine) {
             dispatch('SEND_WS', position);
-
-            // TODO: for debug
-            commit('offlineFallback');
           } else {
             // offline fallback
             console.warn('WARNING!! OFFLINE MODE!!');
