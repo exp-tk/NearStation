@@ -7,18 +7,9 @@
 <script>
 import html2canvas from 'html2canvas';
 import UploadService from '../services/UploadService';
-import state from '../state';
 
 export default {
   name: 'button-share',
-  props: ['station'],
-  components: {
-  },
-  data() {
-    return {
-      state: state.state,
-    };
-  },
   methods: {
     share() {
       if (this.station.station_name === undefined) {
@@ -33,7 +24,7 @@ export default {
           canvas.toBlob((blob) => {
             const svc = new UploadService();
             svc.upload(blob)
-              .subscribe((url) => {
+              .then((url) => {
                 const msg = `私は今、${this.station.station_name}駅付近にいます。 ${url} https://near.tinykitten.me/ %23KittenNearStation&via=tinykitten8`;
                 const popupUrl = `http://twitter.com/intent/tweet?text=${msg}`;
                 win.location.href = popupUrl;
@@ -50,10 +41,15 @@ export default {
     },
     // アニメーション切らないとスクショ撮るの失敗するっぽい
     enablePanelAnimation() {
-      this.state.animationDisabled = false;
+      this.$store.commit('setAnimationDisabled', false);
     },
     disablePanelAnimation() {
-      this.state.animationDisabled = true;
+      this.$store.commit('setAnimationDisabled', true);
+    },
+  },
+  computed: {
+    station() {
+      return this.$store.getters.station();
     },
   },
 };

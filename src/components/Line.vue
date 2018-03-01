@@ -3,19 +3,13 @@
 </template>
 
 <script>
-import state from '../state';
-
 export default {
   name: 'line-panel',
   props: ['color'],
-  data() {
-    return {
-      state: state.state,
-    };
-  },
   computed: {
     animationClass() {
-      if (this.state.animationDisabled) {
+      const animationDisabled = this.$store.getters.animationDisabled();
+      if (animationDisabled) {
         return 'line';
       }
       return 'line animated slideInRight';

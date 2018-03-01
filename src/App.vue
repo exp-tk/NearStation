@@ -1,7 +1,7 @@
 <template>
   <div class="app">
-    <panel-station :station="station"></panel-station>
-    <button-share :station="station"></button-share>
+    <panel-station></panel-station>
+    <button-share></button-share>
     <footer>
         <a href="https://github.com/TinyKitten/NearStation" target="_blank" class="fork" rel="noopener">
             Fork me on Github
@@ -11,11 +11,9 @@
 </template>
 
 <script>
-import StationAPIService from './services/StationAPIService';
-import LocationService from './services/LocationService';
+import { mapGetters, mapActions } from 'vuex';
 import PanelStation from './components/Station';
 import ButtonShare from './components/Share';
-import state from './state';
 
 export default {
   name: 'app',
@@ -23,40 +21,27 @@ export default {
     PanelStation,
     ButtonShare,
   },
-  data() {
-    return {
-      pos: {},
-      station: {},
-      state: state.state,
-    };
+  computed: {
+    ...mapGetters([
+      'position',
+    ]),
+    station() {
+      return this.$store.getters.station();
+    },
   },
-  mounted() {
-    const apiService = new StationAPIService();
-    const locationService = new LocationService();
-    apiService.connect()
-      .subscribe((res) => {
-        if (res.data !== undefined) {
-          const station = JSON.parse(res.data);
-          const prevStation = this.station;
-          this.station.gap = station.gap;
-          if (prevStation.station_name !== station.station_name) {
-            this.state.animationDisabled = true;
-            setTimeout(() => {
-              this.state.animationDisabled = false;
-              this.station = station;
-            }, 1);
-          }
-        }
-      }, () => {
-        // console.error(error);
-      });
-
-    locationService.subscribeLocation().subscribe((pos) => {
-      this.position = pos;
-      apiService.send(pos);
-    }, () => {
-      // console.error(error);
-    });
+  methods: {
+    ...mapActions([
+      'WATCH_POSITION',
+      'CONNECT_WS',
+      'LISTEN_STATION',
+    ]),
+  },
+  async mounted() {
+    Promise.all([
+      await this.CONNECT_WS(),
+      await this.WATCH_POSITION(),
+    ]);
+    this.LISTEN_STATION();
   },
 };
 </script>

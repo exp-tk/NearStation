@@ -1,4 +1,4 @@
 const config = {
-  WSEndpoint: 'wss://sapi.tinykitten.me/ws',
+  WSEndpoint: 'ws://localhost:3000/ws',
 };
 export default config;

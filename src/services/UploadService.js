@@ -1,11 +1,10 @@
 import axios from 'axios';
-import { Observable } from 'rx';
 import tokens from '../tokens';
 
 class UploadService {
   upload(blob) {
     /* eslint new-cap: ["error", { "newIsCap": false }] */
-    return new Observable.create((observer) => {
+    return new Promise((resolve, reject) => {
       const fd = new FormData();
       fd.append('image', blob);
       this.fd = fd;
@@ -14,9 +13,9 @@ class UploadService {
       },
       }).then((res) => {
         const dat = res.data.data;
-        observer.onNext(`https://imgur.com/${dat.id}`);
+        resolve(`https://imgur.com/${dat.id}`);
       }).catch((err) => {
-        observer.onError(err);
+        reject(err);
       });
     });
   }

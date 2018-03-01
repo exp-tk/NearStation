@@ -30,30 +30,23 @@
 
 <script>
 import LinePanel from './Line';
-import state from '../state';
 
 export default {
   name: 'panel-station',
-  props: {
-    station: { type: Object, required: true },
-  },
   components: {
     LinePanel,
   },
-  data() {
-    return {
-      state: state.state,
-    };
-  },
   computed: {
     animationClass() {
-      if (this.state.animationDisabled) {
+      const animationDisabled = this.$store.getters.animationDisabled();
+      if (animationDisabled) {
         return 'panel';
       }
       return 'panel slide';
     },
-  },
-  mounted() {
+    station() {
+      return this.$store.getters.station();
+    },
   },
 };
 </script>
