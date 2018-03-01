@@ -34,14 +34,16 @@ export default {
       'WATCH_POSITION',
       'CONNECT_WS',
       'LISTEN_STATION',
+      'DOWNLOAD_DIC',
     ]),
   },
   async mounted() {
     Promise.all([
-      await this.CONNECT_WS(),
       await this.WATCH_POSITION(),
+      await this.CONNECT_WS(),
+      this.LISTEN_STATION(),
+      this.DOWNLOAD_DIC(),
     ]);
-    this.LISTEN_STATION();
   },
 };
 </script>
