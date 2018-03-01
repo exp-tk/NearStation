@@ -11,8 +11,7 @@
 </template>
 
 <script>
-import StationAPIService from './services/StationAPIService';
-import LocationService from './services/LocationService';
+import { mapGetters, mapActions } from 'vuex';
 import PanelStation from './components/Station';
 import ButtonShare from './components/Share';
 
@@ -23,40 +22,26 @@ export default {
     ButtonShare,
   },
   computed: {
+    ...mapGetters([
+      'position',
+    ]),
     station() {
       return this.$store.getters.station();
     },
   },
-  mounted() {
-    const apiService = new StationAPIService();
-    const locationService = new LocationService();
-    apiService.connect()
-      .subscribe((res) => {
-        if (res.data !== undefined) {
-          const station = JSON.parse(res.data);
-          this.$store.commit('setPrevStation', station);
-          this.$store.commit('setStationGap', station.gap);
-
-          const prevStation = this.$store.getters.prevStation;
-
-          if (prevStation.station_name !== station.station_name) {
-            this.$store.commit('setAnimationDisabled', true);
-            setTimeout(() => {
-              this.$store.commit('setAnimationDisabled', false);
-              this.$store.commit('setStation', station);
-            }, 1);
-          }
-        }
-      }, () => {
-        // console.error(error);
-      });
-
-    locationService.subscribeLocation().subscribe((pos) => {
-      this.$store.commit('setPosition', pos);
-      apiService.send(pos);
-    }, () => {
-      // console.error(error);
-    });
+  methods: {
+    ...mapActions([
+      'WATCH_POSITION',
+      'CONNECT_WS',
+      'LISTEN_STATION',
+    ]),
+  },
+  async mounted() {
+    Promise.all([
+      await this.CONNECT_WS(),
+      await this.WATCH_POSITION(),
+    ]);
+    this.LISTEN_STATION();
   },
 };
 </script>

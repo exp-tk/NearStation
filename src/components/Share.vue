@@ -24,7 +24,7 @@ export default {
           canvas.toBlob((blob) => {
             const svc = new UploadService();
             svc.upload(blob)
-              .subscribe((url) => {
+              .then((url) => {
                 const msg = `私は今、${this.station.station_name}駅付近にいます。 ${url} https://near.tinykitten.me/ %23KittenNearStation&via=tinykitten8`;
                 const popupUrl = `http://twitter.com/intent/tweet?text=${msg}`;
                 win.location.href = popupUrl;
