@@ -1,5 +1,5 @@
 <template>
-  <div :class="animationClass" :style="{background: '#' + color}"></div>
+  <div :class="animationClass" :style="{background: '#' + _color}"></div>
 </template>
 
 <script>
@@ -7,6 +7,10 @@ export default {
   name: 'line-panel',
   props: ['color'],
   computed: {
+    _color() {
+      if (this.color === '') return '555555';
+      return this.color;
+    },
     animationClass() {
       const animationDisabled = this.$store.getters.animationDisabled();
       if (animationDisabled) {
