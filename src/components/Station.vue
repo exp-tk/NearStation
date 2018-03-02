@@ -1,16 +1,16 @@
 <template>
   <div class="panel-wrapper">
-      <div class="wrapper" v-if="station.station_name">
+      <div class="wrapper" v-if="station().station_name">
         <ul class="lines">
-          <line-panel v-for="line in station.lines" :color="line.line_color_c" :key="line[0]"></line-panel>
+          <line-panel v-for="line in station().lines" :color="line.line_color_c" :key="line[0]"></line-panel>
         </ul>
         <div :class="animationClass">
-          <h1 class="stationName">{{station.station_name}}</h1>
-          <h2 class="stationAddr">{{station.add}}</h2>
-          <span class="gap">{{station.gap}}m</span>
+          <h1 class="stationName">{{station().station_name}}</h1>
+          <h2 class="stationAddr">{{station().add}}</h2>
+          <span class="gap">{{stationGap()}}m</span>
         </div>
       </div>
-    <div class="wrapper" v-if="!station.station_name">
+    <div class="wrapper" v-if="!station().station_name">
         <ul class="lines">
             <line-panel color="f39700"></line-panel>
             <line-panel color="e60012"></line-panel>
@@ -29,6 +29,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 import LinePanel from './Line';
 
 export default {
@@ -38,15 +39,16 @@ export default {
   },
   computed: {
     animationClass() {
-      const animationDisabled = this.$store.getters.animationDisabled();
-      if (animationDisabled) {
+      if (this.animationDisabled()) {
         return 'panel';
       }
       return 'panel slide';
     },
-    station() {
-      return this.$store.getters.station();
-    },
+    ...mapGetters([
+      'station',
+      'stationGap',
+      'animationDisabled',
+    ]),
   },
 };
 </script>

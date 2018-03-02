@@ -37,7 +37,6 @@ export default new Vuex.Store({
     stationGap: 0,
     animationDisabled: false,
     socket: null,
-    connected: false,
     dic: null,
   },
   mutations: {
@@ -58,9 +57,6 @@ export default new Vuex.Store({
     },
     setSocket(state, payload) {
       state.socket = payload;
-    },
-    setConnected(state, payload) {
-      state.connected = payload;
     },
     setDic(state, payload) {
       localStorage.setItem('STATION_DIC', payload);
@@ -95,16 +91,14 @@ export default new Vuex.Store({
         nearest.lines.push(matchedLine[0]);
       });
 
-      state.station = nearest;
+      state.prevStation = nearest;
+      state.stationGap = nearest.gap;
+      state.animationDisabled = true;
 
       if (state.prevStation === null ||
         state.prevStation.station_name !== state.station.station_name) {
-        state.animationDisabled = true;
-        setTimeout(() => {
-          state.animationDisabled = false;
-          state.prevStation = nearest;
-          state.stationGap = nearest.gap;
-        }, 1);
+        state.animationDisabled = false;
+        state.station = nearest;
       }
     },
   },
@@ -115,7 +109,6 @@ export default new Vuex.Store({
     stationGap: state => () => state.stationGap,
     animationDisabled: state => () => state.animationDisabled,
     socket: state => () => state.socket,
-    connected: state => () => state.connected,
     dic: state => () => state.dic,
   },
   actions: {
@@ -137,7 +130,9 @@ export default new Vuex.Store({
         lat: payload.lat,
         lon: payload.lon,
       });
-      getters.socket().send(pos);
+      if (getters.socket().readyState === WebSocket.OPEN) {
+        getters.socket().send(pos);
+      }
     },
     LISTEN_STATION: ({ getters, commit }) => {
       getters.socket().addEventListener('message', (event) => {
@@ -146,14 +141,13 @@ export default new Vuex.Store({
           commit('setPrevStation', station);
           commit('setStationGap', station.gap);
 
-          const prevStation = getters.prevStation;
+          const prevStation = getters.prevStation();
+          commit('setAnimationDisabled', true);
 
-          if (prevStation.station_name !== station.station_name) {
-            commit('setAnimationDisabled', true);
-            setTimeout(() => {
-              commit('setAnimationDisabled', false);
-              commit('setStation', station);
-            }, 1);
+          if (prevStation === null ||
+              prevStation.station_name !== getters.station().station_name) {
+            commit('setAnimationDisabled', false);
+            commit('setStation', station);
           }
         }
       });
@@ -170,7 +164,6 @@ export default new Vuex.Store({
             dispatch('SEND_WS', position);
           } else {
             // offline fallback
-            console.warn('WARNING!! OFFLINE MODE!!');
             commit('offlineFallback');
           }
         }, () => {
