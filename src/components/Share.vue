@@ -15,7 +15,6 @@ export default {
       if (this.station.station_name === undefined) {
         return;
       }
-      this.disablePanelAnimation();
       const win = window.open('', '_blank');
       win.document.body.innerHTML = '<p>キャプチャ中です...</p>';
       // キャプチャし画像化
@@ -25,26 +24,17 @@ export default {
             const svc = new UploadService();
             svc.upload(blob)
               .then((url) => {
-                const msg = `私は今、${this.station.station_name}駅付近にいます。 ${url} https://near.tinykitten.me/ %23KittenNearStation&via=tinykitten8`;
+                const msg = `私は今、${this.station.station_name}駅付近にいます。 ${url} https://near.tinykitten.me/ %23KittenNearStation`;
                 const popupUrl = `http://twitter.com/intent/tweet?text=${msg}`;
                 win.location.href = popupUrl;
-                this.enablePanelAnimation();
               }, () => {
                 win.close();
                 /* eslint-disable no-alert */
                 alert('シェアに失敗しました。');
-                this.enablePanelAnimation();
               });
           });
         });
       });
-    },
-    // アニメーション切らないとスクショ撮るの失敗するっぽい
-    enablePanelAnimation() {
-      this.$store.commit('setAnimationDisabled', false);
-    },
-    disablePanelAnimation() {
-      this.$store.commit('setAnimationDisabled', true);
     },
   },
   computed: {

@@ -25,9 +25,6 @@ export default {
     ...mapGetters([
       'position',
     ]),
-    station() {
-      return this.$store.getters.station();
-    },
   },
   methods: {
     ...mapActions([
