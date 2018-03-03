@@ -38,6 +38,7 @@ export default new Vuex.Store({
     animationDisabled: false,
     socket: null,
     dic: null,
+    online: false,
   },
   mutations: {
     setPosition(state, payload) {
@@ -57,6 +58,9 @@ export default new Vuex.Store({
     },
     setSocket(state, payload) {
       state.socket = payload;
+    },
+    setOnline(state, payload) {
+      state.online = payload;
     },
     setDic(state, payload) {
       localStorage.setItem('STATION_DIC', payload);
@@ -110,6 +114,7 @@ export default new Vuex.Store({
     animationDisabled: state => () => state.animationDisabled,
     socket: state => () => state.socket,
     dic: state => () => state.dic,
+    online: state => () => state.online,
   },
   actions: {
     DOWNLOAD_DIC: ({ commit }) => {
@@ -125,13 +130,16 @@ export default new Vuex.Store({
       const socket = new WebSocket(this.endpoint);
       commit('setSocket', socket);
     },
-    SEND_WS: ({ getters }, payload) => {
+    SEND_WS: ({ getters, commit }, payload) => {
       const pos = JSON.stringify({
         lat: payload.lat,
         lon: payload.lon,
       });
       if (getters.socket().readyState === WebSocket.OPEN) {
         getters.socket().send(pos);
+      } else {
+        commit('setOnline', false);
+        commit('offlineFallback');
       }
     },
     LISTEN_STATION: ({ getters, commit }) => {
@@ -152,7 +160,9 @@ export default new Vuex.Store({
         }
       });
     },
-    WATCH_POSITION: ({ commit, dispatch }) => {
+    WATCH_POSITION: ({ commit, dispatch, getters }) => {
+      commit('setOnline', navigator.onLine);
+
       if (navigator.geolocation) {
         navigator.geolocation.watchPosition((p) => {
           const position = {
@@ -160,7 +170,7 @@ export default new Vuex.Store({
             lon: p.coords.longitude,
           };
           commit('setPosition', position);
-          if (navigator.onLine) {
+          if (getters.online) {
             dispatch('SEND_WS', position);
           } else {
             // offline fallback
