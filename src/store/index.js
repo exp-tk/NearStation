@@ -179,7 +179,7 @@ export default new Vuex.Store({
         }, () => {
           // error
         }, {
-          enableHighAccuracy: true,
+          enableHighAccuracy: false,
           timeout: 1000,
           maximumAge: 0,
         });
