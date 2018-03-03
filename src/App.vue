@@ -94,6 +94,7 @@ table {
     background: #f5f5f5;
     overflow: hidden;
 
+    user-select: none;
     -moz-user-select: none; /* Firefox */
     -ms-user-select: none; /* Internet Explorer */
     -khtml-user-select: none; /* KHTML browsers (e.g. Konqueror) */
