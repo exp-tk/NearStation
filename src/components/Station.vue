@@ -6,7 +6,7 @@
         </ul>
         <div :class="animationClass">
           <h1 class="stationName">{{station().station_name}}</h1>
-          <h2 class="stationAddr">{{station().add}}</h2>
+          <h2 class="stationAddr">{{station().addr}}</h2>
           <span class="gap">{{stationGap()}}m</span>
         </div>
       </div>

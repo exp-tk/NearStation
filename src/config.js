@@ -5,8 +5,8 @@ const config = {
 
 /*
 const config = {
-  WSEndpoint: 'ws://localhost:3000/ws',
-  DicEndpoint: 'http://localhost:3000/v1/dic.json',
+  WSEndpoint: 'ws://localhost:3012',
+  DicEndpoint: 'http://localhost:8000/v1/dic.json',
 };
 */
 
