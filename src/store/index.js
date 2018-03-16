@@ -136,6 +136,7 @@ export default new Vuex.Store({
         lon: payload.lon,
       });
       if (getters.socket().readyState === WebSocket.OPEN) {
+        commit('setOnline', true);
         getters.socket().send(pos);
       }
       if (getters.socket().readyState === WebSocket.CLOSED) {
