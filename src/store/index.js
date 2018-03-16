@@ -137,7 +137,8 @@ export default new Vuex.Store({
       });
       if (getters.socket().readyState === WebSocket.OPEN) {
         getters.socket().send(pos);
-      } else {
+      }
+      if (getters.socket().readyState === WebSocket.CLOSED) {
         commit('setOnline', false);
         commit('offlineFallback');
       }
