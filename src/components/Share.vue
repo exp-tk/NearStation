@@ -1,10 +1,11 @@
 <template>
-  <div class="share">
+  <div class="share" v-if="online()">
     <img src="/static/icon/twitter.svg" alt="twitter" @click="share()" class="share-twitter">
   </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 import html2canvas from 'html2canvas';
 import UploadService from '../services/UploadService';
 
@@ -38,9 +39,10 @@ export default {
     },
   },
   computed: {
-    station() {
-      return this.$store.getters.station();
-    },
+    ...mapGetters([
+      'station',
+      'online',
+    ]),
   },
 };
 </script>
