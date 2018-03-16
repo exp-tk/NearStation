@@ -13,7 +13,7 @@ export default {
   name: 'button-share',
   methods: {
     share() {
-      if (this.station.station_name === undefined) {
+      if (this.station().station_name === undefined) {
         return;
       }
       const win = window.open('', '_blank');
@@ -25,7 +25,7 @@ export default {
             const svc = new UploadService();
             svc.upload(blob)
               .then((url) => {
-                const msg = `私は今、${this.station.station_name}駅付近にいます。 ${url} https://near.tinykitten.me/ %23KittenNearStation`;
+                const msg = `私は今、${this.station().station_name}駅付近にいます。 ${url} https://near.tinykitten.me/ %23KittenNearStation`;
                 const popupUrl = `http://twitter.com/intent/tweet?text=${msg}`;
                 win.location.href = popupUrl;
               }, () => {
