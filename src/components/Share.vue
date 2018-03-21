@@ -19,7 +19,7 @@ export default {
       const win = window.open('', '_blank');
       win.document.body.innerHTML = '<p>キャプチャ中です...</p>';
       // キャプチャし画像化
-      this.$nextTick(() => {
+      setTimeout(() => {
         html2canvas(document.querySelector('.wrapper')).then((canvas) => {
           canvas.toBlob((blob) => {
             const svc = new UploadService();
@@ -35,7 +35,7 @@ export default {
               });
           });
         });
-      });
+      }, 250);
     },
   },
   computed: {

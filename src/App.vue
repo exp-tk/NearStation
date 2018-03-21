@@ -3,9 +3,10 @@
     <panel-station></panel-station>
     <button-share></button-share>
     <footer>
-        <a href="https://github.com/TinyKitten/NearStation" target="_blank" class="fork" rel="noopener">
-            Fork me on Github
-        </a>
+      <span v-if="!online()">オフラインモードで動作中</span>
+      <a href="https://github.com/TinyKitten/NearStation" target="_blank" class="fork" rel="noopener">
+        Fork me on Github
+      </a>
     </footer>
   </div>
 </template>
@@ -24,6 +25,7 @@ export default {
   computed: {
     ...mapGetters([
       'position',
+      'online',
     ]),
   },
   methods: {

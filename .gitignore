@@ -19,3 +19,6 @@ src/tokens.js
 
 # Mac
 .DS_Store
+
+# Windows
+thumbs.db
