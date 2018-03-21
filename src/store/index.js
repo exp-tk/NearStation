@@ -118,12 +118,11 @@ export default new Vuex.Store({
   },
   actions: {
     DOWNLOAD_DIC: ({ commit }) => {
-      if (localStorage.getItem('STATION_DIC') !== null) {
-        return;
+      if (localStorage.getItem('STATION_DIC') === null) {
+        axios.get(config.DicEndpoint).then((resp) => {
+          commit('setDic', JSON.stringify(resp.data));
+        });
       }
-      axios.get(config.DicEndpoint).then((resp) => {
-        commit('setDic', JSON.stringify(resp.data));
-      });
     },
     CONNECT_WS: ({ commit }) => {
       this.endpoint = config.WSEndpoint;
