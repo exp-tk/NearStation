@@ -1,7 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import axios from 'axios';
-import config from '../config';
 
 Vue.use(Vuex);
 
@@ -119,14 +118,13 @@ export default new Vuex.Store({
   actions: {
     DOWNLOAD_DIC: ({ commit }) => {
       if (localStorage.getItem('STATION_DIC') === null) {
-        axios.get(config.DicEndpoint).then((resp) => {
+        axios.get(process.env.DIC_ENDPOINT).then((resp) => {
           commit('setDic', JSON.stringify(resp.data));
         });
       }
     },
     CONNECT_WS: ({ commit }) => {
-      this.endpoint = config.WSEndpoint;
-      const socket = new WebSocket(this.endpoint);
+      const socket = new WebSocket(process.env.WS_ENDPOINT);
       commit('setSocket', socket);
     },
     SEND_WS: ({ getters, commit }, payload) => {

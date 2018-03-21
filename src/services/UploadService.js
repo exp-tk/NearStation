@@ -1,5 +1,6 @@
 import axios from 'axios';
-import tokens from '../tokens';
+
+const IMGUR_CID = 'afb54a84cb29575';
 
 class UploadService {
   upload(blob) {
@@ -9,7 +10,7 @@ class UploadService {
       fd.append('image', blob);
       this.fd = fd;
       axios.post('https://api.imgur.com/3/upload', this.fd, { headers: {
-        authorization: `Client-ID ${tokens.ImgurCID}`,
+        authorization: `Client-ID ${IMGUR_CID}`,
       },
       }).then((res) => {
         const dat = res.data.data;
