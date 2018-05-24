@@ -24,6 +24,10 @@ module.exports = {
     /*
     ** Run ESLint on save
     */
+   vendor: [
+     'vue2-google-maps',
+     'vue-swipe',
+    ],
     extend (config, { isDev, isClient }) {
       if (isDev && isClient) {
         config.module.rules.push({
@@ -34,5 +38,9 @@ module.exports = {
         })
       }
     }
-  }
+  },
+  plugins: [
+    '~/plugins/vue2-google-maps',
+    { src: '~/plugins/vue-swipe', ssr: false },
+  ],
 }

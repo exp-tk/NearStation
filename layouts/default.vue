@@ -4,6 +4,29 @@
   </div>
 </template>
 
+<script>
+import { mapActions } from 'vuex';
+
+export default {
+  methods: {
+    ...mapActions([
+      'WATCH_POSITION',
+      'CONNECT_WS',
+      'LISTEN_STATION',
+      'DOWNLOAD_DIC',
+    ]),
+  },
+  async mounted() {
+    Promise.all([
+      await this.WATCH_POSITION(),
+      await this.CONNECT_WS(),
+      this.LISTEN_STATION(),
+      this.DOWNLOAD_DIC(),
+    ]);
+  },
+};
+</script>
+
 <style>
 html {
   font-family: "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
