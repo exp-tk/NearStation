@@ -3,9 +3,11 @@
     <div class="loaded" v-if="Object.keys(station()).length">
       <GoogleMaps :station="station()" />
       <StationInfo />
-      <p class="policyLink" @click="$router.push('/privacy')">
-        プライバシーポリシー
-      </p>
+      <footer class="footer">
+        <span class="policyLink" @click="$router.push('/privacy')">
+          プライバシーポリシー
+        </span>
+      </footer>
     </div>
     <div v-else>
       <AppLoading />
@@ -32,13 +34,17 @@ export default {
 </script>
 
 <style scoped>
-.policyLink {
-  width: 100%;
+.footer {
   text-align: center;
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  padding: 12px;
+  padding: 8px;
+}
+.policyLink {
+  text-align: center;
+  width: auto;
   font-size: .75rem;
+  cursor: pointer;
+  position: relative;
+  z-index: 1;
+  text-align: center;
 }
 </style>

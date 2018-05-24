@@ -32,5 +32,6 @@ export default {
 .forwardToTop {
   width: 24px;
   height: auto;
+  cursor: pointer;
 }
 </style>

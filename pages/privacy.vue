@@ -133,8 +133,9 @@ ul {
   list-style-type: lower-alpha;
 }
 @media (min-width: 800px) {
-  .privacyPolicy {
+  .content {
     padding: 32px;
+    margin: 0 auto;
     width: 80%;
   }
   .pageTitle {
