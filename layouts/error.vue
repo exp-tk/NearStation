@@ -34,10 +34,10 @@ export default {
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  text-align: center;
 }
 .title {
   font-size: 3rem;
-  color: #555;
   text-align: center;
   margin-bottom: 12px;
   font-weight: bold;
