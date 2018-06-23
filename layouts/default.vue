@@ -13,16 +13,10 @@ export default {
       await this.WATCH_POSITION(),
       await this.CONNECT_WS(),
       this.LISTEN_STATION(),
-      this.DOWNLOAD_DIC(),
     ]);
   },
   methods: {
-    ...mapActions([
-      'WATCH_POSITION',
-      'CONNECT_WS',
-      'LISTEN_STATION',
-      'DOWNLOAD_DIC',
-    ]),
+    ...mapActions(['WATCH_POSITION', 'CONNECT_WS', 'LISTEN_STATION']),
   },
 };
 </script>
