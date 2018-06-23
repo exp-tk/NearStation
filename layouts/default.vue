@@ -8,14 +8,6 @@
 import { mapActions } from 'vuex';
 
 export default {
-  methods: {
-    ...mapActions([
-      'WATCH_POSITION',
-      'CONNECT_WS',
-      'LISTEN_STATION',
-      'DOWNLOAD_DIC',
-    ]),
-  },
   async mounted() {
     Promise.all([
       await this.WATCH_POSITION(),
@@ -23,6 +15,14 @@ export default {
       this.LISTEN_STATION(),
       this.DOWNLOAD_DIC(),
     ]);
+  },
+  methods: {
+    ...mapActions([
+      'WATCH_POSITION',
+      'CONNECT_WS',
+      'LISTEN_STATION',
+      'DOWNLOAD_DIC',
+    ]),
   },
 };
 </script>
@@ -150,7 +150,7 @@ blockquote:before,
 blockquote:after,
 q:before,
 q:after {
-  content: "";
+  content: '';
   content: none;
 }
 table {

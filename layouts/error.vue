@@ -6,11 +6,11 @@
         <p>E</p>
       </diiv>
       <div v-if="error.statusCode === 404">
-      <h1 class="title">{{error.statusCode}}</h1>
-      <h2 class="description">ページが見つかりません</h2>
+        <h1 class="title">{{ error.statusCode }}</h1>
+        <h2 class="description">ページが見つかりません</h2>
       </div>
       <div v-else>
-        <h1 class="title">{{error.statusCode}}</h1>
+        <h1 class="title">{{ error.statusCode }}</h1>
         <h2 class="description">エラーが発生しました</h2>
       </div>
     </main>
@@ -20,11 +20,16 @@
 <script>
 import PrivacyPolicyHeader from '~/components/PrivacyPolicyHeader';
 export default {
-    props: ['error'],
-    components: {
-      PrivacyPolicyHeader
-    }
-}
+  components: {
+    PrivacyPolicyHeader,
+  },
+  props: {
+    error: {
+      type: Object,
+      required: true,
+    },
+  },
+};
 </script>
 
 <style scoped>

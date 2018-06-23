@@ -1,17 +1,17 @@
 <template>
-      <gmap-map
-      :center="center"
-      :zoom="13"
-      style="width:100%;  height: 100vh"
-      :options="{disableDefaultUI: true}"
-    >
-      <gmap-marker
-        :key="index"
-        v-for="(m, index) in makers"
-        :position="m.position"
-        @click="center=m.position"
-      ></gmap-marker>
-    </gmap-map>
+  <gmap-map
+    :center="center"
+    :zoom="13"
+    :options="{disableDefaultUI: true}"
+    style="width:100%;  height: 100vh"
+  >
+    <gmap-marker
+      v-for="(m, index) in makers"
+      :key="index"
+      :position="m.position"
+      @click="center=m.position"
+    />
+  </gmap-map>
 </template>
 
 <script>
@@ -19,8 +19,8 @@ export default {
   props: {
     station: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
   computed: {
     makers() {
@@ -28,18 +28,18 @@ export default {
         {
           position: {
             lat: this.station.lat,
-            lng: this.station.lon
+            lng: this.station.lon,
           },
-        }
+        },
       ];
     },
     center() {
       return {
         lat: this.station.lat,
         lng: this.station.lon,
-      }
-    }
-  }
+      };
+    },
+  },
 };
 </script>
 

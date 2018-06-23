@@ -1,8 +1,8 @@
 <template>
   <div class="panel">
     <LineDots />
-    <p class="stationName">{{station().station_name}}</p>
-    <p class="stationAddr">{{station().addr}}</p>
+    <p class="stationName">{{ station().station_name }}</p>
+    <p class="stationAddr">{{ station().addr }}</p>
   </div>
 </template>
 
@@ -12,13 +12,11 @@ import LineDots from '~/components/LineDots';
 
 export default {
   components: {
-    LineDots
+    LineDots,
   },
   computed: {
-    ...mapGetters([
-      'station'
-    ])
-  }
+    ...mapGetters(['station']),
+  },
 };
 </script>
 

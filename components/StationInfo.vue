@@ -1,12 +1,12 @@
 <template>
-  <swipe class="swipe" :auto="0" :showIndicators="false">
-  <swipe-item class="slide">
-    <StationPanel />
-  </swipe-item>
-  <swipe-item class="slide" v-for="line in station().lines" :key="line.line_cd">
-    <line-panel :line="line" />
-  </swipe-item>
-</swipe>
+  <swipe :auto="0" :show-indicators="false" class="swipe">
+    <swipe-item class="slide">
+      <StationPanel />
+    </swipe-item>
+    <swipe-item v-for="line in station().lines" :key="line.line_cd" class="slide">
+      <line-panel :line="line" />
+    </swipe-item>
+  </swipe>
 </template>
 
 <script>
@@ -15,27 +15,25 @@ import StationPanel from '~/components/StationPanel';
 import LinePanel from '~/components/LinePanel';
 
 export default {
-  computed: {
-    ...mapGetters([
-      'station',
-    ])
-  },
   components: {
     StationPanel,
-    LinePanel
-  }
+    LinePanel,
+  },
+  computed: {
+    ...mapGetters(['station']),
+  },
 };
 </script>
 
 <style scoped>
-  .swipe {
-    height: 120px;
-    margin-top: -152px;
-    background: #fff;
-    width: 80%;
-    margin-left: auto;
-    margin-right: auto;
-    border-radius: 8px;
-    box-shadow: 0 3px 6px rgba(0, 0, 0, .25);
-  }
+.swipe {
+  height: 120px;
+  margin-top: -152px;
+  background: #fff;
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 8px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.25);
+}
 </style>

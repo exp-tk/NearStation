@@ -34,28 +34,23 @@ module.exports = {
     /*
     ** Run ESLint on save
     */
-   vendor: [
-     'vue2-google-maps',
-     'vue-swipe',
-    ],
-    extend (config, { isDev, isClient }) {
+    vendor: ['vue2-google-maps', 'vue-swipe'],
+    extend(config, { isDev, isClient }) {
       if (isDev && isClient) {
         config.module.rules.push({
           enforce: 'pre',
           test: /\.(js|vue)$/,
           loader: 'eslint-loader',
-          exclude: /(node_modules)/
-        })
+          exclude: /(node_modules)/,
+        });
       }
-    }
+    },
   },
   plugins: [
     '~/plugins/vue2-google-maps',
     { src: '~/plugins/vue-swipe', ssr: false },
   ],
-  modules: [
-    '@nuxtjs/pwa'
-  ],
+  modules: ['@nuxtjs/pwa'],
   meta: {
     mobileAppIOS: true,
     name: 'NearStation',
@@ -76,5 +71,5 @@ module.exports = {
     background_color: '#fff',
     description: '近くの駅を表示',
     lang: 'ja',
-  }
-}
+  },
+};

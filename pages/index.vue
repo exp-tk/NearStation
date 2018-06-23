@@ -1,6 +1,6 @@
 <template>
   <section class="container">
-    <div class="loaded" v-if="Object.keys(station()).length">
+    <div v-if="Object.keys(station()).length" class="loaded">
       <GoogleMaps :station="station()" />
       <StationInfo />
       <footer class="footer">
@@ -16,20 +16,20 @@
 </template>
 
 <script>
-import AppLoading from "~/components/AppLoading";
-import GoogleMaps from "~/components/GoogleMaps";
-import StationInfo from "~/components/StationInfo";
-import { mapGetters } from "vuex";
+import AppLoading from '~/components/AppLoading';
+import GoogleMaps from '~/components/GoogleMaps';
+import StationInfo from '~/components/StationInfo';
+import { mapGetters } from 'vuex';
 
 export default {
   components: {
     AppLoading,
     GoogleMaps,
-    StationInfo
+    StationInfo,
   },
   computed: {
-    ...mapGetters(["station"])
-  }
+    ...mapGetters(['station']),
+  },
 };
 </script>
 
@@ -41,7 +41,7 @@ export default {
 .policyLink {
   text-align: center;
   width: auto;
-  font-size: .75rem;
+  font-size: 0.75rem;
   cursor: pointer;
   position: relative;
   z-index: 1;

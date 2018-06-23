@@ -65,23 +65,23 @@
 </template>
 
 <script>
-import PrivacyPolicyHeader from "~/components/PrivacyPolicyHeader";
+import PrivacyPolicyHeader from '~/components/PrivacyPolicyHeader';
 export default {
   components: {
-    PrivacyPolicyHeader
+    PrivacyPolicyHeader,
   },
   head() {
     return {
       title: `Privacy Policy - NearStation`,
       meta: [
         {
-          hid: "description",
-          name: "description",
-          content: "NearStationのプライバシーポリシー"
-        }
-      ]
+          hid: 'description',
+          name: 'description',
+          content: 'NearStationのプライバシーポリシー',
+        },
+      ],
     };
-  }
+  },
 };
 </script>
 

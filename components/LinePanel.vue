@@ -1,8 +1,8 @@
 <template>
-  <div class="panel" :style="{
+  <div :style="{
     borderTop: `8px solid #${lineColor}`
-  }">
-    <p class="stationName">{{line.line_name}}</p>
+  }" class="panel">
+    <p class="stationName">{{ line.line_name }}</p>
     <p class="delayInfo">遅延情報未実装</p>
   </div>
 </template>
@@ -13,7 +13,7 @@ export default {
     line: {
       required: true,
       type: Object,
-    }
+    },
   },
   computed: {
     lineColor() {
@@ -21,9 +21,9 @@ export default {
         return '000000';
       }
       return this.line.line_color_c;
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <style scoped>
