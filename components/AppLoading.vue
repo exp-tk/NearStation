@@ -10,11 +10,14 @@
 
 <style scoped>
 @keyframes show {
-  from {
+  0% {
     opacity: 0;
   }
-  to {
+  50% {
     opacity: 1;
+  }
+  100% {
+    opacity: 0;
   }
 }
 .loading {
@@ -36,16 +39,16 @@
 .dot0 {
   background: #f39700;
   box-shadow: 0 0 6px #f39700;
-  animation: show 1s ease forwards infinite;
+  animation: show 1s ease infinite;
 }
 .dot1 {
-  animation: show 1s 0.5s ease forwards infinite;
+  animation: show 1s 1s ease infinite;
   background: #e60012;
   box-shadow: 0 0 6px #e60012;
 }
 .dot2 {
   background: #00a7db;
   box-shadow: 0 0 6px #00a7db;
-  animation: show 1s 1s ease forwards infinite;
+  animation: show 1s 2s ease infinite;
 }
 </style>
