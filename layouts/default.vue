@@ -4,6 +4,25 @@
   </div>
 </template>
 
+<script>
+import { mapActions } from 'vuex';
+
+export default {
+  mounted() {
+    this.connectWebSocket();
+    navigator.geolocation.watchPosition(position => {
+      this.sendCoords({
+        lat: position.coords.latitude,
+        lon: position.coords.longitude,
+      });
+    });
+  },
+  methods: {
+    ...mapActions(['connectWebSocket', 'sendCoords']),
+  },
+};
+</script>
+
 <style>
 /* http://meyerweb.com/eric/tools/css/reset/
    v2.0 | 20110126
@@ -141,6 +160,8 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   height: 100%;
+  background: #212121;
+  color: #fff;
 }
 *,
 *:before,

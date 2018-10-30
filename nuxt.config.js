@@ -71,4 +71,7 @@ module.exports = {
     description: meta.description,
     lang: 'ja',
   },
+  env: {
+    BASE_WS_URL: 'wss://sapi.tinykitten.me/v1',
+  },
 };
