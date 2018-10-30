@@ -1,5 +1,7 @@
 # nearstation-web
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/TinyKitten/NearStation.svg)](https://greenkeeper.io/)
+
 > Show nearest station
 
 ## Build Setup
