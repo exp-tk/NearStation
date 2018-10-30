@@ -74,4 +74,5 @@ module.exports = {
   env: {
     BASE_WS_URL: 'wss://sapi.tinykitten.me/v1',
   },
+  plugins: [{ src: '~/plugins/ga', ssr: false }],
 };
