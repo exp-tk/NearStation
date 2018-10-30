@@ -57,6 +57,10 @@ export default {
 .address {
   margin-bottom: 32px;
 }
+.name,
+.address {
+  filter: drop-shadow(0 0 1px rgba(255, 255, 255, 0.75));
+}
 .dots {
   display: flex;
   margin: 0 auto;
