@@ -1,6 +1,6 @@
 {
   "/sapi": {
-    "target": "https://newstationapi.appspot.com",
+    "target": "https://sapi.tinykitten.me",
     "pathRewrite": {"^/sapi": ""},
     "changeOrigin": true
   }

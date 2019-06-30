@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  sapiEndpoint: 'https://newstationapi.appspot.com'
+  sapiEndpoint: 'https://sapi.tinykitten.me'
 };
