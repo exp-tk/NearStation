@@ -1,0 +1,7 @@
+{
+  "/sapi": {
+    "target": "https://newstationapi.appspot.com",
+    "pathRewrite": {"^/sapi": ""},
+    "changeOrigin": true
+  }
+}

@@ -1,0 +1,15 @@
+header {
+  box-shadow: 0 3px 6px rgba($color: #000, $alpha: 0.16);
+  text-align: center;
+  padding: 21px 0;
+  color: #555;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  background: #fff;
+
+  .title {
+    font-weight: bold;
+  }
+}
