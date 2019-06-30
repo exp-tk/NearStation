@@ -1,0 +1,17 @@
+.postit {
+  background: #fff;
+  width: 320px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16);
+
+  .label {
+    width: 24px;
+    height: 100%;
+  }
+
+  .text {
+    margin-left: 24px;
+  }
+}

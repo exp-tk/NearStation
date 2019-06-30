@@ -5,6 +5,7 @@ import { GeolocationService } from 'src/app/services/geolocation/geolocation.ser
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { StationApiService } from '../../services/station-api/station-api.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -17,7 +18,8 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   constructor(
     private stationApiService: StationApiService,
-    private geolocationService: GeolocationService
+    private geolocationService: GeolocationService,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -48,5 +50,9 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subscriptions.forEach(sub => sub.unsubscribe());
+  }
+
+  public toLinePage(groupId: string) {
+    this.router.navigate([`/station/${groupId}`]);
   }
 }

@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 
 import { Injectable } from '@angular/core';
 
-import { Station, StationAPIData } from '../../models/StationAPI';
+import { Station, StationByCoordsData, StationData } from '../../models/StationAPI';
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +19,7 @@ export class StationApiService {
         query: gql`
         {
           stationByCoords(latitude: ${latitude}, longitude: ${longitude}) {
+            groupId
             name
             address
             lines {
@@ -33,8 +34,35 @@ export class StationApiService {
         if (result.errors) {
           return observer.error(result.errors);
         }
-        const data = result.data as StationAPIData;
+        const data = result.data as StationByCoordsData;
         observer.next(data.stationByCoords);
+      });
+    });
+  }
+
+  public fetchStationByGroupId(groupId: string): Observable<Station> {
+    return new Observable<Station>(observer => {
+      this.apollo
+      .watchQuery({
+        query: gql`
+        {
+          station(id: ${groupId}) {
+            name
+            address
+            lines {
+              id
+              lineColorC
+              name
+            }
+          }
+        }        `,
+      })
+      .valueChanges.subscribe(result => {
+        if (result.errors) {
+          return observer.error(result.errors);
+        }
+        const data = result.data as StationData;
+        observer.next(data.station);
       });
     });
   }

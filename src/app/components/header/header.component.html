@@ -1,3 +1,4 @@
 <header>
+  <fa-icon class="icon" (click)="backButton.emit($event)" *ngIf="backButtonEnabled" icon="arrow-left"></fa-icon>
   <h1 class="title"><ng-content></ng-content></h1>
 </header>

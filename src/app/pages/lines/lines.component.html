@@ -1,0 +1,5 @@
+<div class="container" *ngIf="(thisStation$ | async) as station">
+  <app-postit *ngFor="let line of station.lines" class="line" [color]="line.lineColorC">
+    {{ line.name }}
+  </app-postit>
+</div>

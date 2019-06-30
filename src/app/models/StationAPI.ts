@@ -1,8 +1,13 @@
-export interface StationAPIData {
+export interface StationData {
+  station: Station;
+}
+
+export interface StationByCoordsData {
   stationByCoords: Station;
 }
 
 export interface Station {
+  groupId: number;
   name: string;
   address: string;
   lines: Line[];

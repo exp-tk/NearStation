@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
+import { ButtonModule } from '../../components/button/button.module';
 import { DotModule } from '../../components/dot/dot.module';
 import { FABModule } from '../../components/fab/fab.module';
-import { HeaderModule } from '../../components/header/header.module';
 import { StationApiService } from '../../services/station-api/station-api.service';
 import { HomeComponent } from '../home/home.component';
 import { HomeRoutingModule } from './home-routing.module';
@@ -13,9 +13,9 @@ import { HomeRoutingModule } from './home-routing.module';
   imports: [
     CommonModule,
     HomeRoutingModule,
-    HeaderModule,
     DotModule,
-    FABModule
+    FABModule,
+    ButtonModule
   ],
   providers: [StationApiService]
 })

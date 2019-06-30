@@ -1,6 +1,4 @@
 <div class="container">
-  <app-header>最寄り駅</app-header>
-
   <ng-container *ngIf="station$ | async as station; else loading">
     <h2 class="stationName">{{ station.name }}</h2>
     <h3 class="stationAddress">{{ station.address }}</h3>
@@ -12,6 +10,7 @@
         [color]="line.lineColorC ? '#' + line.lineColorC : '#333'"
       ></app-dot>
     </div>
+    <app-button (click)="toLinePage(station.groupId)" class="lineInfoButton">路線情報</app-button>
     <app-fab icon="sync" (click)="fetchNearestStation()"></app-fab>
   </ng-container>
 </div>
