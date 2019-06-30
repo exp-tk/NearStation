@@ -43,7 +43,7 @@ export class AppComponent implements OnInit {
           return;
         }
         this.previousUrl  = event[0].urlAfterRedirects;
-      })
+      });
     });
   }
 

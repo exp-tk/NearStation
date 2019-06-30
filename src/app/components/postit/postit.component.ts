@@ -9,6 +9,7 @@ export class PostitComponent implements OnInit {
   @Input() class?: string;
   @Input() labelColor: string;
   @Input() labelText?: string;
+  @Input() tips: HTMLElement;
 
   constructor() { }
 

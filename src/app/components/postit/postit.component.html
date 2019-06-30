@@ -2,5 +2,7 @@
   <div [ngStyle]="labelStyle" class="label">
     <span>{{ labelText ? labelText : '' }}</span>
   </div>
-  <p class="text"><ng-content></ng-content></p>
+  <div class="content">
+    <ng-content></ng-content>
+  </div>
 </div>

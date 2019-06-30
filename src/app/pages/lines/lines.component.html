@@ -1,12 +1,15 @@
 <div class="container" *ngIf="thisStation$ | async as station; else loading">
-  <app-postit
-    (click)="forwardToLineInfo(line.id)"
-    *ngFor="let line of station.lines"
-    class="line"
-    [labelColor]="line.lineColorC"
-  >
-    {{ line.name }}
-  </app-postit>
+  <ul>
+    <li *ngFor="let line of station.lines">
+      <app-postit
+        (click)="forwardToLineInfo(line.id)"
+        class="line"
+        [labelColor]="line.lineColorC"
+      >
+        {{ line.name }}
+      </app-postit>
+    </li>
+  </ul>
 </div>
 
 <ng-template #loading>
