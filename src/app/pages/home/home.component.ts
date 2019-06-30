@@ -25,6 +25,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   fetchNearestStation() {
+    this.station$.next(null);
     const geoLocationSub = this.geolocationService
       .getCurrentPosition()
       .subscribe(position => {
@@ -40,8 +41,8 @@ export class HomeComponent implements OnInit, OnDestroy {
         this.subscriptions[0] = fetchStationSub;
       });
     if (this.subscriptions[1]) {
-        this.subscriptions[1].unsubscribe();
-      }
+      this.subscriptions[1].unsubscribe();
+    }
     this.subscriptions[1] = geoLocationSub;
   }
 
