@@ -7,7 +7,6 @@ import { LinesRoutingModule } from './lines-routing.module';
 
 @NgModule({
   declarations: [LinesComponent],
-  exports: [LinesComponent],
   imports: [CommonModule, LinesRoutingModule, PostitModule]
 })
 export class LinesModule {}

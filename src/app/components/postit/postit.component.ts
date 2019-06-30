@@ -7,7 +7,8 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class PostitComponent implements OnInit {
   @Input() class?: string;
-  @Input() color: string;
+  @Input() labelColor: string;
+  @Input() labelText?: string;
 
   constructor() { }
 
@@ -20,7 +21,8 @@ export class PostitComponent implements OnInit {
 
   public get labelStyle() {
     return {
-      background: this.color ? `#${this.color}` : '#333'
+      background: this.labelColor ? `#${this.labelColor}` : '#333',
+      padding: this.labelText ? '0 8px' : 0
     };
   }
 

@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 
 import { Injectable } from '@angular/core';
 
-import { Station, StationByCoordsData, StationData } from '../../models/StationAPI';
+import { Station, StationByCoordsData, StationData, StationsByLineIdData, Line, LineByIdData } from '../../models/StationAPI';
 
 @Injectable({
   providedIn: 'root'
@@ -40,7 +40,7 @@ export class StationApiService {
     });
   }
 
-  public fetchStationByGroupId(groupId: string): Observable<Station> {
+  public fetchStationByGroupId(groupId: number): Observable<Station> {
     return new Observable<Station>(observer => {
       this.apollo
       .watchQuery({
@@ -63,6 +63,55 @@ export class StationApiService {
         }
         const data = result.data as StationData;
         observer.next(data.station);
+      });
+    });
+  }
+
+  public fetchStationByLineId(lineId: number): Observable<Station[]> {
+    return new Observable<Station[]>(observer => {
+      this.apollo
+      .watchQuery({
+        query: gql`
+        {
+          stationsByLineId(lineId: ${lineId}) {
+            name
+            address
+            lines {
+              id
+              lineColorC
+              name
+            }
+          }
+        }        `,
+      })
+      .valueChanges.subscribe(result => {
+        if (result.errors) {
+          return observer.error(result.errors);
+        }
+        const data = result.data as StationsByLineIdData;
+        observer.next(data.stationsByLineId);
+      });
+    });
+  }
+
+  public fetchLineByLineId(lineId: number): Observable<Line> {
+    return new Observable<Line>(observer => {
+      this.apollo
+      .watchQuery({
+        query: gql`
+        {
+          line(id: ${lineId}) {
+            name
+            lineColorC
+          }
+        }        `,
+      })
+      .valueChanges.subscribe(result => {
+        if (result.errors) {
+          return observer.error(result.errors);
+        }
+        const data = result.data as LineByIdData;
+        observer.next(data.line);
       });
     });
   }

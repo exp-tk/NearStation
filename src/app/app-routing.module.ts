@@ -11,6 +11,11 @@ const routes: Routes = [
     path: 'station',
     loadChildren: () =>
       import('./pages/lines/lines.module').then(mod => mod.LinesModule)
+  },
+  {
+    path: 'line',
+    loadChildren: () =>
+      import('./pages/belongs-stations/belongs-stations.module').then(mod => mod.BelongsStationsModule)
   }
 ];
 

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { StationApiService } from 'src/app/services/station-api/station-api.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import { Station } from 'src/app/models/StationAPI';
 
@@ -12,12 +12,20 @@ import { Station } from 'src/app/models/StationAPI';
 export class LinesComponent implements OnInit {
   public thisStation$ = new BehaviorSubject<Station>(null);
 
-  constructor(private route: ActivatedRoute, private stationApiService: StationApiService) {}
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private stationApiService: StationApiService
+  ) {}
 
   ngOnInit() {
-    const groupId = this.route.snapshot.paramMap.get('group_id');
+    const groupId = parseInt(this.route.snapshot.paramMap.get('group_id'), 10);
     this.stationApiService.fetchStationByGroupId(groupId).subscribe(station => {
       this.thisStation$.next(station);
     });
+  }
+
+  public forwardToLineInfo(lineId: number) {
+    this.router.navigate([`/line/${lineId}`]);
   }
 }

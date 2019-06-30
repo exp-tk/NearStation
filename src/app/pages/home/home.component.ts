@@ -52,7 +52,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.subscriptions.forEach(sub => sub.unsubscribe());
   }
 
-  public toLinePage(groupId: string) {
+  public toLinePage(groupId: number) {
     this.router.navigate([`/station/${groupId}`]);
   }
 }

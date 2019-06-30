@@ -6,6 +6,14 @@ export interface StationByCoordsData {
   stationByCoords: Station;
 }
 
+export interface StationsByLineIdData {
+  stationsByLineId: Station[];
+}
+
+export interface LineByIdData {
+  line: Line;
+}
+
 export interface Station {
   groupId: number;
   name: string;
