@@ -2,11 +2,10 @@
   margin-top: 48px;
   padding: 24px;
   color: #555;
-  .loading {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin-top: -48px;
-  }
+}
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 }
