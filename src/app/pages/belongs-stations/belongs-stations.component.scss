@@ -9,15 +9,4 @@
     height: 100vh;
     margin-top: -48px;
   }
-  .dots {
-    display: flex;
-    flex-wrap: wrap;
-    margin-bottom: 8px;
-    .dot {
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-      margin-right: 4px;
-    }
-  }
 }
