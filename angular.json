@@ -27,7 +27,9 @@
               "src/favicon.ico",
               "src/assets",
               "src/manifest.webmanifest",
-              { "glob": "_redirects", "input": "src/", "output": "/" }
+              "src/browserconfig.xml",
+              "src/_redirects",
+              "src/robots.txt"
             ],
             "styles": [
               "src/styles.scss"
@@ -91,7 +93,9 @@
               "src/favicon.ico",
               "src/assets",
               "src/manifest.webmanifest",
-              { "glob": "_redirects", "input": "src/", "output": "/" }
+              "src/browserconfig.xml",
+              "src/_redirects",
+              "src/robots.txt"
             ],
             "styles": [
               "src/styles.scss"
