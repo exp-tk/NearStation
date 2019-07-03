@@ -1,0 +1,4 @@
+<app-header (backButton)="backToPrevPage()" [backButtonEnabled]="!isHome$.getValue()">{{ title$ | async }}</app-header>
+<main>
+  <router-outlet></router-outlet>
+</main>

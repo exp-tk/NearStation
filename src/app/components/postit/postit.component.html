@@ -1,0 +1,8 @@
+<div [class]="classes">
+  <div [ngStyle]="labelStyle" class="label">
+    <span>{{ labelText ? labelText : '' }}</span>
+  </div>
+  <div class="content">
+    <ng-content></ng-content>
+  </div>
+</div>

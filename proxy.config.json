@@ -1,0 +1,7 @@
+{
+  "/sapi": {
+    "target": "https://sapi.tinykitten.me",
+    "pathRewrite": {"^/sapi": ""},
+    "changeOrigin": true
+  }
+}
