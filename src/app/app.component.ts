@@ -3,6 +3,7 @@ import { filter, pairwise } from 'rxjs/operators';
 
 import { Component, OnInit } from '@angular/core';
 import { Router, RoutesRecognized } from '@angular/router';
+import { SwUpdate } from '@angular/service-worker';
 import { select, Store } from '@ngrx/store';
 
 import { selectRouteParams, selectUrl, State } from './reducers';
@@ -24,12 +25,25 @@ export class AppComponent implements OnInit {
   constructor(
     private store: Store<State>,
     private stationApiService: StationApiService,
-    private router: Router
+    private router: Router,
+    private updates: SwUpdate
   ) {}
 
   ngOnInit() {
+    this.checkUpdate();
     this.recordPrevUrl();
     this.watchRouterState();
+  }
+
+  private checkUpdate() {
+    this.updates.available.subscribe(() => {
+      const prompt = window.confirm(
+        'アップデートがあります。今すぐ更新しますか？'
+      );
+      if (prompt) {
+        this.updates.activateUpdate().then(() => document.location.reload());
+      }
+    });
   }
 
   private recordPrevUrl() {
