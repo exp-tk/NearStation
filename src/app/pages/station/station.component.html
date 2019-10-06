@@ -1,0 +1,5 @@
+<app-station-panel *ngIf="!errors; else error" [station]="station"></app-station-panel>
+
+<ng-template #error>
+  <app-error></app-error>
+</ng-template>

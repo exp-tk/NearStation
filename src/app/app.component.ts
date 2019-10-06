@@ -1,4 +1,4 @@
-import { BehaviorSubject, merge } from 'rxjs';
+import { merge } from 'rxjs';
 import { filter, pairwise } from 'rxjs/operators';
 
 import { Component, OnInit } from '@angular/core';
@@ -17,8 +17,8 @@ const DEFAULT_TITLE = '読み込み中';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  public title$ = new BehaviorSubject<string>(DEFAULT_TITLE);
-  public isHome$ = new BehaviorSubject<boolean>(true);
+  public title = DEFAULT_TITLE;
+  public isHome = true;
 
   private previousUrl: string;
 
@@ -68,26 +68,26 @@ export class AppComponent implements OnInit {
     )
       .pipe(filter(o => !!o))
       .subscribe(state => {
-        this.title$.next(DEFAULT_TITLE);
+        this.title = DEFAULT_TITLE;
         if (state === '/' || !Object.keys(state).length) {
-          this.title$.next('最寄り駅');
-          this.isHome$.next(true);
+          this.title = '最寄り駅';
+          this.isHome = true;
           return;
         }
         if (typeof state === 'object' && state.group_id) {
-          this.isHome$.next(false);
+          this.isHome = false;
           this.stationApiService
             .fetchStationByGroupId(state.group_id)
             .subscribe(station => {
-              this.title$.next(`${station.name}駅の路線`);
+              this.title = `${station.name}駅`;
             });
         }
         if (typeof state === 'object' && state.line_id) {
-          this.isHome$.next(false);
+          this.isHome = false;
           this.stationApiService
             .fetchLineByLineId(state.line_id)
             .subscribe(line => {
-              this.title$.next(line.name);
+              this.title = line.name;
             });
         }
       });

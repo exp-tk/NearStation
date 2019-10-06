@@ -10,7 +10,7 @@ const routes: Routes = [
   {
     path: 'station',
     loadChildren: () =>
-      import('./pages/lines/lines.module').then(mod => mod.LinesModule)
+      import('./pages/station/station.module').then(mod => mod.StationModule)
   },
   {
     path: 'line',

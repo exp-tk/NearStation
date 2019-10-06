@@ -36,6 +36,8 @@ export class StationApiService {
         }
         const data = result.data as StationByCoordsData;
         observer.next(data.stationByCoords);
+      }, err => {
+        observer.error(err);
       });
     });
   }
@@ -49,13 +51,14 @@ export class StationApiService {
           station(id: ${groupId}) {
             name
             address
+            groupId
             lines {
               id
               lineColorC
               name
             }
           }
-        }        `,
+        }`,
       })
       .valueChanges.subscribe(result => {
         if (result.errors) {
@@ -63,6 +66,8 @@ export class StationApiService {
         }
         const data = result.data as StationData;
         observer.next(data.station);
+      }, err => {
+        observer.error(err);
       });
     });
   }
@@ -76,6 +81,7 @@ export class StationApiService {
           stationsByLineId(lineId: ${lineId}) {
             name
             address
+            groupId
             lines {
               id
               lineColorC
@@ -90,6 +96,8 @@ export class StationApiService {
         }
         const data = result.data as StationsByLineIdData;
         observer.next(data.stationsByLineId);
+      }, err => {
+        observer.error(err);
       });
     });
   }
@@ -112,6 +120,8 @@ export class StationApiService {
         }
         const data = result.data as LineByIdData;
         observer.next(data.line);
+      }, err => {
+        observer.error(err);
       });
     });
   }

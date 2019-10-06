@@ -1,9 +1,10 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
 
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+
+import { Line, Station } from '../../models/StationAPI';
 import { StationApiService } from '../../services/station-api/station-api.service';
-import { Subscription, BehaviorSubject } from 'rxjs';
-import { Station, Line } from 'src/app/models/StationAPI';
 
 @Component({
   selector: 'app-belongs-stations',
@@ -12,10 +13,12 @@ import { Station, Line } from 'src/app/models/StationAPI';
 })
 export class BelongsStationsComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription[] = [];
-  public stations$ = new BehaviorSubject<Station[]>([]);
-  public line$ = new BehaviorSubject<Line>(null);
+  public stations: Station[] = [];
+  public line: Line = null;
+  public errors: Error[] = null;
 
   constructor(
+    private router: Router,
     private route: ActivatedRoute,
     private stationApiService: StationApiService
   ) {}
@@ -31,12 +34,20 @@ export class BelongsStationsComponent implements OnInit, OnDestroy {
   private fetchStations() {
     const lineId = parseInt(this.route.snapshot.paramMap.get('line_id'), 10);
     const stationsSub = this.stationApiService.fetchStationByLineId(lineId).subscribe(stations => {
-      this.stations$.next(stations);
+      this.stations = stations;
+    }, err => {
+      this.errors = err;
     });
     const lineSub = this.stationApiService.fetchLineByLineId(lineId).subscribe(line => {
-      this.line$.next(line);
+      this.line = line;
+    }, err => {
+      this.errors = err;
     });
     this.subscriptions.push(stationsSub);
     this.subscriptions.push(lineSub);
+  }
+
+  public navigateToStation(station: Station) {
+    this.router.navigate([`/station/${station.groupId}`]);
   }
 }

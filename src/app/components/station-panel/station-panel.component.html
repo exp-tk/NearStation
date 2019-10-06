@@ -1,0 +1,21 @@
+<div class="container">
+  <ng-container *ngIf="station; else loading">
+    <h2 class="stationName">{{ station.name }}</h2>
+    <h3 class="stationAddress">{{ station.address }}</h3>
+
+    <div class="dots">
+      <app-dot
+        *ngFor="let line of station.lines"
+        class="dot"
+        [color]="line.lineColorC ? '#' + line.lineColorC : '#333'"
+      ></app-dot>
+    </div>
+    <app-button (click)="toLinePage(station.groupId)" class="lineInfoButton">路線情報</app-button>
+  </ng-container>
+</div>
+
+<ng-template #loading>
+  <div class="loading">
+    <img src="/assets/loading.svg" alt="loading">
+  </div>
+</ng-template>

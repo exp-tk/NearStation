@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { StationApiService } from 'src/app/services/station-api/station-api.service';
-import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
-import { Station } from 'src/app/models/StationAPI';
+
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+
+import { Station } from '../../../models/StationAPI';
+import { StationApiService } from '../../../services/station-api/station-api.service';
 
 @Component({
   selector: 'app-lines',
@@ -10,7 +12,8 @@ import { Station } from 'src/app/models/StationAPI';
   styleUrls: ['./lines.component.scss']
 })
 export class LinesComponent implements OnInit {
-  public thisStation$ = new BehaviorSubject<Station>(null);
+  public station: Station = null;
+  public errors: Error[] = null;
 
   constructor(
     private router: Router,
@@ -21,7 +24,9 @@ export class LinesComponent implements OnInit {
   ngOnInit() {
     const groupId = parseInt(this.route.snapshot.paramMap.get('group_id'), 10);
     this.stationApiService.fetchStationByGroupId(groupId).subscribe(station => {
-      this.thisStation$.next(station);
+      this.station = station;
+    }, err => {
+      this.errors = err;
     });
   }
 

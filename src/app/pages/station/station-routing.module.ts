@@ -1,12 +1,17 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { BelongsStationsComponent } from './belongs-stations.component';
+import { StationComponent } from './station.component';
+import { LinesComponent } from './lines/lines.component';
 
 const routes: Routes = [
   {
-    path: ':line_id',
-    component: BelongsStationsComponent
+    path: ':group_id',
+    component: StationComponent
+  },
+  {
+    path: ':group_id/lines',
+    component: LinesComponent
   },
   {
     path: '',
@@ -19,4 +24,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class BelongsStationsRoutingModule { }
+export class StationRoutingModule {}

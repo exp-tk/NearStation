@@ -1,7 +1,8 @@
-<div class="container" *ngIf="line$ | async as line; else loading">
+<div class="container" *ngIf="line && !errors; else loading">
   <ul>
-      <li *ngFor="let station of stations$ | async; let i = index">
+      <li *ngFor="let station of stations; let i = index">
         <app-postit
+          (click)="navigateToStation(station)"
           [labelColor]="line.lineColorC"
           [labelText]="(i + 1).toString().length === 1 ? '0' + (i + 1) : i + 1"
         >
@@ -11,8 +12,12 @@
   </ul>
 </div>
 
-<ng-template #loading>
+<ng-template #loading *ngIf="!errors; else error">
   <div class="loading">
     <img src="/assets/loading.svg" alt="loading" />
   </div>
+</ng-template>
+
+<ng-template #error>
+  <app-error></app-error>
 </ng-template>

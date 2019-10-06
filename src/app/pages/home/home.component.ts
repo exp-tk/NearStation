@@ -1,11 +1,11 @@
 import { BehaviorSubject, Subscription } from 'rxjs';
-import { Station } from 'src/app/models/StationAPI';
-import { GeolocationService } from 'src/app/services/geolocation/geolocation.service';
 
-import { Component, OnInit, OnDestroy } from '@angular/core';
-
-import { StationApiService } from '../../services/station-api/station-api.service';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+
+import { Station } from '../../models/StationAPI';
+import { GeolocationService } from '../../services/geolocation/geolocation.service';
+import { StationApiService } from '../../services/station-api/station-api.service';
 
 @Component({
   selector: 'app-home',
@@ -14,12 +14,12 @@ import { Router } from '@angular/router';
 })
 export class HomeComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription[] = [];
-  public station$ = new BehaviorSubject<Station>(null);
+  public station: Station = null;
+  public errors: Error[] = [];
 
   constructor(
     private stationApiService: StationApiService,
-    private geolocationService: GeolocationService,
-    private router: Router
+    private geolocationService: GeolocationService
   ) {}
 
   ngOnInit() {
@@ -27,7 +27,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   fetchNearestStation() {
-    this.station$.next(null);
+    this.station = null;
     const geoLocationSub = this.geolocationService
       .getCurrentPosition()
       .subscribe(position => {
@@ -35,7 +35,9 @@ export class HomeComponent implements OnInit, OnDestroy {
         const fetchStationSub = this.stationApiService
           .fetchNearestStation(latitude, longitude)
           .subscribe(station => {
-            this.station$.next(station);
+            this.station = station;
+          }, errors => {
+            this.errors = errors;
           });
         if (this.subscriptions[0]) {
           this.subscriptions[0].unsubscribe();
@@ -50,9 +52,5 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subscriptions.forEach(sub => sub.unsubscribe());
-  }
-
-  public toLinePage(groupId: number) {
-    this.router.navigate([`/station/${groupId}`]);
   }
 }
