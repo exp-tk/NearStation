@@ -1,7 +1,7 @@
 {
   "name": "NearStation",
   "short_name": "NearStation",
-  "theme_color": "#008ffe",
+  "theme_color": "#fff",
   "background_color": "#fafafa",
   "display": "standalone",
   "scope": "/",
