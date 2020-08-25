@@ -42,7 +42,7 @@ export class StationApiService {
     });
   }
 
-  public fetchStationByGroupId(groupId: number): Observable<Station> {
+  public zfetchStationByGroupId(groupId: number): Observable<Station> {
     return new Observable<Station>(observer => {
       this.apollo
       .watchQuery({
@@ -65,7 +65,7 @@ export class StationApiService {
           return observer.error(result.errors);
         }
         const data = result.data as StationData;
-        observer.next(data.station);
+        observer.next(data.searchStation);
       }, err => {
         observer.error(err);
       });
