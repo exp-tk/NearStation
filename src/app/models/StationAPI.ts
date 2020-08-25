@@ -1,5 +1,5 @@
 export interface StationData {
-  station: Station;
+  searchStation: Station;
 }
 
 export interface StationByCoordsData {
