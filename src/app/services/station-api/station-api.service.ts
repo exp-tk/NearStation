@@ -48,7 +48,7 @@ export class StationApiService {
       .watchQuery({
         query: gql`
         {
-          station(id: ${groupId}) {
+          searchStation(groupId: ${groupId}) {
             name
             address
             groupId
