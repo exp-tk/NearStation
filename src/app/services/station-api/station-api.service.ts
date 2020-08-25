@@ -42,7 +42,7 @@ export class StationApiService {
     });
   }
 
-  public zfetchStationByGroupId(groupId: number): Observable<Station> {
+  public fetchStationByGroupId(groupId: number): Observable<Station> {
     return new Observable<Station>(observer => {
       this.apollo
       .watchQuery({
