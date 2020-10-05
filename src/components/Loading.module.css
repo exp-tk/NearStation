@@ -1,0 +1,16 @@
+.container {
+  position: relative;
+  height: 100vh;
+  margin: 0;
+  background: #333;
+  text-align: center;
+}
+.inner {
+  background: rgba(0, 0, 0, 0.75);
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  color: #fff;
+}

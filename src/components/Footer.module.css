@@ -1,0 +1,33 @@
+.link {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  text-decoration: none;
+  margin-bottom: 8px;
+}
+.link:active {
+  outline: none;
+}
+.footer {
+  color: #fff;
+  position: absolute;
+  bottom: 24px;
+  width: 100%;
+  opacity: 0.5;
+}
+.productof img {
+  height: 1.5rem;
+}
+.productof:active {
+  outline: none;
+}
+.copyright {
+  font-size: 0.9rem;
+}
+.copyright a {
+  color: #fff;
+  text-decoration: none;
+  outline: none;
+}
