@@ -50,7 +50,7 @@ const StationPage: React.FC = () => {
       <main className={styles.container} style={containerStyle}>
         <div className={styles.inner}>
           <h1 className={styles.name}>{station?.name}</h1>
-          <h1 className={styles.address}>{station?.address}</h1>
+          <h2 className={styles.address}>{station?.address}</h2>
         </div>
       </main>
     </Layout>
