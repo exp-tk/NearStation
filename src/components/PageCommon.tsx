@@ -7,13 +7,15 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShareAlt } from '@fortawesome/free-solid-svg-icons';
 import { useAlert } from 'react-alert';
 import { Station } from '../models/StationAPI';
+import { Link } from 'react-router-dom';
 
 type Props = {
   photoUrl: string | undefined;
   station: Station;
+  notHome?: boolean;
 };
 
-const PageCommon: React.FC<Props> = ({ station, photoUrl }: Props) => {
+const PageCommon: React.FC<Props> = ({ station, photoUrl, notHome }: Props) => {
   const [isLinesModalShow, setIsLinesModalShow] = useState(false);
 
   const alert = useAlert();
@@ -81,6 +83,11 @@ const PageCommon: React.FC<Props> = ({ station, photoUrl }: Props) => {
               <FontAwesomeIcon icon={faShareAlt} />
             </button>
           </div>
+          {notHome && (
+            <Link to="/" className={styles.button}>
+              自分の最寄り駅を見る
+            </Link>
+          )}
         </div>
       </main>
       <LinesModal

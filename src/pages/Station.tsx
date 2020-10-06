@@ -26,7 +26,7 @@ const StationPage: React.FC = () => {
     return <ErrorScreen error="駅情報の取得に失敗しました。" />;
   }
 
-  return <PageCommon station={station} photoUrl={flickrPhoto} />;
+  return <PageCommon notHome={true} station={station} photoUrl={flickrPhoto} />;
 };
 
 export default memo(StationPage);
