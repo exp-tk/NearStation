@@ -1,17 +1,14 @@
-import React, { memo, useCallback, useEffect, useMemo, useState } from 'react';
-import styles from './Home.module.css';
-import Layout from '../components/Layout';
-import { Helmet } from 'react-helmet';
+import React, { memo, useCallback, useEffect, useState } from 'react';
 import Loading from '../components/Loading';
 import ErrorScreen from '../components/ErrorScreen';
 import useFlickrPhoto from '../hooks/useFlickrImage';
 import useClosestStation from '../hooks/useClosestStation';
-import LinesModal from '../components/LinesModal';
+import PageCommon from '../components/PageCommon';
 
 const StationPage: React.FC = () => {
   const [geolocationUnavailable, setGeolocationUnavailable] = useState(false);
   const [coordinates, setCoordinates] = useState<Coordinates>();
-  const [isLinesModalShow, setIsLinesModalShow] = useState(false);
+  const [fetchStationFunc, station, loading, fetchError] = useClosestStation();
 
   const getCurrentPositionSuccess = useCallback((pos: Position) => {
     setCoordinates(pos.coords);
@@ -20,14 +17,6 @@ const StationPage: React.FC = () => {
   const getCurrentPositionFailed = useCallback((err: PositionError) => {
     console.error(err);
     setGeolocationUnavailable(true);
-  }, []);
-
-  const handleLineInfoClick = useCallback(() => {
-    setIsLinesModalShow(true);
-  }, []);
-
-  const handleModalClose = useCallback(() => {
-    setIsLinesModalShow(false);
   }, []);
 
   useEffect(() => {
@@ -44,15 +33,7 @@ const StationPage: React.FC = () => {
     getCurrentPositionSuccess,
   ]);
 
-  const [fetchStatiobnFunc, station, loading, fetchError] = useClosestStation();
   const [flickrFetchFunc, flickrPhoto] = useFlickrPhoto();
-
-  const containerStyle = useMemo(
-    () => ({
-      background: `#333 url("${flickrPhoto}") no-repeat center center / cover`,
-    }),
-    [flickrPhoto]
-  );
 
   useEffect(() => {
     if (station) {
@@ -62,7 +43,7 @@ const StationPage: React.FC = () => {
 
   if (coordinates) {
     const { latitude, longitude } = coordinates;
-    fetchStatiobnFunc(latitude, longitude);
+    fetchStationFunc(latitude, longitude);
   }
 
   if (loading || !station) {
@@ -79,38 +60,7 @@ const StationPage: React.FC = () => {
     return <ErrorScreen error="駅情報の取得に失敗しました。" />;
   }
 
-  return (
-    <Layout>
-      {station && (
-        <Helmet>
-          <title>{station.name} - NearStation</title>
-          <meta name="description" content={`${station.name}駅`} />
-          <meta name="og:description" content={`${station.name}駅`} />
-          <meta
-            name="og:url"
-            content={`${process.env.PUBLIC_URL}/station/${station.groupId}`}
-          />
-          <meta name="og:title" content={`${station.name} - NearStation`} />
-          <meta name="og:type" content="article" />
-        </Helmet>
-      )}
-      <main className={styles.container} style={containerStyle}>
-        <div className={styles.inner}>
-          <h1 className={styles.name}>{station.name}</h1>
-          <h2 className={styles.address}>{station.address}</h2>
-          <button onClick={handleLineInfoClick} className={styles.button}>
-            路線情報
-          </button>
-        </div>
-      </main>
-      <LinesModal
-        station={station}
-        lines={station.lines}
-        closeModal={handleModalClose}
-        isOpen={isLinesModalShow}
-      />
-    </Layout>
-  );
+  return <PageCommon photoUrl={flickrPhoto} station={station} />;
 };
 
 export default memo(StationPage);

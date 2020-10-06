@@ -1,12 +1,10 @@
 import React, { memo, useEffect } from 'react';
-import styles from './Station.module.css';
-import Layout from '../components/Layout';
 import { useParams } from 'react-router-dom';
-import { Helmet } from 'react-helmet';
 import useStation from '../hooks/useStation';
 import Loading from '../components/Loading';
 import ErrorScreen from '../components/ErrorScreen';
 import useFlickrPhoto from '../hooks/useFlickrImage';
+import PageCommon from '../components/PageCommon';
 
 const StationPage: React.FC = () => {
   const { id } = useParams();
@@ -20,7 +18,7 @@ const StationPage: React.FC = () => {
     }
   }, [station, flickrFetchFunc]);
 
-  if (loading) {
+  if (loading || !station) {
     return <Loading />;
   }
 
@@ -28,33 +26,7 @@ const StationPage: React.FC = () => {
     return <ErrorScreen error="駅情報の取得に失敗しました。" />;
   }
 
-  const containerStyle = {
-    background: `#333 url("${flickrPhoto}") no-repeat center center / cover`,
-  };
-
-  return (
-    <Layout>
-      {station && (
-        <Helmet>
-          <title>{station.name} - NearStation</title>
-          <meta name="description" content={`${station.name}駅`} />
-          <meta name="og:description" content={`${station.name}駅`} />
-          <meta
-            name="og:url"
-            content={`${process.env.PUBLIC_URL}/station/${station.groupId}`}
-          />
-          <meta name="og:title" content={`${station.name} - NearStation`} />
-          <meta name="og:type" content="article" />
-        </Helmet>
-      )}
-      <main className={styles.container} style={containerStyle}>
-        <div className={styles.inner}>
-          <h1 className={styles.name}>{station?.name}</h1>
-          <h2 className={styles.address}>{station?.address}</h2>
-        </div>
-      </main>
-    </Layout>
-  );
+  return <PageCommon station={station} photoUrl={flickrPhoto} />;
 };
 
 export default memo(StationPage);

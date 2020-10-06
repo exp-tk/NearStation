@@ -48,6 +48,7 @@ const LinesModal: React.FC<Props> = ({
 
   return (
     <Modal
+      closeTimeoutMS={2000}
       isOpen={isOpen}
       onAfterOpen={onAfterOpen}
       onRequestClose={closeModal}

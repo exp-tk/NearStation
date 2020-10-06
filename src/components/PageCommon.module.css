@@ -33,6 +33,11 @@
   text-align: center;
   line-height: 1.5;
 }
+
+.buttons {
+  display: flex;
+}
+
 .button {
   padding: 12px 24px;
   border-radius: 4px;
@@ -41,7 +46,7 @@
   border: 1px solid white;
   cursor: default;
   text-align: center;
-  margin-top: 32px;
+  margin: 32px 8px 0 8px;
   text-decoration: none;
   color: #fff;
   cursor: pointer;
