@@ -17,7 +17,6 @@ const useFlickrPhoto = (): [
     try {
       const res = await fetch(encodeURI(flickrUrl));
       const data = await res.json();
-      console.log(data);
       const randomPhotoIndex = Math.floor(
         Math.random() * Math.floor(data.photos.photo.length)
       );

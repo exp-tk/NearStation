@@ -62,8 +62,6 @@ const StationPage: React.FC = () => {
     return <ErrorScreen error="駅情報の取得に失敗しました。" />;
   }
 
-  console.log(flickrPhoto);
-
   const containerStyle = {
     background: `#333 url("${flickrPhoto}") no-repeat center center / cover`,
   };
