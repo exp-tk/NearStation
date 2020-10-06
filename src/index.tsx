@@ -3,6 +3,9 @@ import ReactDOM from 'react-dom';
 import './reset.css';
 import Router from './Router';
 import * as serviceWorker from './serviceWorker';
+import Modal from 'react-modal';
+
+Modal.setAppElement('#root');
 
 ReactDOM.render(
   <React.StrictMode>

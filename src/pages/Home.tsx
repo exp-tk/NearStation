@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useEffect, useState } from 'react';
+import React, { memo, useCallback, useEffect, useMemo, useState } from 'react';
 import styles from './Home.module.css';
 import Layout from '../components/Layout';
 import { Helmet } from 'react-helmet';
@@ -6,10 +6,12 @@ import Loading from '../components/Loading';
 import ErrorScreen from '../components/ErrorScreen';
 import useFlickrPhoto from '../hooks/useFlickrImage';
 import useClosestStation from '../hooks/useClosestStation';
+import LinesModal from '../components/LinesModal';
 
 const StationPage: React.FC = () => {
   const [geolocationUnavailable, setGeolocationUnavailable] = useState(false);
   const [coordinates, setCoordinates] = useState<Coordinates>();
+  const [isLinesModalShow, setIsLinesModalShow] = useState(false);
 
   const getCurrentPositionSuccess = useCallback((pos: Position) => {
     setCoordinates(pos.coords);
@@ -18,6 +20,14 @@ const StationPage: React.FC = () => {
   const getCurrentPositionFailed = useCallback((err: PositionError) => {
     console.error(err);
     setGeolocationUnavailable(true);
+  }, []);
+
+  const handleLineInfoClick = useCallback(() => {
+    setIsLinesModalShow(true);
+  }, []);
+
+  const handleModalClose = useCallback(() => {
+    setIsLinesModalShow(false);
   }, []);
 
   useEffect(() => {
@@ -37,6 +47,13 @@ const StationPage: React.FC = () => {
   const [fetchStatiobnFunc, station, loading, fetchError] = useClosestStation();
   const [flickrFetchFunc, flickrPhoto] = useFlickrPhoto();
 
+  const containerStyle = useMemo(
+    () => ({
+      background: `#333 url("${flickrPhoto}") no-repeat center center / cover`,
+    }),
+    [flickrPhoto]
+  );
+
   useEffect(() => {
     if (station) {
       flickrFetchFunc(station);
@@ -48,7 +65,7 @@ const StationPage: React.FC = () => {
     fetchStatiobnFunc(latitude, longitude);
   }
 
-  if (loading) {
+  if (loading || !station) {
     return <Loading />;
   }
 
@@ -61,10 +78,6 @@ const StationPage: React.FC = () => {
   if (fetchError) {
     return <ErrorScreen error="駅情報の取得に失敗しました。" />;
   }
-
-  const containerStyle = {
-    background: `#333 url("${flickrPhoto}") no-repeat center center / cover`,
-  };
 
   return (
     <Layout>
@@ -83,10 +96,19 @@ const StationPage: React.FC = () => {
       )}
       <main className={styles.container} style={containerStyle}>
         <div className={styles.inner}>
-          <h1 className={styles.name}>{station?.name}</h1>
-          <h2 className={styles.address}>{station?.address}</h2>
+          <h1 className={styles.name}>{station.name}</h1>
+          <h2 className={styles.address}>{station.address}</h2>
+          <button onClick={handleLineInfoClick} className={styles.button}>
+            路線情報
+          </button>
         </div>
       </main>
+      <LinesModal
+        station={station}
+        lines={station.lines}
+        closeModal={handleModalClose}
+        isOpen={isLinesModalShow}
+      />
     </Layout>
   );
 };

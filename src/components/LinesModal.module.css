@@ -1,0 +1,24 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  background-color: #212121;
+  padding: 21px;
+}
+
+.headerTitle {
+  font-size: 1.2rem;
+  color: #fff;
+}
+
+.closeIcon {
+  cursor: pointer;
+  color: #fff;
+}
+
+.lines {
+  overflow: scroll;
+}
+
+.line {
+  padding: 21px;
+}
