@@ -16,7 +16,13 @@
 }
 
 .lines {
-  overflow: scroll;
+  overflow: hidden;
+  overflow-y: scroll;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.lines::-webkit-scrollbar {
+  display: none;
 }
 
 .line {
