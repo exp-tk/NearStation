@@ -31,23 +31,26 @@ const PageCommon: React.FC<Props> = ({ station, photoUrl, notHome }: Props) => {
   const handleShareButtonClick = useCallback(async () => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const nav = navigator as any;
+    const message = notHome
+      ? `${station?.name}駅(${station?.address})`
+      : `私は${station?.name}駅(${station?.address})付近にいます`;
     if ('share' in navigator) {
       await nav.share({
         title: 'NearStation',
-        text: `私は${station?.name}駅(${station?.address})付近にいます`,
+        text: message,
         url: `https://near.tinykitten.me/station/${station?.groupId}`,
       });
       return;
     }
     if ('clipboard' in navigator) {
       await nav.clipboard.writeText(
-        `私は${station?.name}駅(${station?.address})付近にいます https://near.tinykitten.me/station/${station?.groupId}`
+        `${message} https://near.tinykitten.me/station/${station?.groupId}`
       );
       alert.show('クリップボードにリンクをコピーしました！');
       return;
     }
     alert.error('シェア用APIが利用できません！');
-  }, [alert, station]);
+  }, [alert, notHome, station]);
 
   const containerStyle = useMemo(
     () => ({
