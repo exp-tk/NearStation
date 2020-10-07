@@ -28,6 +28,7 @@ const StationPage: React.FC = () => {
       getCurrentPositionFailed,
       {
         enableHighAccuracy: true,
+        maximumAge: 0,
       }
     );
   }, [
