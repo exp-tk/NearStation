@@ -25,7 +25,10 @@ const StationPage: React.FC = () => {
     }
     navigator.geolocation.getCurrentPosition(
       getCurrentPositionSuccess,
-      getCurrentPositionFailed
+      getCurrentPositionFailed,
+      {
+        enableHighAccuracy: true,
+      }
     );
   }, [
     setGeolocationUnavailable,

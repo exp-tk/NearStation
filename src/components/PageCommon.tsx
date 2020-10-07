@@ -47,7 +47,7 @@ const PageCommon: React.FC<Props> = ({ station, photoUrl, notHome }: Props) => {
       return;
     }
     alert.error('シェア用APIが利用できません！');
-  }, [alert, station?.address, station?.groupId, station?.name]);
+  }, [alert, station]);
 
   const containerStyle = useMemo(
     () => ({
