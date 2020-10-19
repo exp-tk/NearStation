@@ -1,20 +1,19 @@
-import { useState, useEffect } from 'react';
+import { useState, useCallback } from 'react';
 import { Station, StationData } from '../models/StationAPI';
 import client from '../apollo';
 import { gql } from '@apollo/client';
 
 const useStation = (
   id: string
-): [Station | undefined, boolean, Error | undefined] => {
+): [() => void, Station | undefined, boolean, Error | undefined] => {
   const [station, setStation] = useState<Station>();
   const [loading, setLoading] = useState(true);
   const [fetchError, setFetchError] = useState<Error>();
 
-  useEffect(() => {
-    (async (): Promise<void> => {
-      try {
-        const result = await client.query({
-          query: gql`
+  const fetchStationFunc = useCallback(async (): Promise<void> => {
+    try {
+      const result = await client.query({
+        query: gql`
           {
             searchStation(groupId: "${id}") {
               id
@@ -37,18 +36,17 @@ const useStation = (
             }
           }
         `,
-        });
-        const data = result.data as StationData;
-        setStation(data.searchStation);
-      } catch (e) {
-        setFetchError(e);
-      } finally {
-        setLoading(false);
-      }
-    })();
+      });
+      const data = result.data as StationData;
+      setStation(data.searchStation);
+    } catch (e) {
+      setFetchError(e);
+    } finally {
+      setLoading(false);
+    }
   }, [id]);
 
-  return [station, loading, fetchError];
+  return [fetchStationFunc, station, loading, fetchError];
 };
 
 export default useStation;

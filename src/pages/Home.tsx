@@ -67,12 +67,20 @@ const StationPage: React.FC = () => {
 
   if (geolocationUnavailable) {
     return (
-      <ErrorScreen error="位置情報を利用できないため、当アプリを使用することができません。" />
+      <ErrorScreen
+        onRetry={handleRefresh}
+        error="位置情報を利用できないため、当アプリを使用することができません。"
+      />
     );
   }
 
   if (fetchError) {
-    return <ErrorScreen error="駅情報の取得に失敗しました。" />;
+    return (
+      <ErrorScreen
+        onRetry={handleRefresh}
+        error="駅情報の取得に失敗しました。"
+      />
+    );
   }
 
   return (
