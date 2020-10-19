@@ -7,7 +7,7 @@ import PageCommon from '../components/PageCommon';
 
 const StationPage: React.FC = () => {
   const [geolocationUnavailable, setGeolocationUnavailable] = useState(false);
-  const [coordinates, setCoordinates] = useState<Coordinates>();
+  const [coordinates, setCoordinates] = useState<Coordinates | null>(null);
   const [fetchStationFunc, station, loading, fetchError] = useClosestStation();
 
   const getCurrentPositionSuccess = useCallback((pos: Position) => {
@@ -19,10 +19,11 @@ const StationPage: React.FC = () => {
     setGeolocationUnavailable(true);
   }, []);
 
-  useEffect(() => {
+  const fetchCurrentPosition = useCallback(() => {
     if (!navigator.geolocation) {
       return setGeolocationUnavailable(true);
     }
+    setCoordinates(null);
     navigator.geolocation.getCurrentPosition(
       getCurrentPositionSuccess,
       getCurrentPositionFailed,
@@ -31,11 +32,11 @@ const StationPage: React.FC = () => {
         maximumAge: 0,
       }
     );
-  }, [
-    setGeolocationUnavailable,
-    getCurrentPositionFailed,
-    getCurrentPositionSuccess,
-  ]);
+  }, [getCurrentPositionFailed, getCurrentPositionSuccess]);
+
+  useEffect(() => {
+    fetchCurrentPosition();
+  }, [fetchCurrentPosition]);
 
   const [flickrFetchFunc, flickrPhoto] = useFlickrPhoto();
 
@@ -45,10 +46,20 @@ const StationPage: React.FC = () => {
     }
   }, [station, flickrFetchFunc]);
 
-  if (coordinates) {
-    const { latitude, longitude } = coordinates;
-    fetchStationFunc(latitude, longitude);
-  }
+  useEffect(() => {
+    if (coordinates) {
+      const { latitude, longitude } = coordinates;
+      fetchStationFunc(latitude, longitude);
+    }
+  }, [coordinates, fetchStationFunc]);
+
+  const handleRefresh = useCallback(() => {
+    fetchCurrentPosition();
+    if (coordinates) {
+      const { latitude, longitude } = coordinates;
+      fetchStationFunc(latitude, longitude);
+    }
+  }, [coordinates, fetchCurrentPosition, fetchStationFunc]);
 
   if (loading || !station) {
     return <Loading />;
@@ -64,7 +75,13 @@ const StationPage: React.FC = () => {
     return <ErrorScreen error="駅情報の取得に失敗しました。" />;
   }
 
-  return <PageCommon photoUrl={flickrPhoto} station={station} />;
+  return (
+    <PageCommon
+      onRefresh={handleRefresh}
+      photoUrl={flickrPhoto}
+      station={station}
+    />
+  );
 };
 
 export default memo(StationPage);

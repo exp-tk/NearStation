@@ -13,9 +13,15 @@ type Props = {
   photoUrl: string | undefined;
   station: Station;
   notHome?: boolean;
+  onRefresh?: () => void;
 };
 
-const PageCommon: React.FC<Props> = ({ station, photoUrl, notHome }: Props) => {
+const PageCommon: React.FC<Props> = ({
+  station,
+  photoUrl,
+  notHome,
+  onRefresh,
+}: Props) => {
   const [isLinesModalShow, setIsLinesModalShow] = useState(false);
 
   const alert = useAlert();
@@ -90,6 +96,11 @@ const PageCommon: React.FC<Props> = ({ station, photoUrl, notHome }: Props) => {
             <Link to="/" className={styles.button}>
               自分の最寄り駅を見る
             </Link>
+          )}
+          {!notHome && (
+            <button onClick={onRefresh} className={styles.button}>
+              再読み込み
+            </button>
           )}
         </div>
       </main>
