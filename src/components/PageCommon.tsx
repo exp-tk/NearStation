@@ -40,22 +40,27 @@ const PageCommon: React.FC<Props> = ({
     const message = notHome
       ? `${station?.name}駅(${station?.address})`
       : `私は${station?.name}駅(${station?.address})付近にいます`;
-    if ('share' in navigator) {
-      nav.share({
-        title: 'NearStation',
-        text: message,
-        url: `https://near.tinykitten.me/station/${station?.groupId}`,
-      });
-      return;
+    try {
+      if ('share' in navigator) {
+        await nav.share({
+          title: 'NearStation',
+          text: message,
+          url: `https://near.tinykitten.me/station/${station?.groupId}`,
+        });
+        return;
+      }
+      if ('clipboard' in navigator) {
+        await nav.clipboard.writeText(
+          `${message} https://near.tinykitten.me/station/${station?.groupId}`
+        );
+        alert.show('クリップボードにリンクをコピーしました！');
+        return;
+      }
+      alert.error('シェア用APIが利用できません！');
+    } catch (err) {
+      console.error(err);
+      alert.error('シェアに失敗しました！');
     }
-    if ('clipboard' in navigator) {
-      nav.clipboard.writeText(
-        `${message} https://near.tinykitten.me/station/${station?.groupId}`
-      );
-      alert.show('クリップボードにリンクをコピーしました！');
-      return;
-    }
-    alert.error('シェア用APIが利用できません！');
   }, [alert, notHome, station]);
 
   const containerStyle = useMemo(
