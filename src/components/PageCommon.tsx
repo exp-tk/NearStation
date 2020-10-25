@@ -35,7 +35,7 @@ const PageCommon: React.FC<Props> = ({ station, photoUrl, notHome }: Props) => {
       ? `${station?.name}駅(${station?.address})`
       : `私は${station?.name}駅(${station?.address})付近にいます`;
     if ('share' in navigator) {
-      await nav.share({
+      nav.share({
         title: 'NearStation',
         text: message,
         url: `https://near.tinykitten.me/station/${station?.groupId}`,
@@ -43,7 +43,7 @@ const PageCommon: React.FC<Props> = ({ station, photoUrl, notHome }: Props) => {
       return;
     }
     if ('clipboard' in navigator) {
-      await nav.clipboard.writeText(
+      nav.clipboard.writeText(
         `${message} https://near.tinykitten.me/station/${station?.groupId}`
       );
       alert.show('クリップボードにリンクをコピーしました！');
