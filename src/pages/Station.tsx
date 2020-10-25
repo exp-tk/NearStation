@@ -9,8 +9,12 @@ import PageCommon from '../components/PageCommon';
 const StationPage: React.FC = () => {
   const { id } = useParams();
 
-  const [station, loading, fetchError] = useStation(id);
+  const [fetchStationFunc, station, loading, fetchError] = useStation(id);
   const [flickrFetchFunc, flickrPhoto] = useFlickrPhoto();
+
+  useEffect(() => {
+    fetchStationFunc();
+  }, [fetchStationFunc]);
 
   useEffect(() => {
     if (station) {
@@ -23,7 +27,12 @@ const StationPage: React.FC = () => {
   }
 
   if (fetchError) {
-    return <ErrorScreen error="駅情報の取得に失敗しました。" />;
+    return (
+      <ErrorScreen
+        onRetry={fetchStationFunc}
+        error="駅情報の取得に失敗しました。"
+      />
+    );
   }
 
   return <PageCommon notHome={true} station={station} photoUrl={flickrPhoto} />;
