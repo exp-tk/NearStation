@@ -59,7 +59,7 @@ const PageCommon: React.FC<Props> = ({
       alert.error('シェア用APIが利用できません！');
     } catch (err) {
       console.error(err);
-      alert.error('シェアに失敗しました！');
+      alert.error('シェアできませんでした！');
     }
   }, [alert, notHome, station]);
 
