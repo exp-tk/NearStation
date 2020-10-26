@@ -5,9 +5,9 @@ import { Helmet } from 'react-helmet';
 import LinesModal from '../components/LinesModal';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShareAlt } from '@fortawesome/free-solid-svg-icons';
-import { useAlert } from 'react-alert';
 import { Station } from '../models/StationAPI';
 import { Link } from 'react-router-dom';
+import { Snackbar, Button } from '@material-ui/core';
 
 type Props = {
   photoUrl: string | undefined;
@@ -23,8 +23,13 @@ const PageCommon: React.FC<Props> = ({
   onRefresh,
 }: Props) => {
   const [isLinesModalShow, setIsLinesModalShow] = useState(false);
+  const [showSnackbar, setShowSnackbar] = useState(false);
+  const [snackbarText, setSnackbarText] = useState('');
 
-  const alert = useAlert();
+  const handleSnackbarClick = useCallback(() => {
+    setSnackbarText('');
+    setShowSnackbar(false);
+  }, []);
 
   const handleLineInfoClick = useCallback(() => {
     setIsLinesModalShow(true);
@@ -53,15 +58,18 @@ const PageCommon: React.FC<Props> = ({
         await nav.clipboard.writeText(
           `${message} https://near.tinykitten.me/station/${station?.groupId}`
         );
-        alert.show('クリップボードにリンクをコピーしました！');
+        setSnackbarText('クリップボードにリンクをコピーしました！');
+        setShowSnackbar(true);
         return;
       }
-      alert.error('シェア用APIが利用できません！');
+      setShowSnackbar(true);
+      setSnackbarText('シェア用APIが利用できません！');
     } catch (err) {
       console.error(err);
-      alert.error('シェアできませんでした！');
+      setShowSnackbar(true);
+      setSnackbarText('シェアできませんでした！');
     }
-  }, [alert, notHome, station]);
+  }, [notHome, station]);
 
   const containerStyle = useMemo(
     () => ({
@@ -72,6 +80,17 @@ const PageCommon: React.FC<Props> = ({
 
   return (
     <Layout>
+      <Snackbar
+        open={showSnackbar}
+        message={snackbarText}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+        action={
+          <Button color="inherit" size="small" onClick={handleSnackbarClick}>
+            OK
+          </Button>
+        }
+      />
+
       {station && (
         <Helmet>
           <title>{station.name} - NearStation</title>
