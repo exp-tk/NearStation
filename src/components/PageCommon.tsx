@@ -26,6 +26,11 @@ const PageCommon: React.FC<Props> = ({
   const [showSnackbar, setShowSnackbar] = useState(false);
   const [snackbarText, setSnackbarText] = useState('');
 
+  // 4 === Tram
+  const stationType = station.lines[0].lineType === 4 ? '停留所' : '駅';
+
+  const fullStationName = `${station.name}${stationType}`;
+
   const handleSnackbarClick = useCallback(() => {
     setSnackbarText('');
     setShowSnackbar(false);
@@ -43,8 +48,8 @@ const PageCommon: React.FC<Props> = ({
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const nav = navigator as any;
     const message = notHome
-      ? `${station?.name}駅(${station?.address})`
-      : `私は${station?.name}駅(${station?.address})付近にいます`;
+      ? `${fullStationName}(${station?.address})`
+      : `私は${fullStationName}(${station?.address})付近にいます`;
     try {
       if ('share' in navigator) {
         await nav.share({
@@ -69,7 +74,7 @@ const PageCommon: React.FC<Props> = ({
       setShowSnackbar(true);
       setSnackbarText('シェアできませんでした！');
     }
-  }, [notHome, station]);
+  }, [fullStationName, notHome, station]);
 
   const containerStyle = useMemo(
     () => ({
@@ -94,8 +99,8 @@ const PageCommon: React.FC<Props> = ({
       {station && (
         <Helmet>
           <title>{station.name} - NearStation</title>
-          <meta name="description" content={`${station.name}駅`} />
-          <meta name="og:description" content={`${station.name}駅`} />
+          <meta name="description" content={`${fullStationName}`} />
+          <meta name="og:description" content={`${fullStationName}`} />
           <meta
             name="og:url"
             content={`${process.env.PUBLIC_URL}/station/${station.groupId}`}
