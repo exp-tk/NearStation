@@ -27,7 +27,7 @@ const PageCommon: React.FC<Props> = ({
   const [snackbarText, setSnackbarText] = useState('');
 
   // 4 === Tram
-  const stationType = station.lines[0].lineType === 4 ? '停留所' : '駅';
+  const stationType = station.lines[0].lineType === 4 ? '停留場' : '駅';
 
   const fullStationName = `${station.name}${stationType}`;
 
