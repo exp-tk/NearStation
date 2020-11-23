@@ -32,6 +32,8 @@ const customStyles: Modal.Styles = {
   },
 };
 
+const isJa = navigator.language.startsWith('ja');
+
 const LinesModal: React.FC<Props> = ({
   isOpen,
   onAfterOpen,
@@ -53,10 +55,16 @@ const LinesModal: React.FC<Props> = ({
       onAfterOpen={onAfterOpen}
       onRequestClose={closeModal}
       style={customStyles}
-      contentLabel={`${station.name}駅の路線`}
+      contentLabel={
+        isJa ? `${station.name}駅の路線` : `Lines at ${station.nameR} station`
+      }
     >
       <header className={styles.header}>
-        <span className={styles.headerTitle}>{station.name}駅の路線</span>
+        <span className={styles.headerTitle}>
+          {isJa
+            ? `${station.name}駅の路線`
+            : `Lines at ${station.nameR} station`}
+        </span>
         <FontAwesomeIcon
           onClick={closeModal}
           className={styles.closeIcon}
@@ -66,7 +74,7 @@ const LinesModal: React.FC<Props> = ({
       <ul className={styles.lines}>
         {lines.map((l) => (
           <li className={styles.line} key={l.id} style={getLineStyle(l)}>
-            <span className={styles.lineName}>{l.name}</span>
+            <span className={styles.lineName}>{isJa ? l.name : l.nameR}</span>
           </li>
         ))}
       </ul>

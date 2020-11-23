@@ -16,6 +16,8 @@ type Props = {
   onRefresh?: () => void;
 };
 
+const isJa = navigator.language.startsWith('ja');
+
 const PageCommon: React.FC<Props> = ({
   station,
   photoUrl,
@@ -27,9 +29,16 @@ const PageCommon: React.FC<Props> = ({
   const [snackbarText, setSnackbarText] = useState('');
 
   // 4 === Tram
-  const stationType = station.lines[0].lineType === 4 ? '停留場' : '駅';
+  const stationType = useMemo(() => {
+    if (!isJa) {
+      return 'Station';
+    }
+    return station.lines[0].lineType === 4 ? '停留場' : '駅';
+  }, [station.lines]);
 
-  const fullStationName = `${station.name}${stationType}`;
+  const fullStationName = isJa
+    ? `${station.name}${stationType}`
+    : `${station.nameR} ${stationType}`;
 
   const handleSnackbarClick = useCallback(() => {
     setSnackbarText('');
@@ -44,37 +53,50 @@ const PageCommon: React.FC<Props> = ({
     setIsLinesModalShow(false);
   }, []);
 
+  const shareMessage = useMemo(() => {
+    if (!isJa) {
+      return notHome ? `${fullStationName}` : `I'm near ${fullStationName}`;
+    }
+
+    return notHome
+      ? `${fullStationName}(${station?.address})`
+      : `私は${fullStationName}(${station?.address})付近にいます`;
+  }, [fullStationName, notHome, station?.address]);
+
   const handleShareButtonClick = useCallback(async () => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const nav = navigator as any;
-    const message = notHome
-      ? `${fullStationName}(${station?.address})`
-      : `私は${fullStationName}(${station?.address})付近にいます`;
     try {
       if ('share' in navigator) {
         await nav.share({
           title: 'NearStation',
-          text: message,
+          text: shareMessage,
           url: `https://near.tinykitten.me/station/${station?.groupId}`,
         });
         return;
       }
       if ('clipboard' in navigator) {
         await nav.clipboard.writeText(
-          `${message} https://near.tinykitten.me/station/${station?.groupId}`
+          `${shareMessage} https://near.tinykitten.me/station/${station?.groupId}`
         );
-        setSnackbarText('クリップボードにリンクをコピーしました！');
+        setSnackbarText(
+          isJa ? 'クリップボードにリンクをコピーしました！' : 'Link copied!'
+        );
         setShowSnackbar(true);
         return;
       }
       setShowSnackbar(true);
-      setSnackbarText('シェア用APIが利用できません！');
+      setSnackbarText(
+        isJa
+          ? 'シェア用APIが利用できません！'
+          : 'The API for sharing is not available!'
+      );
     } catch (err) {
       console.error(err);
       setShowSnackbar(true);
-      setSnackbarText('シェアできませんでした！');
+      setSnackbarText(isJa ? 'シェアできませんでした！' : `Couldn't share!`);
     }
-  }, [fullStationName, notHome, station]);
+  }, [shareMessage, station?.groupId]);
 
   const containerStyle = useMemo(
     () => ({
@@ -98,7 +120,7 @@ const PageCommon: React.FC<Props> = ({
 
       {station && (
         <Helmet>
-          <title>{station.name} - NearStation</title>
+          <title>{isJa ? station.name : station.nameR} - NearStation</title>
           <meta name="description" content={`${fullStationName}`} />
           <meta name="og:description" content={`${fullStationName}`} />
           <meta
@@ -111,11 +133,16 @@ const PageCommon: React.FC<Props> = ({
       )}
       <main className={styles.container} style={containerStyle}>
         <div className={styles.inner}>
-          <h1 className={styles.name}>{station.name}</h1>
+          <h1
+            style={{ letterSpacing: isJa ? '2px' : '0px' }}
+            className={styles.name}
+          >
+            {isJa ? station.name : station.nameR}
+          </h1>
           <h2 className={styles.address}>{station.address}</h2>
           <div className={styles.buttons}>
             <button onClick={handleLineInfoClick} className={styles.button}>
-              路線情報
+              {isJa ? '路線情報' : 'Lines'}
             </button>
             <button onClick={handleShareButtonClick} className={styles.button}>
               <FontAwesomeIcon icon={faShareAlt} />
@@ -123,12 +150,12 @@ const PageCommon: React.FC<Props> = ({
           </div>
           {notHome && (
             <Link to="/" className={styles.button}>
-              自分の最寄り駅を見る
+              {isJa ? '自分の最寄り駅を見る' : 'My closest station'}
             </Link>
           )}
           {!notHome && (
             <button onClick={onRefresh} className={styles.button}>
-              再読み込み
+              {isJa ? '再読み込み' : 'Refresh'}
             </button>
           )}
         </div>
