@@ -3,6 +3,8 @@ import React, { useEffect, useState } from 'react';
 import Router from '../Router';
 import * as serviceWorker from '../serviceWorker';
 
+const isJa = navigator.language.startsWith('ja');
+
 const App: React.FC = () => {
   const [showReload, setShowReload] = useState(false);
   const [waitingWorker, setWaitingWorker] = useState<ServiceWorker | null>(
@@ -28,12 +30,16 @@ const App: React.FC = () => {
     <>
       <Snackbar
         open={showReload}
-        message="新しいバージョンがリリースされました🚀"
+        message={
+          isJa
+            ? '新しいバージョンがリリースされました🚀'
+            : 'New version released 🚀'
+        }
         onClick={reloadPage}
         anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
         action={
           <Button color="inherit" size="small" onClick={reloadPage}>
-            リロード
+            {isJa ? 'リロード' : 'Reload'}
           </Button>
         }
       />
