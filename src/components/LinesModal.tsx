@@ -79,21 +79,18 @@ const StationOrLineList: React.FC<StationOrLineListProps> = ({
       ) : null}
       {selectedLine
         ? stations.map((s) => (
-            <li
-              className={styles.padding}
+            <Link
+              onClick={handleLinkClick}
+              to={`/station/${s.groupId}`}
+              className={styles.link}
               key={s.id}
-              style={getLineStyle(selectedLine)}
             >
-              <Link
-                onClick={handleLinkClick}
-                to={`/station/${s.groupId}`}
-                className={styles.link}
-              >
+              <li className={styles.padding} style={getLineStyle(selectedLine)}>
                 <span className={styles.lineName}>
                   {isJa ? s.name : s.nameR}
                 </span>
-              </Link>
-            </li>
+              </li>
+            </Link>
           ))
         : null}
     </ul>
