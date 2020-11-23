@@ -15,6 +15,12 @@
   color: #fff;
 }
 
+.backIcon {
+  margin-right: 21px;
+  cursor: pointer;
+  color: #fff;
+}
+
 .lines {
   overflow: hidden;
   overflow-y: scroll;
@@ -25,6 +31,11 @@
   display: none;
 }
 
-.line {
+.padding {
   padding: 21px;
+}
+
+.link {
+  color: black;
+  text-decoration: none;
 }

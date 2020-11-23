@@ -12,6 +12,7 @@ const useFlickrPhoto = (): [
   const [fetchError, setFetchError] = useState<Error>();
 
   const fetchFunc = useCallback(async (station: Station): Promise<void> => {
+    setPhotoUrl('');
     const flickrAccessToken = process.env.REACT_APP_FLICKR_ACCESS_TOKEN;
     const flickrUrl = `https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=${flickrAccessToken}&text=${station.name}駅&format=json&nojsoncallback=1`;
     try {

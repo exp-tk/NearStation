@@ -1,6 +1,7 @@
 export interface StationData {
   searchStation: Station;
   stationByCoords: Station;
+  stationsByLineId: Station[];
 }
 
 export interface StationByCoordsData {
