@@ -10,7 +10,7 @@ const StationPage: React.FC = () => {
   const { id } = useParams();
 
   const [fetchStationFunc, station, loading, fetchError] = useStation(id);
-  const [flickrFetchFunc, flickrPhoto] = useFlickrPhoto();
+  const [flickrFetchFunc, flickrPhoto, photoLoading] = useFlickrPhoto();
 
   useEffect(() => {
     fetchStationFunc();
@@ -35,7 +35,14 @@ const StationPage: React.FC = () => {
     );
   }
 
-  return <PageCommon notHome={true} station={station} photoUrl={flickrPhoto} />;
+  return (
+    <PageCommon
+      photoLoading={photoLoading}
+      notHome={true}
+      station={station}
+      photoUrl={flickrPhoto}
+    />
+  );
 };
 
 export default memo(StationPage);

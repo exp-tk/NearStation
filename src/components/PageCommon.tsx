@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import styles from './PageCommon.module.css';
 import Layout from '../components/Layout';
 import { Helmet } from 'react-helmet';
@@ -10,7 +10,8 @@ import { Link } from 'react-router-dom';
 import { Snackbar, Button } from '@material-ui/core';
 
 type Props = {
-  photoUrl: string | undefined;
+  photoUrl: string;
+  photoLoading: boolean;
   station: Station;
   notHome?: boolean;
   onRefresh?: () => void;
@@ -21,12 +22,24 @@ const isJa = navigator.language.startsWith('ja');
 const PageCommon: React.FC<Props> = ({
   station,
   photoUrl,
+  photoLoading,
   notHome,
   onRefresh,
 }: Props) => {
   const [isLinesModalShow, setIsLinesModalShow] = useState(false);
   const [showSnackbar, setShowSnackbar] = useState(false);
   const [snackbarText, setSnackbarText] = useState('');
+
+  useEffect(() => {
+    if (!photoLoading && !photoUrl.length) {
+      setSnackbarText(
+        isJa
+          ? '駅画像が見つかりませんでした！'
+          : 'The station image was not found!'
+      );
+      setShowSnackbar(true);
+    }
+  }, [photoLoading, photoUrl]);
 
   // 4 === Tram
   const stationType = useMemo(() => {

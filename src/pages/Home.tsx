@@ -38,7 +38,7 @@ const StationPage: React.FC = () => {
     fetchCurrentPosition();
   }, [fetchCurrentPosition]);
 
-  const [flickrFetchFunc, flickrPhoto] = useFlickrPhoto();
+  const [flickrFetchFunc, flickrPhoto, photoLoading] = useFlickrPhoto();
 
   useEffect(() => {
     if (station) {
@@ -87,6 +87,7 @@ const StationPage: React.FC = () => {
     <PageCommon
       onRefresh={handleRefresh}
       photoUrl={flickrPhoto}
+      photoLoading={photoLoading}
       station={station}
     />
   );
