@@ -1,5 +1,5 @@
 export interface StationData {
-  searchStation: Station;
+  stationByGroupId: Station;
   stationByCoords: Station;
   stationsByLineId: Station[];
 }

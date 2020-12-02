@@ -15,7 +15,7 @@ const useStation = (
       const result = await client.query({
         query: gql`
           {
-            searchStation(groupId: "${id}") {
+            stationByGroupId(groupId: "${id}") {
               id
               groupId
               prefId
@@ -38,7 +38,7 @@ const useStation = (
         `,
       });
       const data = result.data as StationData;
-      setStation(data.searchStation);
+      setStation(data.stationByGroupId);
     } catch (e) {
       setFetchError(e);
     } finally {
