@@ -15,7 +15,8 @@ const useFlickrPhoto = (): [
     setLoading(true);
     setPhotoUrl('');
     const flickrAccessToken = process.env.REACT_APP_FLICKR_ACCESS_TOKEN;
-    const flickrUrl = `https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=${flickrAccessToken}&text=${station.name}駅&lat=${station.latitude}&lon=${station.longitude}&format=json&nojsoncallback=1`;
+    // const flickrUrl = `https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=${flickrAccessToken}&text=${station.name}駅&lat=${station.latitude}&lon=${station.longitude}&format=json&nojsoncallback=1`;
+    const flickrUrl = `https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=${flickrAccessToken}&text=${station.name}駅&format=json&nojsoncallback=1`;
     try {
       const res = await fetch(encodeURI(flickrUrl));
       const data = await res.json();
