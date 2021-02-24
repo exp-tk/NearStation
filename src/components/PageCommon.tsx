@@ -74,7 +74,7 @@ const PageCommon: React.FC<Props> = ({
     return notHome
       ? `${fullStationName}(${station?.address})`
       : `私は${fullStationName}(${station?.address})付近にいます`;
-  }, [fullStationName, notHome, station?.address]);
+  }, [fullStationName, notHome, station]);
 
   const handleShareButtonClick = useCallback(async () => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -109,7 +109,7 @@ const PageCommon: React.FC<Props> = ({
       setShowSnackbar(true);
       setSnackbarText(isJa ? 'シェアできませんでした！' : `Couldn't share!`);
     }
-  }, [shareMessage, station?.groupId]);
+  }, [shareMessage, station]);
 
   const containerStyle = useMemo(
     () => ({

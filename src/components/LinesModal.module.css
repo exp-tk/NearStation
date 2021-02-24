@@ -1,8 +1,10 @@
 .header {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   background-color: #212121;
-  padding: 21px;
+  padding: 0 21px;
+  height: 64px;
 }
 
 .headerTitle {
@@ -22,7 +24,7 @@
 }
 
 .lines {
-  overflow: hidden;
+  max-height: calc(100vh - 64px);
   overflow-y: scroll;
   -ms-overflow-style: none;
   scrollbar-width: none;

@@ -32,6 +32,7 @@ const customStyles: Modal.Styles = {
     transform: 'translate(-50%, -50%)',
     padding: 0,
     border: 'none',
+    overflow: 'hidden',
   },
 };
 
