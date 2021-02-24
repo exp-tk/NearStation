@@ -4,6 +4,10 @@
   margin: 0;
   background: #333;
   text-align: center;
+  background-image: url('/bg.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
 }
 .inner {
   background: rgba(0, 0, 0, 0.75);
@@ -13,6 +17,7 @@
   align-items: center;
   flex-direction: column;
   color: #fff;
+  padding: 32px;
 }
 .text {
   margin-top: 32px;
