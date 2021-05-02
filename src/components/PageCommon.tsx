@@ -15,6 +15,7 @@ type Props = {
   station: Station;
   notHome?: boolean;
   onRefresh?: () => void;
+  poorAccuracy?: boolean;
 };
 
 const isJa = navigator.language.startsWith('ja');
@@ -25,6 +26,7 @@ const PageCommon: React.FC<Props> = ({
   photoLoading,
   notHome,
   onRefresh,
+  poorAccuracy,
 }: Props) => {
   const [isLinesModalShow, setIsLinesModalShow] = useState(false);
   const [showSnackbar, setShowSnackbar] = useState(false);
@@ -165,6 +167,13 @@ const PageCommon: React.FC<Props> = ({
             <button onClick={onRefresh} className={styles.button}>
               {isJa ? '再読み込み' : 'Refresh'}
             </button>
+          )}
+          {poorAccuracy && (
+            <p className={styles.poorAccuracy}>
+              {isJa
+                ? '現在ご使用の環境に応じて、低い精度の位置情報を使用しています。'
+                : `We are currently using low accuracy location information   depending on your environment.`}
+            </p>
           )}
         </div>
       </main>

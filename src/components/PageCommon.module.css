@@ -24,6 +24,15 @@
   opacity: 0.75;
   margin-top: 8px;
 }
+.poorAccuracy {
+  font-weight: normal;
+  font-size: 0.75rem;
+  letter-spacing: 1px;
+  opacity: 0.75;
+  margin-top: 24px;
+  line-height: 1.5;
+  white-space: pre-wrap;
+}
 .tips {
   margin-top: 12px;
   font-weight: normal;
