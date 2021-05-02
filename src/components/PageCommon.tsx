@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './PageCommon.module.css';
 import Layout from '../components/Layout';
 import { Helmet } from 'react-helmet';
@@ -42,31 +42,29 @@ const PageCommon: React.FC<Props> = ({
   }, [photoLoading, photoUrl]);
 
   // 4 === Tram
-  const stationType = useMemo(() => {
+  const stationType = ((): string => {
     if (!isJa) {
       return 'Station';
     }
     return station.lines[0].lineType === 4 ? '停留場' : '駅';
-  }, [station.lines]);
+  })();
 
   const fullStationName = isJa
     ? `${station.name}${stationType}`
     : `${station.nameR} ${stationType}`;
 
-  const handleSnackbarClick = useCallback(() => {
+  const handleSnackbarClick = (): void => {
     setSnackbarText('');
     setShowSnackbar(false);
-  }, []);
-
-  const handleLineInfoClick = useCallback(() => {
+  };
+  const handleLineInfoClick = (): void => {
     setIsLinesModalShow(true);
-  }, []);
-
-  const handleModalClose = useCallback(() => {
+  };
+  const handleModalClose = (): void => {
     setIsLinesModalShow(false);
-  }, []);
+  };
 
-  const shareMessage = useMemo(() => {
+  const shareMessage = ((): string => {
     if (!isJa) {
       return notHome ? `${fullStationName}` : `I'm near ${fullStationName}`;
     }
@@ -74,9 +72,9 @@ const PageCommon: React.FC<Props> = ({
     return notHome
       ? `${fullStationName}(${station?.address})`
       : `私は${fullStationName}(${station?.address})付近にいます`;
-  }, [fullStationName, notHome, station]);
+  })();
 
-  const handleShareButtonClick = useCallback(async () => {
+  const handleShareButtonClick = async (): Promise<void> => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const nav = navigator as any;
     try {
@@ -109,14 +107,11 @@ const PageCommon: React.FC<Props> = ({
       setShowSnackbar(true);
       setSnackbarText(isJa ? 'シェアできませんでした！' : `Couldn't share!`);
     }
-  }, [shareMessage, station]);
+  };
 
-  const containerStyle = useMemo(
-    () => ({
-      background: `#333 url("${photoUrl}") no-repeat center center / cover`,
-    }),
-    [photoUrl]
-  );
+  const containerStyle = ((): { background: string } => ({
+    background: `#333 url("${photoUrl}") no-repeat center center / cover`,
+  }))();
 
   return (
     <Layout>
@@ -183,4 +178,4 @@ const PageCommon: React.FC<Props> = ({
   );
 };
 
-export default React.memo(PageCommon);
+export default PageCommon;

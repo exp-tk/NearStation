@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import Loading from '../components/Loading';
 import ErrorScreen from '../components/ErrorScreen';
 import useFlickrPhoto from '../hooks/useFlickrImage';
@@ -10,29 +10,23 @@ const StationPage: React.FC = () => {
   const [coordinates, setCoordinates] = useState<Coordinates | null>(null);
   const [fetchStationFunc, station, loading, fetchError] = useClosestStation();
 
-  const getCurrentPositionSuccess = useCallback((pos: Position) => {
-    setCoordinates(pos.coords);
-  }, []);
-
-  const getCurrentPositionFailed = useCallback((err: PositionError) => {
-    console.error(err);
-    setGeolocationUnavailable(true);
-  }, []);
-
   const fetchCurrentPosition = useCallback(() => {
     if (!navigator.geolocation) {
       return setGeolocationUnavailable(true);
     }
     setCoordinates(null);
     navigator.geolocation.getCurrentPosition(
-      getCurrentPositionSuccess,
-      getCurrentPositionFailed,
+      (pos: Position) => setCoordinates(pos.coords),
+      (err: PositionError) => {
+        console.error(err);
+        setGeolocationUnavailable(true);
+      },
       {
         enableHighAccuracy: true,
         maximumAge: 0,
       }
     );
-  }, [getCurrentPositionFailed, getCurrentPositionSuccess]);
+  }, []);
 
   useEffect(() => {
     fetchCurrentPosition();
@@ -53,16 +47,16 @@ const StationPage: React.FC = () => {
     }
   }, [coordinates, fetchStationFunc]);
 
-  const handleRefresh = useCallback(() => {
+  const handleRefresh = (): void => {
     fetchCurrentPosition();
     if (coordinates) {
       const { latitude, longitude } = coordinates;
       fetchStationFunc(latitude, longitude);
     }
-  }, [coordinates, fetchCurrentPosition, fetchStationFunc]);
+  };
 
   if (loading || !station) {
-    return <Loading />;
+    return <Loading usingLocation />;
   }
 
   if (geolocationUnavailable) {
@@ -93,4 +87,4 @@ const StationPage: React.FC = () => {
   );
 };
 
-export default memo(StationPage);
+export default StationPage;

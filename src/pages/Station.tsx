@@ -1,4 +1,4 @@
-import React, { memo, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import useStation from '../hooks/useStation';
 import Loading from '../components/Loading';
@@ -7,7 +7,7 @@ import useFlickrPhoto from '../hooks/useFlickrImage';
 import PageCommon from '../components/PageCommon';
 
 const StationPage: React.FC = () => {
-  const { id } = useParams();
+  const { id } = useParams<{ id: string }>();
 
   const [fetchStationFunc, station, loading, fetchError] = useStation(id);
   const [flickrFetchFunc, flickrPhoto, photoLoading] = useFlickrPhoto();
@@ -45,4 +45,4 @@ const StationPage: React.FC = () => {
   );
 };
 
-export default memo(StationPage);
+export default StationPage;

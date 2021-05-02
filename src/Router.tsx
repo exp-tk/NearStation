@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import React from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import NoMatch from './pages/NoMatch';
@@ -20,4 +20,4 @@ const Router: React.FC = () => (
   </BrowserRouter>
 );
 
-export default memo(Router);
+export default Router;

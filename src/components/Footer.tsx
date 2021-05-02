@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import React from 'react';
 import styles from './Footer.module.css';
 
 const Footer: React.FC = () => (
@@ -26,4 +26,4 @@ const Footer: React.FC = () => (
   </footer>
 );
 
-export default memo(Footer);
+export default Footer;

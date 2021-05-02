@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import React from 'react';
 import styles from './ErrorScreen.module.css';
 import { Link } from 'react-router-dom';
 import Layout from './Layout';
@@ -36,4 +36,4 @@ const ErrorScreen: React.FC<Props> = ({
   </Layout>
 );
 
-export default memo(ErrorScreen);
+export default ErrorScreen;

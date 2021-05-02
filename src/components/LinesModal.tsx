@@ -1,6 +1,6 @@
 import { faChevronLeft, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Modal from 'react-modal';
 import { Link } from 'react-router-dom';
 import useStatiosByLineId from '../hooks/useStatiosByLineId';
@@ -53,12 +53,9 @@ const StationOrLineList: React.FC<StationOrLineListProps> = ({
   handleLineClick,
   handleLinkClick,
 }: StationOrLineListProps) => {
-  const getLineStyle = useCallback(
-    (line: Line) => ({
-      borderLeft: `21px solid #${line.lineColorC}`,
-    }),
-    []
-  );
+  const getLineStyle = (line: Line): { borderLeft: string } => ({
+    borderLeft: `21px solid #${line.lineColorC}`,
+  });
 
   return (
     <ul className={styles.lines}>
@@ -110,21 +107,18 @@ const LinesModal: React.FC<Props> = ({
 
   const [fetchFunc, stations, error] = useStatiosByLineId();
 
-  const handleLineClick = useCallback(
-    (line: Line) => {
-      if (!isOpen) {
-        return;
-      }
-      fetchFunc(line.id);
-      setSelectedLine(line);
-    },
-    [fetchFunc, isOpen]
-  );
+  const handleLineClick = (line: Line): void => {
+    if (!isOpen) {
+      return;
+    }
+    fetchFunc(line.id);
+    setSelectedLine(line);
+  };
 
-  const handleCloseModal = useCallback(() => {
+  const handleCloseModal = (): void => {
     closeModal();
     setSelectedLine(null);
-  }, [closeModal]);
+  };
 
   useEffect(() => {
     if (error) {
@@ -132,13 +126,11 @@ const LinesModal: React.FC<Props> = ({
     }
   }, [error]);
 
-  const handleDismissError = useCallback(() => {
-    setErrorSnackbarOpened(false);
-  }, []);
+  const handleDismissError = (): void => setErrorSnackbarOpened(false);
 
-  const handleBackClick = useCallback(() => setSelectedLine(null), []);
+  const handleBackClick = (): void => setSelectedLine(null);
 
-  const headerTitle = useMemo(() => {
+  const headerTitle = ((): string => {
     if (selectedLine) {
       return isJa
         ? `${selectedLine.name}の駅`
@@ -148,7 +140,7 @@ const LinesModal: React.FC<Props> = ({
     return isJa
       ? `${station.name}駅の路線`
       : `Lines at ${station.nameR} station`;
-  }, [selectedLine, station.name, station.nameR]);
+  })();
 
   return (
     <Modal
@@ -199,4 +191,4 @@ const LinesModal: React.FC<Props> = ({
   );
 };
 
-export default React.memo(LinesModal);
+export default LinesModal;
