@@ -68,7 +68,7 @@ const PageCommon: React.FC<Props> = ({
 
   const shareMessage = ((): string => {
     if (!isJa) {
-      return notHome ? `${fullStationName}` : `I'm near ${fullStationName}`;
+      return notHome ? `${fullStationName}` : `I'm close ${fullStationName}`;
     }
 
     return notHome
