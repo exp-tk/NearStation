@@ -31,7 +31,7 @@
   ],
   "start_url": "/",
   "display": "standalone",
-  "theme_color": "#03a9f4",
-  "background_color": "#03a9f4",
+  "theme_color": "#000",
+  "background_color": "#212121",
   "scope": "/"
 }
