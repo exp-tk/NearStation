@@ -1,21 +1,14 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import Loading from '../components/Loading';
 import ErrorScreen from '../components/ErrorScreen';
-import useFlickrPhoto from '../hooks/useFlickrImage';
-import useClosestStation from '../hooks/useClosestStation';
+import Loading from '../components/Loading';
 import PageCommon from '../components/PageCommon';
-import useGoogleGeolocation from '../hooks/useGoogleGeolocation';
+import useClosestStation from '../hooks/useClosestStation';
+import useFlickrPhoto from '../hooks/useFlickrImage';
 
 const StationPage: React.FC = () => {
   const [geolocationUnavailable, setGeolocationUnavailable] = useState(false);
   const [coordinates, setCoordinates] = useState<Coordinates | null>(null);
   const [fetchStationFunc, station, loading, fetchError] = useClosestStation();
-  const {
-    fetchLocation: googleGeolocationFetch,
-    position: googleGeolocationPosition,
-    loading: googleGeolocationLoading,
-    error: googleGeolocationError,
-  } = useGoogleGeolocation();
 
   const fetchCurrentPosition = useCallback(() => {
     if (!navigator.geolocation) {
@@ -40,26 +33,6 @@ const StationPage: React.FC = () => {
     fetchCurrentPosition();
   }, [fetchCurrentPosition]);
 
-  useEffect(() => {
-    if (geolocationUnavailable) {
-      googleGeolocationFetch();
-    }
-  }, [geolocationUnavailable, googleGeolocationFetch]);
-
-  useEffect(() => {
-    if (googleGeolocationPosition) {
-      setCoordinates({
-        latitude: googleGeolocationPosition.location.lat,
-        longitude: googleGeolocationPosition.location.lng,
-        accuracy: googleGeolocationPosition.accuracy,
-        altitude: 0,
-        altitudeAccuracy: 0,
-        heading: 0,
-        speed: 0,
-      });
-    }
-  }, [googleGeolocationPosition]);
-
   const [flickrFetchFunc, flickrPhoto, photoLoading] = useFlickrPhoto();
 
   useEffect(() => {
@@ -83,11 +56,11 @@ const StationPage: React.FC = () => {
     }
   };
 
-  if (loading || !station || googleGeolocationLoading) {
+  if (loading || !station) {
     return <Loading usingLocation />;
   }
 
-  if (googleGeolocationError) {
+  if (geolocationUnavailable) {
     return (
       <ErrorScreen
         onRetry={handleRefresh}
