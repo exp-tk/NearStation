@@ -44,23 +44,53 @@
 
 .buttons {
   display: flex;
+  width: 240px;
+  max-width: 85%;
+}
+
+.altButtons {
+  display: flex;
+  flex-direction: column;
+  width: 240px;
+  max-width: 85%;
 }
 
 .button {
-  padding: 12px 24px;
+  height: 48px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 24px;
   border-radius: 4px;
   background: rgba(255, 255, 255, 0.25);
   backdrop-filter: blur(4px);
   border: 1px solid white;
   cursor: default;
   text-align: center;
-  margin: 32px 8px 0 8px;
+  margin: 16px 8px 0 8px;
   text-decoration: none;
   color: #fff;
   cursor: pointer;
   font-size: 1rem;
   appearance: none;
+  width: 100%;
+}
+
+.button:first-child {
+  margin-left: 0;
+}
+.button:last-child {
+  margin-right: 0;
 }
 .button:focus {
   outline: none;
+}
+.buttonFull {
+  width: 100%;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.autoWidth {
+  width: auto;
 }
