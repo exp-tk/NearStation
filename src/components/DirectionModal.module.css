@@ -1,0 +1,47 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #212121;
+  padding: 0 21px;
+  height: 64px;
+}
+
+.headerTitle {
+  font-size: 1.2rem;
+  color: #fff;
+}
+
+.closeIcon {
+  cursor: pointer;
+  color: #fff;
+}
+
+.content {
+  display: flex;
+  padding: 16px;
+  background-color: #212121;
+  flex-direction: column;
+  color: white;
+}
+
+.distanceContainer {
+  display: flex;
+  align-items: flex-end;
+  text-align: center;
+  align-self: center;
+  margin: 32px 0;
+}
+.distanceValue {
+  font-size: 2.5rem;
+  font-weight: bold;
+}
+.distanceUnit {
+  font-size: 1.5rem;
+}
+
+@media (min-width: 800px) {
+  .content {
+    padding: 32px;
+  }
+}

@@ -1,13 +1,14 @@
-import React, { useEffect, useState } from 'react';
-import styles from './PageCommon.module.css';
-import Layout from '../components/Layout';
-import { Helmet } from 'react-helmet';
-import LinesModal from '../components/LinesModal';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShareAlt } from '@fortawesome/free-solid-svg-icons';
-import { Station } from '../models/StationAPI';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Button, Snackbar } from '@material-ui/core';
+import React, { useEffect, useState } from 'react';
+import { Helmet } from 'react-helmet';
 import { Link } from 'react-router-dom';
-import { Snackbar, Button } from '@material-ui/core';
+import Layout from '../components/Layout';
+import LinesModal from '../components/LinesModal';
+import { Station } from '../models/StationAPI';
+import DirectionModal from './DirectionModal';
+import styles from './PageCommon.module.css';
 
 type Props = {
   photoUrl: string;
@@ -31,6 +32,7 @@ const PageCommon: React.FC<Props> = ({
   const [isLinesModalShow, setIsLinesModalShow] = useState(false);
   const [showSnackbar, setShowSnackbar] = useState(false);
   const [snackbarText, setSnackbarText] = useState('');
+  const [isDirectionModalShow, setIsDirectionModalShow] = useState(false);
 
   useEffect(() => {
     if (!photoLoading && !photoUrl.length) {
@@ -64,6 +66,12 @@ const PageCommon: React.FC<Props> = ({
   };
   const handleModalClose = (): void => {
     setIsLinesModalShow(false);
+  };
+  const handleDirectionModalOpen = (): void => {
+    setIsDirectionModalShow(true);
+  };
+  const handleDirectionModalClose = (): void => {
+    setIsDirectionModalShow(false);
   };
 
   const shareMessage = ((): string => {
@@ -154,25 +162,46 @@ const PageCommon: React.FC<Props> = ({
             <button onClick={handleLineInfoClick} className={styles.button}>
               {isJa ? '路線情報' : 'Lines'}
             </button>
-            <button onClick={handleShareButtonClick} className={styles.button}>
+            <button
+              onClick={handleShareButtonClick}
+              className={[styles.button, styles.autoWidth].join(' ')}
+            >
               <FontAwesomeIcon icon={faShareAlt} />
             </button>
           </div>
-          {notHome && (
-            <Link to="/" className={styles.button}>
-              {isJa ? '自分の最寄り駅を見る' : 'My closest station'}
-            </Link>
-          )}
-          {!notHome && (
-            <button onClick={onRefresh} className={styles.button}>
-              {isJa ? '再読み込み' : 'Refresh'}
+          <div className={styles.altButtons}>
+            {notHome && (
+              <Link
+                to="/"
+                className={[
+                  styles.button,
+                  styles.buttonFull,
+                  styles.autoWidth,
+                ].join(' ')}
+              >
+                {isJa ? '自分の最寄り駅を見る' : 'My closest station'}
+              </Link>
+            )}
+            {!notHome && (
+              <button
+                onClick={onRefresh}
+                className={[styles.button, styles.buttonFull].join(' ')}
+              >
+                {isJa ? '再読み込み' : 'Refresh'}
+              </button>
+            )}
+            <button
+              onClick={handleDirectionModalOpen}
+              className={[styles.button, styles.buttonFull].join(' ')}
+            >
+              {isJa ? 'コンパス(ベータ)' : 'Compass(Beta)'}
             </button>
-          )}
+          </div>
           {poorAccuracy && (
             <p className={styles.poorAccuracy}>
               {isJa
                 ? '現在ご使用の環境に応じて、低い精度の位置情報を使用しています。'
-                : `We are currently using low accuracy location information   depending on your environment.`}
+                : `We are currently using low accuracy location information depending on your environment.`}
             </p>
           )}
         </div>
@@ -182,6 +211,11 @@ const PageCommon: React.FC<Props> = ({
         lines={station.lines}
         closeModal={handleModalClose}
         isOpen={isLinesModalShow}
+      />
+      <DirectionModal
+        station={station}
+        closeModal={handleDirectionModalClose}
+        isOpen={isDirectionModalShow}
       />
     </Layout>
   );
