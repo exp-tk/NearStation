@@ -20,7 +20,7 @@ const Footer: React.FC = () => (
         target="_blank"
         href="https://tinykitten.me"
       >
-        Copyright &copy;&nbsp;{new Date().getFullYear()}&nbsp;TinyKitten
+        Copyright &copy;&nbsp;2018-{new Date().getFullYear()}&nbsp;TinyKitten
       </a>
     </p>
   </footer>
