@@ -7,7 +7,6 @@ import { Link } from 'react-router-dom';
 import Layout from '../components/Layout';
 import LinesModal from '../components/LinesModal';
 import { Station } from '../models/StationAPI';
-import DirectionModal from './DirectionModal';
 import styles from './PageCommon.module.css';
 
 type Props = {
@@ -32,7 +31,6 @@ const PageCommon: React.FC<Props> = ({
   const [isLinesModalShow, setIsLinesModalShow] = useState(false);
   const [showSnackbar, setShowSnackbar] = useState(false);
   const [snackbarText, setSnackbarText] = useState('');
-  const [isDirectionModalShow, setIsDirectionModalShow] = useState(false);
 
   useEffect(() => {
     if (!photoLoading && !photoUrl.length) {
@@ -66,12 +64,6 @@ const PageCommon: React.FC<Props> = ({
   };
   const handleModalClose = (): void => {
     setIsLinesModalShow(false);
-  };
-  const handleDirectionModalOpen = (): void => {
-    setIsDirectionModalShow(true);
-  };
-  const handleDirectionModalClose = (): void => {
-    setIsDirectionModalShow(false);
   };
 
   const shareMessage = ((): string => {
@@ -190,12 +182,6 @@ const PageCommon: React.FC<Props> = ({
                 {isJa ? '再読み込み' : 'Refresh'}
               </button>
             )}
-            <button
-              onClick={handleDirectionModalOpen}
-              className={[styles.button, styles.buttonFull].join(' ')}
-            >
-              {isJa ? 'コンパス(ベータ)' : 'Compass(Beta)'}
-            </button>
           </div>
           {poorAccuracy && (
             <p className={styles.poorAccuracy}>
@@ -211,11 +197,6 @@ const PageCommon: React.FC<Props> = ({
         lines={station.lines}
         closeModal={handleModalClose}
         isOpen={isLinesModalShow}
-      />
-      <DirectionModal
-        station={station}
-        closeModal={handleDirectionModalClose}
-        isOpen={isDirectionModalShow}
       />
     </Layout>
   );
