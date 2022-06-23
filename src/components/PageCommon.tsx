@@ -1,15 +1,14 @@
-import { faShareAlt } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Button from "@mui/material/Button";
-import Snackbar from "@mui/material/Snackbar";
-import React, { useEffect, useState } from "react";
-import { Helmet } from "react-helmet";
-import { Link } from "react-router-dom";
-import Layout from "../components/Layout";
-import LinesModal from "../components/LinesModal";
-import { Station } from "../models/StationAPI";
-import DirectionModal from "./DirectionModal";
-import styles from "./PageCommon.module.css";
+import { faShareAlt } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Button from '@mui/material/Button';
+import Snackbar from '@mui/material/Snackbar';
+import React, { useEffect, useState } from 'react';
+import { Helmet } from 'react-helmet';
+import { Link } from 'react-router-dom';
+import Layout from '../components/Layout';
+import LinesModal from '../components/LinesModal';
+import { Station } from '../models/StationAPI';
+import styles from './PageCommon.module.css';
 
 type Props = {
   photoUrl: string;
@@ -20,7 +19,7 @@ type Props = {
   poorAccuracy?: boolean;
 };
 
-const isJa = navigator.language.startsWith("ja");
+const isJa = navigator.language.startsWith('ja');
 
 const PageCommon: React.FC<Props> = ({
   station,
@@ -32,15 +31,14 @@ const PageCommon: React.FC<Props> = ({
 }: Props) => {
   const [isLinesModalShow, setIsLinesModalShow] = useState(false);
   const [showSnackbar, setShowSnackbar] = useState(false);
-  const [snackbarText, setSnackbarText] = useState("");
-  const [isDirectionModalShow, setIsDirectionModalShow] = useState(false);
+  const [snackbarText, setSnackbarText] = useState('');
 
   useEffect(() => {
     if (!photoLoading && !photoUrl.length) {
       setSnackbarText(
         isJa
-          ? "駅画像が見つかりませんでした！"
-          : "The station image was not found!"
+          ? '駅画像が見つかりませんでした！'
+          : 'The station image was not found!'
       );
       setShowSnackbar(true);
     }
@@ -49,9 +47,9 @@ const PageCommon: React.FC<Props> = ({
   // 4 === Tram
   const stationType = ((): string => {
     if (!isJa) {
-      return "Station";
+      return 'Station';
     }
-    return station.lines[0].lineType === 4 ? "停留場" : "駅";
+    return station.lines[0].lineType === 4 ? '停留場' : '駅';
   })();
 
   const fullStationName = isJa
@@ -59,7 +57,7 @@ const PageCommon: React.FC<Props> = ({
     : `${station.nameR} ${stationType}`;
 
   const handleSnackbarClick = (): void => {
-    setSnackbarText("");
+    setSnackbarText('');
     setShowSnackbar(false);
   };
   const handleLineInfoClick = (): void => {
@@ -67,12 +65,6 @@ const PageCommon: React.FC<Props> = ({
   };
   const handleModalClose = (): void => {
     setIsLinesModalShow(false);
-  };
-  const handleDirectionModalOpen = (): void => {
-    setIsDirectionModalShow(true);
-  };
-  const handleDirectionModalClose = (): void => {
-    setIsDirectionModalShow(false);
   };
 
   const shareMessage = ((): string => {
@@ -89,20 +81,20 @@ const PageCommon: React.FC<Props> = ({
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const nav = navigator as any;
     try {
-      if ("share" in navigator) {
+      if ('share' in navigator) {
         await nav.share({
-          title: "NearStation",
+          title: 'NearStation',
           text: shareMessage,
           url: `https://near.tinykitten.me/station/${station?.groupId}`,
         });
         return;
       }
-      if ("clipboard" in navigator) {
+      if ('clipboard' in navigator) {
         await nav.clipboard.writeText(
           `${shareMessage} https://near.tinykitten.me/station/${station?.groupId}`
         );
         setSnackbarText(
-          isJa ? "クリップボードにリンクをコピーしました！" : "Link copied!"
+          isJa ? 'クリップボードにリンクをコピーしました！' : 'Link copied!'
         );
         setShowSnackbar(true);
         return;
@@ -110,13 +102,13 @@ const PageCommon: React.FC<Props> = ({
       setShowSnackbar(true);
       setSnackbarText(
         isJa
-          ? "シェア用APIが利用できません！"
-          : "The API for sharing is not available!"
+          ? 'シェア用APIが利用できません！'
+          : 'The API for sharing is not available!'
       );
     } catch (err) {
       console.error(err);
       setShowSnackbar(true);
-      setSnackbarText(isJa ? "シェアできませんでした！" : `Couldn't share!`);
+      setSnackbarText(isJa ? 'シェアできませんでした！' : `Couldn't share!`);
     }
   };
 
@@ -129,7 +121,7 @@ const PageCommon: React.FC<Props> = ({
       <Snackbar
         open={showSnackbar}
         message={snackbarText}
-        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
         action={
           <Button color="inherit" size="small" onClick={handleSnackbarClick}>
             OK
@@ -153,7 +145,7 @@ const PageCommon: React.FC<Props> = ({
       <main className={styles.container} style={containerStyle}>
         <div className={styles.inner}>
           <h1
-            style={{ letterSpacing: isJa ? "2px" : "0px" }}
+            style={{ letterSpacing: isJa ? '2px' : '0px' }}
             className={styles.name}
           >
             {isJa ? station.name : station.nameR}
@@ -161,11 +153,11 @@ const PageCommon: React.FC<Props> = ({
           <h2 className={styles.address}>{station.address}</h2>
           <div className={styles.buttons}>
             <button onClick={handleLineInfoClick} className={styles.button}>
-              {isJa ? "路線情報" : "Lines"}
+              {isJa ? '路線情報' : 'Lines'}
             </button>
             <button
               onClick={handleShareButtonClick}
-              className={[styles.button, styles.autoWidth].join(" ")}
+              className={[styles.button, styles.autoWidth].join(' ')}
             >
               <FontAwesomeIcon icon={faShareAlt} />
             </button>
@@ -178,30 +170,24 @@ const PageCommon: React.FC<Props> = ({
                   styles.button,
                   styles.buttonFull,
                   styles.autoWidth,
-                ].join(" ")}
+                ].join(' ')}
               >
-                {isJa ? "自分の最寄り駅を見る" : "My closest station"}
+                {isJa ? '自分の最寄り駅を見る' : 'My closest station'}
               </Link>
             )}
             {!notHome && (
               <button
                 onClick={onRefresh}
-                className={[styles.button, styles.buttonFull].join(" ")}
+                className={[styles.button, styles.buttonFull].join(' ')}
               >
-                {isJa ? "再読み込み" : "Refresh"}
+                {isJa ? '再読み込み' : 'Refresh'}
               </button>
             )}
-            <button
-              onClick={handleDirectionModalOpen}
-              className={[styles.button, styles.buttonFull].join(" ")}
-            >
-              {isJa ? "コンパス(ベータ)" : "Compass(Beta)"}
-            </button>
           </div>
           {poorAccuracy && (
             <p className={styles.poorAccuracy}>
               {isJa
-                ? "現在ご使用の環境に応じて、低い精度の位置情報を使用しています。"
+                ? '現在ご使用の環境に応じて、低い精度の位置情報を使用しています。'
                 : `We are currently using low accuracy location information depending on your environment.`}
             </p>
           )}
@@ -212,11 +198,6 @@ const PageCommon: React.FC<Props> = ({
         lines={station.lines}
         closeModal={handleModalClose}
         isOpen={isLinesModalShow}
-      />
-      <DirectionModal
-        station={station}
-        closeModal={handleDirectionModalClose}
-        isOpen={isDirectionModalShow}
       />
     </Layout>
   );
