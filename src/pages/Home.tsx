@@ -7,7 +7,9 @@ import useFlickrPhoto from '../hooks/useFlickrImage';
 
 const StationPage: React.FC = () => {
   const [geolocationUnavailable, setGeolocationUnavailable] = useState(false);
-  const [coordinates, setCoordinates] = useState<Coordinates | null>(null);
+  const [coordinates, setCoordinates] = useState<GeolocationCoordinates | null>(
+    null
+  );
   const [fetchStationFunc, station, loading, fetchError] = useClosestStation();
 
   const fetchCurrentPosition = useCallback(() => {
@@ -16,8 +18,8 @@ const StationPage: React.FC = () => {
     }
     setCoordinates(null);
     navigator.geolocation.getCurrentPosition(
-      (pos: Position) => setCoordinates(pos.coords),
-      (err: PositionError) => {
+      (pos: GeolocationPosition) => setCoordinates(pos.coords),
+      (err: GeolocationPositionError) => {
         console.error(err);
         setGeolocationUnavailable(true);
       },

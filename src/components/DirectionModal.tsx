@@ -1,11 +1,11 @@
-import { faTimes } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { useMemo } from 'react';
-import Modal from 'react-modal';
-import customModalStyles from '../constants/customModalStyles';
-import useCompass from '../hooks/useCompass';
-import { Station } from '../models/StationAPI';
-import styles from './DirectionModal.module.css';
+import { faTimes } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React, { useMemo } from "react";
+import Modal from "react-modal";
+import customModalStyles from "../constants/customModalStyles";
+import useCompass from "../hooks/useCompass";
+import { Station } from "../models/StationAPI";
+import styles from "./DirectionModal.module.css";
 
 type Props = {
   isOpen: boolean;
@@ -14,7 +14,7 @@ type Props = {
   station: Station;
 };
 
-const isJa = navigator.language.startsWith('ja');
+const isJa = navigator.language.startsWith("ja");
 
 const Needle: React.FC = () => (
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1466.3 1468.3">
@@ -42,9 +42,9 @@ const Compass: React.FC<{ diff: number }> = ({ diff }: { diff: number }) => (
   <div
     style={{
       transform: `rotate(${diff}deg)`,
-      width: '100%',
-      height: '100%',
-      transition: '1s',
+      width: "100%",
+      height: "100%",
+      transition: "1s",
     }}
   >
     <Needle />
@@ -99,7 +99,7 @@ const DirectionModal: React.FC<Props> = ({
           <p className={styles.distanceValue}>{distance}</p>
           <p className={styles.distanceUnit}>m</p>
         </div>
-        {process.env.NODE_ENV === 'development' ? (
+        {import.meta.env.NODE_ENV === "development" ? (
           <div>
             <p>stationHeading: {stationHeading}</p>
             {currentHeading ? <p>currentHeading: {currentHeading}</p> : null}

@@ -9,15 +9,16 @@ const useCompass = (stationCoords: {
   currentHeading: number | null;
   stationHeading: number;
   distance: number;
-  positionError: PositionError | undefined;
+  positionError: GeolocationPositionError | undefined;
 } => {
   const [currentHeading, setCurrentHeading] = useState<number | null>(null);
   const [distance, setDistance] = useState<number>(0);
   const [stationHeading, setStationHeading] = useState<number>(0);
-  const [positionError, setPositionError] = useState<PositionError>();
+  const [positionError, setPositionError] =
+    useState<GeolocationPositionError>();
 
   const handlePositionChange = useCallback(
-    (position: Position): void => {
+    (position: GeolocationPosition): void => {
       setCurrentHeading(position.coords.heading);
       setDistance(
         getDistance(stationCoords, {

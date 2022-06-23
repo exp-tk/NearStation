@@ -1,17 +1,17 @@
-import { useState, useCallback } from 'react';
-import { Station, StationData } from '../models/StationAPI';
-import client from '../apollo';
 import { gql } from '@apollo/client';
+import { useCallback, useState } from 'react';
+import client from '../apollo';
+import { Station, StationData } from '../models/StationAPI';
 
 const useClosestStation = (): [
   (latitude: number, longitude: number) => void,
   Station | undefined,
   boolean,
-  Error | undefined
+  unknown
 ] => {
   const [station, setStation] = useState<Station>();
   const [loading, setLoading] = useState(true);
-  const [fetchError, setFetchError] = useState<Error>();
+  const [fetchError, setFetchError] = useState<unknown>();
 
   const fetchStationFunc = useCallback(
     (latitude: number, longitude: number) => {

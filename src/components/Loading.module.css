@@ -4,7 +4,7 @@
   margin: 0;
   background: #333;
   text-align: center;
-  background-image: url('/bg.jpg');
+  background-image: url('../assets/tokyo.jpg');
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center center;

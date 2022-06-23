@@ -1,12 +1,13 @@
-import { faChevronLeft, faTimes } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { useEffect, useState } from 'react';
-import Modal from 'react-modal';
-import { Link } from 'react-router-dom';
-import useStatiosByLineId from '../hooks/useStatiosByLineId';
-import { Line, Station } from '../models/StationAPI';
-import styles from './LinesModal.module.css';
-import { Button, Snackbar } from '@material-ui/core';
+import { faChevronLeft, faTimes } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Button from "@mui/material/Button";
+import Snackbar from "@mui/material/Snackbar";
+import React, { useEffect, useState } from "react";
+import Modal from "react-modal";
+import { Link } from "react-router-dom";
+import useStatiosByLineId from "../hooks/useStatiosByLineId";
+import { Line, Station } from "../models/StationAPI";
+import styles from "./LinesModal.module.css";
 
 type Props = {
   isOpen: boolean;
@@ -18,25 +19,25 @@ type Props = {
 
 const customStyles: Modal.Styles = {
   overlay: {
-    background: 'rgba(0, 0, 0, 0.75)',
+    background: "rgba(0, 0, 0, 0.75)",
   },
   content: {
-    maxWidth: '100%',
-    maxHeight: '100%',
-    width: '480px',
-    top: '50%',
-    left: '50%',
-    right: 'auto',
-    bottom: 'auto',
-    marginRight: '-50%',
-    transform: 'translate(-50%, -50%)',
+    maxWidth: "100%",
+    maxHeight: "100%",
+    width: "480px",
+    top: "50%",
+    left: "50%",
+    right: "auto",
+    bottom: "auto",
+    marginRight: "-50%",
+    transform: "translate(-50%, -50%)",
     padding: 0,
-    border: 'none',
-    overflow: 'hidden',
+    border: "none",
+    overflow: "hidden",
   },
 };
 
-const isJa = navigator.language.startsWith('ja');
+const isJa = navigator.language.startsWith("ja");
 
 type StationOrLineListProps = {
   selectedLine: Line | null;
@@ -73,7 +74,7 @@ const StationOrLineList: React.FC<StationOrLineListProps> = ({
         : null}
 
       {selectedLine && !stations.length ? (
-        <p className={styles.padding}>{isJa ? '読込中...' : 'Loading...'}</p>
+        <p className={styles.padding}>{isJa ? "読込中..." : "Loading..."}</p>
       ) : null}
       {selectedLine
         ? stations.map((s) => (
@@ -179,11 +180,11 @@ const LinesModal: React.FC<Props> = ({
       ) : null}
       <Snackbar
         open={errorSnackbarOpened}
-        message={isJa ? 'エラーが発生しました！' : 'An error occurred!'}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+        message={isJa ? "エラーが発生しました！" : "An error occurred!"}
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
         action={
           <Button color="inherit" size="small" onClick={handleDismissError}>
-            {isJa ? 'リロード' : 'Reload'}
+            {isJa ? "リロード" : "Reload"}
           </Button>
         }
       />

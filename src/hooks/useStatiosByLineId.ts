@@ -1,22 +1,21 @@
-import { useState, useCallback } from 'react';
-import { Station, StationData } from '../models/StationAPI';
-import client from '../apollo';
 import { gql } from '@apollo/client';
+import { useCallback, useState } from 'react';
+import client from '../apollo';
+import { Station, StationData } from '../models/StationAPI';
 
 const useStatiosByLineId = (): [
-  (id: string) => void,
+  (id: string | undefined) => void,
   Station[],
-  Error | undefined
+  unknown
 ] => {
   const [stations, setStations] = useState<Station[]>([]);
-  const [fetchError, setFetchError] = useState<Error>();
+  const [fetchError, setFetchError] = useState<unknown>();
 
-  const fetchStationByLineIdFunc = useCallback(async (id: string): Promise<
-    void
-  > => {
-    try {
-      const result = await client.query({
-        query: gql`
+  const fetchStationByLineIdFunc = useCallback(
+    async (id: string | undefined): Promise<void> => {
+      try {
+        const result = await client.query({
+          query: gql`
           {
             stationsByLineId(lineId: "${id}") {
               id
@@ -39,13 +38,15 @@ const useStatiosByLineId = (): [
             }
           }
         `,
-      });
-      const data = result.data as StationData;
-      setStations(data.stationsByLineId);
-    } catch (e) {
-      setFetchError(e);
-    }
-  }, []);
+        });
+        const data = result.data as StationData;
+        setStations(data.stationsByLineId);
+      } catch (e) {
+        setFetchError(e);
+      }
+    },
+    []
+  );
 
   return [fetchStationByLineIdFunc, stations, fetchError];
 };

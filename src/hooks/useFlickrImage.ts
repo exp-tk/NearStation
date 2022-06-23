@@ -1,20 +1,20 @@
-import { useState, useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import { Station } from '../models/StationAPI';
 
 const useFlickrPhoto = (): [
   (station: Station) => Promise<void>,
   string,
   boolean,
-  Error | undefined
+  unknown
 ] => {
   const [photoUrl, setPhotoUrl] = useState('');
   const [loading, setLoading] = useState(true);
-  const [fetchError, setFetchError] = useState<Error>();
+  const [fetchError, setFetchError] = useState<unknown>();
 
   const fetchFunc = useCallback(async (station: Station): Promise<void> => {
     setLoading(true);
     setPhotoUrl('');
-    const flickrAccessToken = process.env.REACT_APP_FLICKR_ACCESS_TOKEN;
+    const flickrAccessToken = import.meta.env.VITE_FLICKR_ACCESS_TOKEN;
     // const flickrUrl = `https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=${flickrAccessToken}&text=${station.name}駅&lat=${station.latitude}&lon=${station.longitude}&format=json&nojsoncallback=1`;
     const flickrUrl = `https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=${flickrAccessToken}&text=${station.name}駅&format=json&nojsoncallback=1`;
     try {
