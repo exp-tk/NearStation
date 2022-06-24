@@ -1,6 +1,7 @@
 import React from 'react';
-import styles from './Loading.module.css';
+import styled from 'styled-components';
 import loading from '../assets/loading.svg';
+import TokyoImg from '../assets/tokyo.jpg';
 import Layout from './Layout';
 
 const isJa = navigator.language.startsWith('ja');
@@ -8,6 +9,34 @@ const isJa = navigator.language.startsWith('ja');
 type Props = {
   usingLocation?: boolean;
 };
+
+const Container = styled.main`
+  position: relative;
+  height: 100vh;
+  margin: 0;
+  background: #333;
+  text-align: center;
+  background-image: url(${TokyoImg});
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+`;
+
+const Inner = styled.div`
+  background: rgba(0, 0, 0, 0.75);
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  color: #fff;
+`;
+
+const Text = styled.p`
+  margin-top: 32px;
+  opacity: 0.75;
+  line-height: 1.5;
+`;
 
 const Loading: React.FC<Props> = ({ usingLocation }: Props) => {
   const message = ((): string => {
@@ -23,12 +52,12 @@ const Loading: React.FC<Props> = ({ usingLocation }: Props) => {
 
   return (
     <Layout>
-      <main className={styles.container}>
-        <div className={styles.inner}>
+      <Container>
+        <Inner>
           <img src={loading} alt="loading..." />
-          <p className={styles.text}>{message}</p>
-        </div>
-      </main>
+          <Text>{message}</Text>
+        </Inner>
+      </Container>
     </Layout>
   );
 };

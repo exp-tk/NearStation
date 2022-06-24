@@ -5,10 +5,10 @@ import Snackbar from '@mui/material/Snackbar';
 import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { Link } from 'react-router-dom';
+import styled, { css } from 'styled-components';
 import Layout from '../components/Layout';
 import LinesModal from '../components/LinesModal';
 import { Station } from '../models/StationAPI';
-import styles from './PageCommon.module.css';
 
 type Props = {
   photoUrl: string;
@@ -20,6 +20,113 @@ type Props = {
 };
 
 const isJa = navigator.language.startsWith('ja');
+
+const Container = styled.main`
+  position: relative;
+  height: 100vh;
+  margin: 0;
+  background-color: #333;
+  text-align: center;
+`;
+
+const Inner = styled.div`
+  background: rgba(0, 0, 0, 0.75);
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  color: #fff;
+`;
+
+const StationName = styled.h1`
+  font-size: 2.5rem;
+`;
+
+const StationAddress = styled.h2`
+  font-weight: normal;
+  font-size: 1rem;
+  letter-spacing: 1px;
+  opacity: 0.75;
+  margin-top: 8px;
+`;
+
+const Buttons = styled.div`
+  display: flex;
+  width: 240px;
+  max-width: 85%;
+`;
+
+const buttonMixin = css`
+  height: 48px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 24px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(4px);
+  border: 1px solid white;
+  cursor: default;
+  text-align: center;
+  margin: 16px 8px 0 8px;
+  text-decoration: none;
+  color: #fff;
+  cursor: pointer;
+  font-size: 1rem;
+  appearance: none;
+  width: 100%;
+
+  :first-child {
+    margin-left: 0;
+  }
+  :last-child {
+    margin-right: 0;
+  }
+  :focus {
+    outline: none;
+  }
+`;
+
+const LinesButton = styled.button`
+  ${buttonMixin};
+`;
+
+const AutoWidthButton = styled.button`
+  ${buttonMixin};
+  width: auto;
+`;
+
+const AltButtons = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 240px;
+  max-width: 85%;
+`;
+
+const ClosestStationButton = styled(Link)`
+  ${buttonMixin};
+  width: 100%;
+  margin-left: 0;
+  margin-right: 0;
+`;
+
+const ReloadButton = styled.button`
+  ${buttonMixin};
+  margin-left: 0;
+  margin-right: 0;
+  width: auto;
+`;
+
+const AccuracyWarning = styled.p`
+  font-weight: normal;
+  font-size: 0.75rem;
+  letter-spacing: 1px;
+  opacity: 0.75;
+  margin-top: 24px;
+  line-height: 1.5;
+  white-space: pre-wrap;
+`;
 
 const PageCommon: React.FC<Props> = ({
   station,
@@ -142,57 +249,41 @@ const PageCommon: React.FC<Props> = ({
           <meta name="og:type" content="article" />
         </Helmet>
       )}
-      <main className={styles.container} style={containerStyle}>
-        <div className={styles.inner}>
-          <h1
-            style={{ letterSpacing: isJa ? '2px' : '0px' }}
-            className={styles.name}
-          >
+      <Container style={containerStyle}>
+        <Inner>
+          <StationName style={{ letterSpacing: isJa ? '2px' : '0px' }}>
             {isJa ? station.name : station.nameR}
-          </h1>
-          <h2 className={styles.address}>{station.address}</h2>
-          <div className={styles.buttons}>
-            <button onClick={handleLineInfoClick} className={styles.button}>
+          </StationName>
+          <StationAddress>{station.address}</StationAddress>
+          <Buttons>
+            <LinesButton onClick={handleLineInfoClick}>
               {isJa ? '路線情報' : 'Lines'}
-            </button>
-            <button
-              onClick={handleShareButtonClick}
-              className={[styles.button, styles.autoWidth].join(' ')}
-            >
+            </LinesButton>
+            <AutoWidthButton onClick={handleShareButtonClick}>
               <FontAwesomeIcon icon={faShareAlt} />
-            </button>
-          </div>
-          <div className={styles.altButtons}>
+            </AutoWidthButton>
+          </Buttons>
+          <AltButtons>
             {notHome && (
-              <Link
-                to="/"
-                className={[
-                  styles.button,
-                  styles.buttonFull,
-                  styles.autoWidth,
-                ].join(' ')}
-              >
+              <ClosestStationButton to="/">
                 {isJa ? '自分の最寄り駅を見る' : 'My closest station'}
-              </Link>
+              </ClosestStationButton>
             )}
             {!notHome && (
-              <button
-                onClick={onRefresh}
-                className={[styles.button, styles.buttonFull].join(' ')}
-              >
+              <ReloadButton onClick={onRefresh}>
                 {isJa ? '再読み込み' : 'Refresh'}
-              </button>
+              </ReloadButton>
             )}
-          </div>
+          </AltButtons>
           {poorAccuracy && (
-            <p className={styles.poorAccuracy}>
+            <AccuracyWarning>
               {isJa
                 ? '現在ご使用の環境に応じて、低い精度の位置情報を使用しています。'
                 : `We are currently using low accuracy location information depending on your environment.`}
-            </p>
+            </AccuracyWarning>
           )}
-        </div>
-      </main>
+        </Inner>
+      </Container>
       <LinesModal
         station={station}
         lines={station.lines}

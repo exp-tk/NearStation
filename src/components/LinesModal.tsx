@@ -1,13 +1,13 @@
-import { faChevronLeft, faTimes } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Button from "@mui/material/Button";
-import Snackbar from "@mui/material/Snackbar";
-import React, { useEffect, useState } from "react";
-import Modal from "react-modal";
-import { Link } from "react-router-dom";
-import useStatiosByLineId from "../hooks/useStatiosByLineId";
-import { Line, Station } from "../models/StationAPI";
-import styles from "./LinesModal.module.css";
+import { faChevronLeft, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Button from '@mui/material/Button';
+import Snackbar from '@mui/material/Snackbar';
+import React, { useEffect, useState } from 'react';
+import Modal from 'react-modal';
+import { Link } from 'react-router-dom';
+import styled from 'styled-components';
+import useStatiosByLineId from '../hooks/useStatiosByLineId';
+import { Line, Station } from '../models/StationAPI';
 
 type Props = {
   isOpen: boolean;
@@ -19,25 +19,25 @@ type Props = {
 
 const customStyles: Modal.Styles = {
   overlay: {
-    background: "rgba(0, 0, 0, 0.75)",
+    background: 'rgba(0, 0, 0, 0.75)',
   },
   content: {
-    maxWidth: "100%",
-    maxHeight: "100%",
-    width: "480px",
-    top: "50%",
-    left: "50%",
-    right: "auto",
-    bottom: "auto",
-    marginRight: "-50%",
-    transform: "translate(-50%, -50%)",
+    maxWidth: '100%',
+    maxHeight: '100%',
+    width: '480px',
+    top: '50%',
+    left: '50%',
+    right: 'auto',
+    bottom: 'auto',
+    marginRight: '-50%',
+    transform: 'translate(-50%, -50%)',
     padding: 0,
-    border: "none",
-    overflow: "hidden",
+    border: 'none',
+    overflow: 'hidden',
   },
 };
 
-const isJa = navigator.language.startsWith("ja");
+const isJa = navigator.language.startsWith('ja');
 
 type StationOrLineListProps = {
   selectedLine: Line | null;
@@ -46,6 +46,56 @@ type StationOrLineListProps = {
   handleLineClick: (line: Line) => void;
   handleLinkClick: () => void;
 };
+
+const LinesList = styled.ul`
+  max-height: calc(100vh - 64px);
+  overflow-y: scroll;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  list-style: none;
+  ::-webkit-scrollbar {
+    display: none;
+  }
+`;
+
+const LineRow = styled.li`
+  padding: 21px;
+`;
+const LineName = styled.li``;
+
+const StyledLink = styled(Link)`
+  color: black;
+  text-decoration: none;
+`;
+
+const LoadingText = styled.p`
+  padding: 21px;
+`;
+
+const Header = styled.header`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #212121;
+  padding: 0 21px;
+  height: 64px;
+`;
+
+const BackIcon = styled(FontAwesomeIcon)`
+  margin-right: 21px;
+  cursor: pointer;
+  color: #fff;
+`;
+
+const CloseIcon = styled(FontAwesomeIcon)`
+  cursor: pointer;
+  color: #fff;
+`;
+
+const HeaderTitle = styled.span`
+  font-size: 1.2rem;
+  color: #fff;
+`;
 
 const StationOrLineList: React.FC<StationOrLineListProps> = ({
   selectedLine,
@@ -59,40 +109,36 @@ const StationOrLineList: React.FC<StationOrLineListProps> = ({
   });
 
   return (
-    <ul className={styles.lines}>
+    <LinesList>
       {!selectedLine
         ? lines.map((l) => (
-            <li
+            <LineRow
               onClick={(): void => handleLineClick(l)}
-              className={styles.padding}
               key={l.id}
               style={getLineStyle(l)}
             >
-              <span className={styles.lineName}>{isJa ? l.name : l.nameR}</span>
-            </li>
+              <span>{isJa ? l.name : l.nameR}</span>
+            </LineRow>
           ))
         : null}
 
       {selectedLine && !stations.length ? (
-        <p className={styles.padding}>{isJa ? "読込中..." : "Loading..."}</p>
+        <LoadingText>{isJa ? '読込中...' : 'Loading...'}</LoadingText>
       ) : null}
       {selectedLine
         ? stations.map((s) => (
-            <Link
+            <StyledLink
               onClick={handleLinkClick}
               to={`/station/${s.groupId}`}
-              className={styles.link}
               key={s.id}
             >
-              <li className={styles.padding} style={getLineStyle(selectedLine)}>
-                <span className={styles.lineName}>
-                  {isJa ? s.name : s.nameR}
-                </span>
-              </li>
-            </Link>
+              <LineRow style={getLineStyle(selectedLine)}>
+                <LineName>{isJa ? s.name : s.nameR}</LineName>
+              </LineRow>
+            </StyledLink>
           ))
         : null}
-    </ul>
+    </LinesList>
   );
 };
 
@@ -154,21 +200,13 @@ const LinesModal: React.FC<Props> = ({
         isJa ? `${station.name}駅の路線` : `Lines at ${station.nameR} station`
       }
     >
-      <header className={styles.header}>
+      <Header>
         {selectedLine && (
-          <FontAwesomeIcon
-            onClick={handleBackClick}
-            className={styles.backIcon}
-            icon={faChevronLeft}
-          />
+          <BackIcon onClick={handleBackClick} icon={faChevronLeft} />
         )}
-        <span className={styles.headerTitle}>{headerTitle}</span>
-        <FontAwesomeIcon
-          onClick={handleCloseModal}
-          className={styles.closeIcon}
-          icon={faTimes}
-        />
-      </header>
+        <HeaderTitle>{headerTitle}</HeaderTitle>
+        <CloseIcon onClick={handleCloseModal} icon={faTimes} />
+      </Header>
       {isOpen ? (
         <StationOrLineList
           selectedLine={selectedLine}
@@ -180,11 +218,11 @@ const LinesModal: React.FC<Props> = ({
       ) : null}
       <Snackbar
         open={errorSnackbarOpened}
-        message={isJa ? "エラーが発生しました！" : "An error occurred!"}
-        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+        message={isJa ? 'エラーが発生しました！' : 'An error occurred!'}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
         action={
           <Button color="inherit" size="small" onClick={handleDismissError}>
-            {isJa ? "リロード" : "Reload"}
+            {isJa ? 'リロード' : 'Reload'}
           </Button>
         }
       />
