@@ -24,7 +24,6 @@ const StationPage: React.FC = () => {
         setGeolocationUnavailable(true);
       },
       {
-        enableHighAccuracy: true,
         maximumAge: 0,
         timeout: 5000,
       }
