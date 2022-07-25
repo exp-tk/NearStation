@@ -20,7 +20,7 @@ const useClosestStation = (): [
           const result = await client.query({
             query: gql`
           {
-            stationByCoords(latitude: ${latitude}, longitude: ${longitude}) {
+            nearbyStations(latitude: ${latitude}, longitude: ${longitude}) {
               id
               groupId
               prefId
@@ -43,7 +43,7 @@ const useClosestStation = (): [
         `,
           });
           const data = result.data as StationData;
-          setStation(data.stationByCoords);
+          setStation(data.nearbyStations[0]);
         } catch (e) {
           setFetchError(e);
         } finally {

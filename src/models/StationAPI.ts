@@ -1,11 +1,11 @@
 export interface StationData {
   stationByGroupId: Station;
-  stationByCoords: Station;
+  nearbyStations: Station[];
   stationsByLineId: Station[];
 }
 
-export interface StationByCoordsData {
-  stationByCoords: Station;
+export interface NearbyStationsData {
+  nearbyStations: Station;
 }
 
 export interface StationsByNameData {
