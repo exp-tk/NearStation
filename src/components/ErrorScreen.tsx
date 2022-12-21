@@ -13,6 +13,7 @@ type Props = {
 const Container = styled.main`
   position: relative;
   height: 100vh;
+  max-height: -webkit-fill-available;
   margin: 0;
   background: #333 url(${TokyoImg}) no-repeat center center / cover;
   text-align: center;

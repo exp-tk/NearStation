@@ -24,6 +24,7 @@ const isJa = navigator.language.startsWith('ja');
 const Container = styled.main`
   position: relative;
   height: 100vh;
+  max-height: -webkit-fill-available;
   margin: 0;
   background-color: #333;
   text-align: center;
