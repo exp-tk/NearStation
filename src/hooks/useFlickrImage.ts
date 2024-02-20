@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react';
-import { Station } from '../models/StationAPI';
+import { Station } from '../gen/proto/stationapi_pb';
 
 const useFlickrPhoto = (): [
   (station: Station) => Promise<void>,

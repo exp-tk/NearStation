@@ -1,10 +1,12 @@
-import { gql } from '@apollo/client';
 import { useCallback, useState } from 'react';
-import client from '../apollo';
-import { Station, StationData } from '../models/StationAPI';
+import {
+  GetStationByGroupIdRequest,
+  Station,
+} from '../gen/proto/stationapi_pb';
+import { grpcClient } from '../utils/grpc';
 
 const useStation = (
-  id: string | undefined
+  groupId: number
 ): [() => void, Station | undefined, boolean, unknown] => {
   const [station, setStation] = useState<Station>();
   const [loading, setLoading] = useState(true);
@@ -12,39 +14,16 @@ const useStation = (
 
   const fetchStationFunc = useCallback(async (): Promise<void> => {
     try {
-      const result = await client.query({
-        query: gql`
-          {
-            stationByGroupId(groupId: "${id}") {
-              id
-              groupId
-              prefId
-              name
-              nameK
-              nameR
-              address
-              latitude
-              longitude
-              lines {
-                id
-                companyId
-                lineColorC
-                name
-                nameR
-                lineType
-              }
-            }
-          }
-        `,
-      });
-      const data = result.data as StationData;
-      setStation(data.stationByGroupId);
+      const req = new GetStationByGroupIdRequest({ groupId });
+      const res = await grpcClient.getStationsByGroupId(req);
+
+      setStation(res.stations.at(0));
     } catch (e) {
       setFetchError(e);
     } finally {
       setLoading(false);
     }
-  }, [id]);
+  }, [groupId]);
 
   return [fetchStationFunc, station, loading, fetchError];
 };

@@ -6,8 +6,8 @@ import React, { useEffect, useState } from 'react';
 import Modal from 'react-modal';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { Line, Station } from '../gen/proto/stationapi_pb';
 import useStatiosByLineId from '../hooks/useStatiosByLineId';
-import { Line, Station } from '../models/StationAPI';
 
 type Props = {
   isOpen: boolean;
@@ -105,7 +105,7 @@ const StationOrLineList: React.FC<StationOrLineListProps> = ({
   handleLinkClick,
 }: StationOrLineListProps) => {
   const getLineStyle = (line: Line): { borderLeft: string } => ({
-    borderLeft: `21px solid #${line.lineColorC}`,
+    borderLeft: `21px solid #${line.color}`,
   });
 
   return (
@@ -117,7 +117,7 @@ const StationOrLineList: React.FC<StationOrLineListProps> = ({
               key={l.id}
               style={getLineStyle(l)}
             >
-              <span>{isJa ? l.name : l.nameR}</span>
+              <span>{isJa ? l.nameShort : l.nameRoman}</span>
             </LineRow>
           ))
         : null}
@@ -133,7 +133,7 @@ const StationOrLineList: React.FC<StationOrLineListProps> = ({
               key={s.id}
             >
               <LineRow style={getLineStyle(selectedLine)}>
-                <LineName>{isJa ? s.name : s.nameR}</LineName>
+                <LineName>{isJa ? s.name : s.nameRoman}</LineName>
               </LineRow>
             </StyledLink>
           ))
@@ -180,13 +180,13 @@ const LinesModal: React.FC<Props> = ({
   const headerTitle = ((): string => {
     if (selectedLine) {
       return isJa
-        ? `${selectedLine.name}の駅`
-        : `Stations at ${selectedLine.nameR}`;
+        ? `${selectedLine.nameShort}の駅`
+        : `Stations at ${selectedLine.nameRoman}`;
     }
 
     return isJa
       ? `${station.name}駅の路線`
-      : `Lines at ${station.nameR} station`;
+      : `Lines at ${station.nameRoman} station`;
   })();
 
   return (
@@ -197,7 +197,9 @@ const LinesModal: React.FC<Props> = ({
       onRequestClose={handleCloseModal}
       style={customStyles}
       contentLabel={
-        isJa ? `${station.name}駅の路線` : `Lines at ${station.nameR} station`
+        isJa
+          ? `${station.name}駅の路線`
+          : `Lines at ${station.nameRoman} station`
       }
     >
       <Header>

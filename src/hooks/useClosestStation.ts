@@ -1,7 +1,9 @@
-import { gql } from '@apollo/client';
 import { useCallback, useState } from 'react';
-import client from '../apollo';
-import { Station, StationData } from '../models/StationAPI';
+import {
+  GetStationByCoordinatesRequest,
+  Station,
+} from '../gen/proto/stationapi_pb';
+import { grpcClient } from '../utils/grpc';
 
 const useClosestStation = (): [
   (latitude: number, longitude: number) => void,
@@ -17,33 +19,12 @@ const useClosestStation = (): [
     (latitude: number, longitude: number) => {
       (async (): Promise<void> => {
         try {
-          const result = await client.query({
-            query: gql`
-          {
-            nearbyStations(latitude: ${latitude}, longitude: ${longitude}) {
-              id
-              groupId
-              prefId
-              name
-              nameK
-              nameR
-              address
-              latitude
-              longitude
-              lines {
-                id
-                companyId
-                lineColorC
-                name
-                nameR
-                lineType
-              }
-            }
-          }
-        `,
+          const req = new GetStationByCoordinatesRequest({
+            latitude,
+            longitude,
           });
-          const data = result.data as StationData;
-          setStation(data.nearbyStations[0]);
+          const res = await grpcClient.getStationsByCoordinates(req);
+          setStation(res.stations.at(0));
         } catch (e) {
           setFetchError(e);
         } finally {

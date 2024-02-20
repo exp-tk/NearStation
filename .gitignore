@@ -26,4 +26,4 @@ dist-ssr
 # Local secrets
 .env
 
-/gen
+/src/gen

@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 import Layout from '../components/Layout';
 import LinesModal from '../components/LinesModal';
-import { Station } from '../models/StationAPI';
+import { Station } from '../gen/proto/stationapi_pb';
 
 type Props = {
   photoUrl: string;
@@ -162,7 +162,7 @@ const PageCommon: React.FC<Props> = ({
 
   const fullStationName = isJa
     ? `${station.name}${stationType}`
-    : `${station.nameR} ${stationType}`;
+    : `${station.nameRoman} ${stationType}`;
 
   const handleSnackbarClick = (): void => {
     setSnackbarText('');
@@ -239,7 +239,7 @@ const PageCommon: React.FC<Props> = ({
 
       {station && (
         <Helmet>
-          <title>{isJa ? station.name : station.nameR} - NearStation</title>
+          <title>{isJa ? station.name : station.nameRoman} - NearStation</title>
           <meta name="description" content={`${fullStationName}`} />
           <meta name="og:description" content={`${fullStationName}`} />
           <meta
@@ -253,7 +253,7 @@ const PageCommon: React.FC<Props> = ({
       <Container style={containerStyle}>
         <Inner>
           <StationName style={{ letterSpacing: isJa ? '2px' : '0px' }}>
-            {isJa ? station.name : station.nameR}
+            {isJa ? station.name : station.nameRoman}
           </StationName>
           <StationAddress>{station.address}</StationAddress>
           <Buttons>
