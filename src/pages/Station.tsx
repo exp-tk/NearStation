@@ -9,7 +9,9 @@ import useStation from '../hooks/useStation';
 const StationPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
 
-  const [fetchStationFunc, station, loading, fetchError] = useStation(Number(id));
+  const [fetchStationFunc, station, loading, fetchError] = useStation(
+    Number(id)
+  );
   const [flickrFetchFunc, flickrPhoto, photoLoading] = useFlickrPhoto();
 
   useEffect(() => {
