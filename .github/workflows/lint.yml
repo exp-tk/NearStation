@@ -3,7 +3,7 @@ name: ESLint
 on:
   push:
     branches:
-      - "**"
+      - '**'
 
 jobs:
   ci-skip-check:
@@ -17,9 +17,11 @@ jobs:
     needs: ci-skip-check
     steps:
       - uses: actions/checkout@v2
+      - name: Initialize submodules
+        run: git submodule update --init --recursive
       - uses: actions/setup-node@v1
         with:
-          node-version: "12.18.2"
+          node-version: '20'
       - name: Cache npm
         uses: actions/cache@v1
         with:
