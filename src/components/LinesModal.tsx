@@ -105,7 +105,7 @@ const StationOrLineList: React.FC<StationOrLineListProps> = ({
   handleLinkClick,
 }: StationOrLineListProps) => {
   const getLineStyle = (line: Line): { borderLeft: string } => ({
-    borderLeft: `21px solid #${line.color}`,
+    borderLeft: `21px solid ${line.color}`,
   });
 
   return (

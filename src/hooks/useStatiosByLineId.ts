@@ -1,5 +1,6 @@
 import { useCallback, useState } from 'react';
-import { Station } from '../gen/proto/stationapi_pb';
+import { GetStationByLineIdRequest, Station } from '../gen/proto/stationapi_pb';
+import { grpcClient } from '../utils/grpc';
 
 const useStatiosByLineId = (): [(id: number) => void, Station[], unknown] => {
   const [stations, setStations] = useState<Station[]>([]);
@@ -8,7 +9,9 @@ const useStatiosByLineId = (): [(id: number) => void, Station[], unknown] => {
   const fetchStationByLineIdFunc = useCallback(
     async (id: number): Promise<void> => {
       try {
-        setStations([]);
+        const req = new GetStationByLineIdRequest({ lineId: id });
+        const { stations } = await grpcClient.getStationsByLineId(req);
+        setStations(stations);
       } catch (e) {
         setFetchError(e);
       }
