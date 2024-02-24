@@ -22,8 +22,8 @@ const customStyles: Modal.Styles = {
     background: 'rgba(0, 0, 0, 0.75)',
   },
   content: {
-    maxWidth: '100%',
-    maxHeight: '100%',
+    maxWidth: 'calc(100% - 32px)',
+    maxHeight: 'calc(100% - 32px)',
     width: '480px',
     top: '50%',
     left: '50%',
@@ -48,7 +48,7 @@ type StationOrLineListProps = {
 };
 
 const LinesList = styled.ul`
-  max-height: calc(100vh - 64px);
+  max-height: calc(100vh - 64px - 32px);
   overflow-y: scroll;
   -ms-overflow-style: none;
   scrollbar-width: none;
